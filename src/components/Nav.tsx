@@ -3,22 +3,22 @@ import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
   {
-    label: 'Comprendre',
-    prefix: '/comprendre',
+    label: 'Repérer',
+    prefix: '/reperer',
     subs: [
-      { to: '/comprendre/handicaps', label: 'Types de handicap' },
-      { to: '/comprendre/chiffres', label: 'Chiffres & enjeux' },
-      { to: '/comprendre/normes', label: 'Normes & lois' },
+      { to: '/reperer/handicaps', label: 'Types de handicap' },
+      { to: '/reperer/chiffres', label: 'Chiffres & enjeux' },
+      { to: '/reperer/cadre-legal', label: 'Cadre légal' },
     ],
   },
   {
-    label: 'Agir',
-    prefix: '/agir',
+    label: 'Préparer',
+    prefix: '/preparer',
     subs: [
-      { to: '/agir/diagnostic', label: 'Mon diagnostic' },
-      { to: '/agir/debuter', label: 'Comment débuter' },
-      { to: '/agir/zones', label: 'Par zone du festival' },
-      { to: '/agir/exemples', label: 'Exemples de festivals' },
+      { to: '/preparer/diagnostic', label: 'Mon diagnostic' },
+      { to: '/preparer/debuter', label: 'Comment débuter' },
+      { to: '/preparer/zones', label: 'Par zone du festival' },
+      { to: '/preparer/cas-concrets', label: 'Cas concrets' },
     ],
   },
   {
@@ -64,7 +64,6 @@ export default function Nav() {
                 fontWeight: pathname.startsWith(item.prefix) ? 700 : 400,
                 color: pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
                 borderBottom: pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
-                paddingBottom: 2,
                 cursor: 'default',
                 display: 'block',
                 padding: '18px 0',
