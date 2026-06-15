@@ -22,7 +22,7 @@ const navItems = [
     ],
   },
   {
-    label: 'Outils',
+    label: 'S\'équiper',
     prefix: '/outils',
     subs: [
       { to: '/outils/signaletiques', label: 'Signalétiques' },
@@ -30,7 +30,7 @@ const navItems = [
     ],
   },
   {
-    label: 'La FMM',
+    label: 'S\'engager',
     prefix: '/fmm',
     subs: [
       { to: '/fmm/apropos', label: 'À propos' },
