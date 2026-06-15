@@ -1,73 +1,148 @@
-# React + TypeScript + Vite
+# competition-front
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Front-end de la compétition (ECV). Stack **Vite + React + TypeScript**.
 
-Currently, two official plugins are available:
+🔗 **Site en ligne (prod) :** https://competition-front-eight.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> Le site se déploie tout seul : chaque push sur `main` met à jour la prod, chaque Pull Request génère une preview. Voir [Déploiement](#-déploiement).
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- [Vite](https://vite.dev) (build + serveur de dev)
+- React 19 + TypeScript
+- ESLint
+- Hébergé sur [Vercel](https://vercel.com)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Démarrer (première fois)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# 1. Cloner le repo
+git clone https://github.com/YaniECV/competition-front.git
+cd competition-front
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 2. Installer les dépendances
+npm install
+
+# 3. Lancer en local
+npm run dev   # → http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Configurer ton identité git (à faire une fois)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Important** pour que tes commits soient bien rattachés à TON compte GitHub (et pas à un email random). Dans le dossier du projet :
+
+```bash
+git config user.name "Ton Prénom Nom"
+git config user.email "ton-email-github@exemple.com"
 ```
+
+> Utilise l'email associé à ton compte GitHub (GitHub → Settings → Emails). Sinon GitHub ne reliera pas tes commits à ton profil.
+
+---
+
+## 🔁 Le workflow (à chaque fois qu'on bosse)
+
+> **Règle d'or : on ne bosse JAMAIS directement sur `main`.**
+> On bosse sur une branche, et on l'intègre via une Pull Request (PR).
+
+### 1. Récupérer les dernières modifs des autres
+
+```bash
+git checkout main
+git pull
+```
+
+### 2. Créer une branche pour ta feature
+
+```bash
+git checkout -b feat/nom-de-ta-feature
+```
+
+### 3. Bosser, puis sauvegarder (commit)
+
+```bash
+git add .
+git commit -m "feat: ajoute la page d'accueil"
+```
+
+> Commit souvent, au fil de l'eau : chaque commit sauvegarde ton travail.
+
+### 4. Envoyer ta branche sur GitHub (push)
+
+```bash
+git push -u origin feat/nom-de-ta-feature
+# les fois suivantes sur la même branche : juste "git push"
+```
+
+### 5. Ouvrir une Pull Request
+
+1. Va sur le repo GitHub → un bandeau **« Compare & pull request »** apparaît → clique dessus
+2. Mets un titre clair, décris ce que tu as fait → **Create pull request**
+3. 🔗 **Vercel poste automatiquement une URL de preview** dans la PR → tu peux montrer ton travail aux autres avant de merger
+4. Idéalement, un coéquipier relit, puis → **Merge pull request**
+5. ✅ Le site de prod se met à jour tout seul (~1 min)
+
+### 6. Repartir propre pour la suite
+
+```bash
+git checkout main
+git pull
+```
+
+---
+
+## 🆘 Cas courants
+
+**`main` a bougé pendant que je bossais sur ma branche ?** Mets ta branche à jour :
+
+```bash
+git checkout main
+git pull
+git checkout ta-branche
+git merge main
+```
+
+**Un conflit au merge ?** Git te liste les fichiers en conflit. Ouvre-les, garde le bon code (entre les `<<<<<<<`, `=======` et `>>>>>>>`), puis :
+
+```bash
+git add .
+git commit
+```
+
+**Dans le doute (mauvaise branche, peur de tout casser) :** demande avant de forcer quoi que ce soit, on regarde ensemble. Ne jamais faire `git push --force` sur `main`.
+
+---
+
+## 📜 Conventions
+
+- **Commits** : `type: description`
+  `feat:` nouvelle feature · `fix:` bug · `style:` CSS/UI · `docs:` doc · `chore:` config/divers
+- **Branches** : `type/description-courte` → ex. `feat/page-contact`, `fix/bouton-mobile`
+
+---
+
+## 📦 Scripts
+
+| Commande | Effet |
+|---|---|
+| `npm run dev` | Serveur de dev (localhost:5173, hot reload) |
+| `npm run build` | Build de prod (dans `dist/`) |
+| `npm run preview` | Prévisualise le build de prod en local |
+| `npm run lint` | Vérifie le code avec ESLint |
+
+---
+
+## 🚀 Déploiement
+
+Hébergé sur **Vercel**, connecté à ce repo. Rien à faire à la main :
+
+| Action | Résultat |
+|---|---|
+| Push / merge sur `main` | Déploie la **prod** → https://competition-front-eight.vercel.app |
+| Ouverture d'une **PR** | Déploie une **preview** sur une URL dédiée (commentée dans la PR) |
