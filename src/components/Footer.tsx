@@ -2,40 +2,30 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg2)', marginTop: 'auto' }}>
-      <div className="container" style={{ padding: '48px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}>
+    <footer style={{ borderTop: '1px solid var(--border)', background: '#fff', marginTop: 'auto' }}>
+      <div className="container" style={{ padding: '40px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32 }}>
         <div>
-          <div style={{ fontWeight: 800, fontSize: 16, color: '#fff', marginBottom: 12 }}>
-            FEST<span style={{ color: 'var(--accent)' }}>ACCESS</span>
+          <p style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 14, color: 'var(--text)', marginBottom: 10 }}>FEST_ACCESS</p>
+          <p style={{ fontSize: 13, lineHeight: 1.6 }}>Rendre les festivals de metal accessibles à tous.</p>
+        </div>
+        {[
+          { title: '01 — Comprendre', links: [{ to: '/comprendre/handicaps', l: 'Types de handicap' }, { to: '/comprendre/chiffres', l: 'Chiffres & enjeux' }, { to: '/comprendre/normes', l: 'Normes & lois' }] },
+          { title: '02 — Agir', links: [{ to: '/agir/debuter', l: 'Comment débuter' }, { to: '/agir/zones', l: 'Par zone' }, { to: '/agir/diagnostic', l: 'Diagnostic' }] },
+          { title: '03 — Outils', links: [{ to: '/outils/signaletiques', l: 'Signalétiques' }, { to: '/outils/checklist', l: 'Checklist' }] },
+          { title: '04 — La FMM', links: [{ to: '/fmm/apropos', l: 'À propos' }, { to: '/fmm/objectif', l: 'Notre objectif' }] },
+        ].map(col => (
+          <div key={col.title}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>
+            {col.links.map(l => (
+              <div key={l.to} style={{ marginBottom: 8 }}>
+                <Link to={l.to} style={{ fontSize: 13 }}>{l.l}</Link>
+              </div>
+            ))}
           </div>
-          <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>
-            Rendre les festivals de metal accessibles à tous.
-          </p>
-        </div>
-        <div>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 16 }}>Navigation</p>
-          {[
-            { to: '/festival', label: 'Festivals' },
-            { to: '/pratiques', label: 'Bonnes pratiques' },
-            { to: '/handicaps', label: 'Types de handicap' },
-            { to: '/ressources', label: 'Ressources' },
-            { to: '/fede', label: 'La fédé' },
-          ].map(l => (
-            <div key={l.to} style={{ marginBottom: 10 }}>
-              <Link to={l.to} style={{ fontSize: 13, color: 'var(--muted)' }}>{l.label}</Link>
-            </div>
-          ))}
-        </div>
-        <div>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 16 }}>Contact</p>
-          <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.8 }}>
-            Fédération des Musiques Métal<br />
-            <a href="mailto:contact@festaccess.fr" style={{ color: 'var(--accent)' }}>contact@festaccess.fr</a>
-          </p>
-        </div>
+        ))}
       </div>
-      <div style={{ borderTop: '1px solid var(--border)', padding: '20px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 12, color: 'var(--muted)' }}>© 2026 FestAccess — Tous droits réservés</p>
+      <div style={{ borderTop: '1px solid var(--border)', padding: '16px 24px', textAlign: 'center' }}>
+        <p style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font)' }}>© 2026 FestAccess × FMM</p>
       </div>
     </footer>
   )

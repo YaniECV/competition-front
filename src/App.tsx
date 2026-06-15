@@ -2,11 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import Festival from './pages/Festival'
-import BonnesPratiques from './pages/BonnesPratiques'
-import { HandicapsIndex, HandicapDetail } from './pages/Handicaps'
-import Ressources from './pages/Ressources'
-import Fede from './pages/Fede'
+import { ComprendreIndex, ComprendreHandicaps, ComprendreChiffres, ComprendreNormes } from './pages/Comprendre'
+import { AgirIndex, AgirDebuter, AgirZones, AgirExemples, AgirDiagnostic } from './pages/Agir'
+import { OutilsIndex, OutilsSignaletiques, OutilsChecklist } from './pages/Outils'
+import { FMMIndex, FMMapropos, FMMobjectif } from './pages/FMM'
 
 export default function App() {
   return (
@@ -15,12 +14,21 @@ export default function App() {
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/festival" element={<Festival />} />
-          <Route path="/pratiques" element={<BonnesPratiques />} />
-          <Route path="/handicaps" element={<HandicapsIndex />} />
-          <Route path="/handicaps/:slug" element={<HandicapDetail />} />
-          <Route path="/ressources" element={<Ressources />} />
-          <Route path="/fede" element={<Fede />} />
+          <Route path="/comprendre" element={<ComprendreIndex />} />
+          <Route path="/comprendre/handicaps" element={<ComprendreHandicaps />} />
+          <Route path="/comprendre/chiffres" element={<ComprendreChiffres />} />
+          <Route path="/comprendre/normes" element={<ComprendreNormes />} />
+          <Route path="/agir" element={<AgirIndex />} />
+          <Route path="/agir/debuter" element={<AgirDebuter />} />
+          <Route path="/agir/zones" element={<AgirZones />} />
+          <Route path="/agir/exemples" element={<AgirExemples />} />
+          <Route path="/agir/diagnostic" element={<AgirDiagnostic />} />
+          <Route path="/outils" element={<OutilsIndex />} />
+          <Route path="/outils/signaletiques" element={<OutilsSignaletiques />} />
+          <Route path="/outils/checklist" element={<OutilsChecklist />} />
+          <Route path="/fmm" element={<FMMIndex />} />
+          <Route path="/fmm/apropos" element={<FMMapropos />} />
+          <Route path="/fmm/objectif" element={<FMMobjectif />} />
         </Routes>
       </main>
       <Footer />

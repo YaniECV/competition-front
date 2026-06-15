@@ -1,36 +1,35 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+const links = [
+  { to: '/comprendre', label: 'Comprendre' },
+  { to: '/agir', label: 'Agir' },
+  { to: '/outils', label: 'Outils' },
+  { to: '/fmm', label: 'La FMM' },
+]
+
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
 
-  const links = [
-    { to: '/festival', label: 'Festivals' },
-    { to: '/pratiques', label: 'Bonnes pratiques' },
-    { to: '/handicaps', label: 'Handicaps' },
-    { to: '/ressources', label: 'Ressources' },
-    { to: '/fede', label: 'La fédé' },
-  ]
-
   return (
-    <nav style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)', position: 'sticky', top: 0, zIndex: 100 }}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-        <Link to="/" style={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.02em', color: '#fff' }}>
-          FEST<span style={{ color: 'var(--accent)' }}>ACCESS</span>
+    <nav style={{ borderBottom: '1px solid var(--border)', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
+      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+        <Link to="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)', letterSpacing: '-0.01em' }}>
+          FEST_ACCESS
         </Link>
 
-        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }} className="nav-links">
+        <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links">
           {links.map(l => (
             <Link
               key={l.to}
               to={l.to}
               style={{
                 fontSize: 13,
-                fontWeight: 500,
-                letterSpacing: '0.04em',
-                color: pathname.startsWith(l.to) ? 'var(--accent)' : 'var(--muted)',
-                transition: 'color 0.15s',
+                fontWeight: pathname.startsWith(l.to) ? 700 : 400,
+                color: pathname.startsWith(l.to) ? 'var(--text)' : 'var(--muted)',
+                borderBottom: pathname.startsWith(l.to) ? '2px solid var(--text)' : '2px solid transparent',
+                paddingBottom: 2,
               }}
             >
               {l.label}
@@ -41,15 +40,15 @@ export default function Nav() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
-            style={{ padding: '8px 18px', fontSize: 12 }}
+            style={{ padding: '7px 16px', fontSize: 11 }}
           >
-            Faire un audit
+            Faire un audit →
           </a>
         </div>
 
         <button
           onClick={() => setOpen(!open)}
-          style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer' }}
+          style={{ display: 'none', background: 'none', border: '1px solid var(--border)', color: 'var(--text)', fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
           className="nav-burger"
           aria-label="Menu"
         >
@@ -58,14 +57,14 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {links.map(l => (
-            <Link key={l.to} to={l.to} onClick={() => setOpen(false)} style={{ fontSize: 15, color: 'var(--text)' }}>
+            <Link key={l.to} to={l.to} onClick={() => setOpen(false)} style={{ fontSize: 14, color: 'var(--text)', fontWeight: 600 }}>
               {l.label}
             </Link>
           ))}
           <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ textAlign: 'center' }}>
-            Faire un audit
+            Faire un audit →
           </a>
         </div>
       )}

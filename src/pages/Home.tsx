@@ -1,46 +1,102 @@
 import { Link } from 'react-router-dom'
 
-const handicaps = [
-  { icon: '♿', label: 'Moteur', to: '/handicaps/moteur' },
-  { icon: '👁', label: 'Visuel', to: '/handicaps/visuel' },
-  { icon: '👂', label: 'Auditif', to: '/handicaps/auditif' },
-  { icon: '🧠', label: 'Autisme', to: '/handicaps/autisme' },
-  { icon: '💭', label: 'Psychologique', to: '/handicaps/psychologique' },
-  { icon: '🔍', label: 'Invisibles', to: '/handicaps/invisibles' },
-]
-
-const stats = [
-  { n: '12M', label: 'Français en situation de handicap' },
-  { n: '80%', label: 'Des handicaps sont invisibles' },
-  { n: '1/5', label: 'Personnes touchées par un trouble psychique' },
+const sections = [
+  {
+    to: '/comprendre',
+    num: '01',
+    label: 'Comprendre',
+    desc: 'Les handicaps & enjeux',
+    subs: ['Types de handicap', 'Chiffres & enjeux', 'Normes & lois'],
+  },
+  {
+    to: '/agir',
+    num: '02',
+    label: 'Agir',
+    desc: 'Bonnes pratiques',
+    subs: ['Comment débuter', 'Par zone du festival', 'Exemples de festivals', 'Diagnostic personnalisé'],
+  },
+  {
+    to: '/outils',
+    num: '03',
+    label: 'Outils',
+    desc: 'Signalétiques & checklist',
+    subs: ['Signalétiques à télécharger', 'Checklist interactive'],
+  },
+  {
+    to: '/fmm',
+    num: '04',
+    label: 'La FMM',
+    desc: 'À propos',
+    subs: ['Qui sommes-nous', 'Notre objectif'],
+  },
 ]
 
 export default function Home() {
   return (
     <>
-      <section style={{ padding: '100px 0 80px', borderBottom: '1px solid var(--border)' }}>
+      <section style={{ padding: '80px 0 64px', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <span className="tag">Festivals de metal × Accessibilité</span>
-          <h1 style={{ maxWidth: 700, marginBottom: 24 }}>
-            Le métal pour <span style={{ color: 'var(--accent)' }}>tous</span>.
+          <span className="tag">FMM × Accessibilité festivals</span>
+          <h1 style={{ maxWidth: 640, marginBottom: 20 }}>
+            Rendre les festivals de metal accessibles à tous.
           </h1>
-          <p style={{ fontSize: 18, color: 'var(--muted)', maxWidth: 540, marginBottom: 40, lineHeight: 1.7 }}>
-            Nous accompagnons les petits festivals de metal pour qu'ils deviennent accessibles aux personnes en situation de handicap — étape par étape.
+          <p style={{ fontSize: 16, maxWidth: 520, marginBottom: 36, lineHeight: 1.7 }}>
+            Un guide pratique pour les organisateurs de petits festivals — sans budget imposant, sans expertise préalable.
           </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Link to="/festival" className="btn btn-primary">Commencer</Link>
-            <Link to="/handicaps" className="btn btn-outline">Les handicaps</Link>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <Link to="/comprendre" className="btn btn-primary">Commencer ici</Link>
+            <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+              Faire un audit →
+            </a>
           </div>
         </div>
       </section>
 
       <section>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)' }}>
-            {stats.map(s => (
-              <div key={s.n} style={{ background: 'var(--bg)', padding: '40px 32px' }}>
-                <p style={{ fontSize: 48, fontWeight: 800, color: 'var(--accent)', lineHeight: 1, marginBottom: 8 }}>{s.n}</p>
-                <p style={{ fontSize: 14, color: 'var(--muted)' }}>{s.label}</p>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 24 }}>
+            Structure du site
+          </p>
+          <div className="grid-2">
+            {sections.map(s => (
+              <Link key={s.to} to={s.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <span style={{ fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)' }}>{s.num}</span>
+                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>→</span>
+                </div>
+                <h3 style={{ marginBottom: 4 }}>{s.label}</h3>
+                <p style={{ fontSize: 13, marginBottom: 16 }}>{s.desc}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {s.subs.map(sub => (
+                    <div key={sub} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 4, height: 4, background: 'var(--border2)', flexShrink: 0 }} />
+                      <span style={{ fontSize: 12, color: 'var(--muted)' }}>{sub}</span>
+                    </div>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ borderTop: '1px solid var(--border)', background: '#fff' }}>
+        <div className="container">
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 24 }}>
+            Parcours utilisateur
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--border)' }}>
+            {[
+              { n: '1', t: 'Il arrive perdu', s: '"Où en êtes-vous ?"' },
+              { n: '2', t: 'Il comprend', s: 'Handicaps & enjeux légaux' },
+              { n: '3', t: 'Il agit', s: 'Bonnes pratiques adaptées' },
+              { n: '4', t: 'Il se dote d\'outils', s: 'Signalétiques & checklist' },
+              { n: '5', t: 'Il va plus loin', s: 'Audit professionnel' },
+            ].map((step, i) => (
+              <div key={step.n} style={{ padding: '20px 16px', borderRight: i < 4 ? '1px solid var(--border)' : 'none' }}>
+                <p style={{ fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)', marginBottom: 8 }}>{step.n}.</p>
+                <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 6, fontFamily: 'var(--font)' }}>{step.t}</p>
+                <p style={{ fontSize: 12, lineHeight: 1.5 }}>{step.s}</p>
               </div>
             ))}
           </div>
@@ -48,64 +104,31 @@ export default function Home() {
       </section>
 
       <section style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="container">
-          <span className="tag">Types de handicap</span>
-          <h2 style={{ marginBottom: 40 }}>Comprendre pour agir</h2>
-          <div className="grid-3">
-            {handicaps.map(h => (
-              <Link key={h.to} to={h.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
-                <div style={{ fontSize: 28, marginBottom: 16 }}>{h.icon}</div>
-                <h3 style={{ marginBottom: 8 }}>{h.label}</h3>
-                <p style={{ fontSize: 13, color: 'var(--muted)' }}>Besoins et aménagements →</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section style={{ borderTop: '1px solid var(--border)', background: 'var(--bg2)' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-            <div>
-              <span className="tag">Comment ça marche</span>
-              <h2 style={{ marginBottom: 32 }}>3 étapes pour devenir accessible</h2>
+        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }}>
+          <div>
+            <span className="tag">En chiffres</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
-                { n: '01', t: 'Faites l\'audit', d: 'Évaluez l\'accessibilité actuelle de votre festival grâce à notre questionnaire.' },
-                { n: '02', t: 'Recevez votre diagnostic', d: 'Obtenez des recommandations personnalisées selon votre configuration.' },
-                { n: '03', t: 'Mettez en place', d: 'Téléchargez nos ressources et signalétiques, et formez vos équipes.' },
-              ].map(step => (
-                <div key={step.n} style={{ display: 'flex', gap: 20, marginBottom: 32 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--accent)', minWidth: 28, paddingTop: 2 }}>{step.n}</span>
-                  <div>
-                    <h3 style={{ marginBottom: 6 }}>{step.t}</h3>
-                    <p style={{ fontSize: 14, color: 'var(--muted)' }}>{step.d}</p>
-                  </div>
+                { n: '12M', l: 'Français en situation de handicap' },
+                { n: '80%', l: 'Des handicaps sont invisibles' },
+                { n: '1/5', l: 'Personnes touchées par un trouble psychique' },
+              ].map(s => (
+                <div key={s.n} style={{ display: 'flex', gap: 20, alignItems: 'baseline', borderBottom: '1px solid var(--border)', paddingBottom: 20 }}>
+                  <span style={{ fontSize: 36, fontFamily: 'var(--font)', fontWeight: 700, color: 'var(--text)', minWidth: 80 }}>{s.n}</span>
+                  <span style={{ fontSize: 14, color: 'var(--muted)' }}>{s.l}</span>
                 </div>
               ))}
             </div>
-            <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 4, padding: 40, textAlign: 'center' }}>
-              <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 8 }}>Prêt à vous lancer ?</p>
-              <h2 style={{ marginBottom: 24 }}>Faites votre audit</h2>
-              <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 32 }}>Gratuit, sans engagement. 15 minutes suffisent.</p>
-              <a
-                href="https://www.helloasso.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-              >
-                Démarrer l'audit
-              </a>
-            </div>
           </div>
-        </div>
-      </section>
-
-      <section style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="container">
-          <span className="tag">Ressources</span>
-          <h2 style={{ marginBottom: 12 }}>Signalétiques à télécharger</h2>
-          <p style={{ color: 'var(--muted)', marginBottom: 40 }}>Des supports visuels adaptés, au style métal, prêts à imprimer.</p>
-          <Link to="/ressources" className="btn btn-outline">Voir toutes les ressources</Link>
+          <div style={{ background: '#fff', border: '1px solid var(--border)', padding: 32 }}>
+            <h2 style={{ marginBottom: 12 }}>Faire un audit</h2>
+            <p style={{ fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
+              Évaluez l'accessibilité de votre festival et recevez un rapport personnalisé.
+            </p>
+            <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              Démarrer →
+            </a>
+          </div>
         </div>
       </section>
     </>
