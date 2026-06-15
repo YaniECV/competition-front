@@ -2,28 +2,28 @@ import { Link } from 'react-router-dom'
 
 const sections = [
   {
-    to: '/comprendre',
+    to: '/comprendre/handicaps',
     num: '01',
     label: 'Comprendre',
     desc: 'Les handicaps & enjeux',
     subs: ['Types de handicap', 'Chiffres & enjeux', 'Normes & lois'],
   },
   {
-    to: '/agir',
+    to: '/agir/diagnostic',
     num: '02',
     label: 'Agir',
     desc: 'Bonnes pratiques',
     subs: ['Mon diagnostic', 'Comment débuter', 'Par zone du festival', 'Exemples de festivals'],
   },
   {
-    to: '/outils',
+    to: '/outils/signaletiques',
     num: '03',
     label: 'Outils',
     desc: 'Signalétiques & checklist',
     subs: ['Signalétiques à télécharger', 'Checklist interactive'],
   },
   {
-    to: '/fmm',
+    to: '/fmm/apropos',
     num: '04',
     label: 'La FMM',
     desc: 'À propos',
@@ -43,7 +43,7 @@ export default function Home() {
           <p style={{ fontSize: 16, maxWidth: 520, marginBottom: 36, lineHeight: 1.7 }}>
             Un guide pratique pour les organisateurs de petits festivals — sans budget imposant, sans expertise préalable.
           </p>
-          <Link to="/comprendre" className="btn btn-primary">Commencer ici</Link>
+          <Link to="/comprendre/handicaps" className="btn btn-primary">Commencer ici</Link>
         </div>
       </section>
 

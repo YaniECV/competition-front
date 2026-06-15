@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
   {
-    to: '/comprendre',
     label: 'Comprendre',
+    prefix: '/comprendre',
     subs: [
       { to: '/comprendre/handicaps', label: 'Types de handicap' },
       { to: '/comprendre/chiffres', label: 'Chiffres & enjeux' },
@@ -12,8 +12,8 @@ const navItems = [
     ],
   },
   {
-    to: '/agir',
     label: 'Agir',
+    prefix: '/agir',
     subs: [
       { to: '/agir/diagnostic', label: 'Mon diagnostic' },
       { to: '/agir/debuter', label: 'Comment débuter' },
@@ -22,16 +22,16 @@ const navItems = [
     ],
   },
   {
-    to: '/outils',
     label: 'Outils',
+    prefix: '/outils',
     subs: [
       { to: '/outils/signaletiques', label: 'Signalétiques' },
       { to: '/outils/checklist', label: 'Checklist interactive' },
     ],
   },
   {
-    to: '/fmm',
     label: 'La FMM',
+    prefix: '/fmm',
     subs: [
       { to: '/fmm/apropos', label: 'À propos' },
       { to: '/fmm/objectif', label: 'Notre objectif' },
@@ -54,34 +54,33 @@ export default function Nav() {
         <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links">
           {navItems.map(item => (
             <div
-              key={item.to}
+              key={item.label}
               style={{ position: 'relative' }}
-              onMouseEnter={() => setHovered(item.to)}
+              onMouseEnter={() => setHovered(item.label)}
               onMouseLeave={() => setHovered(null)}
             >
-              <Link
-                to={item.to}
-                style={{
-                  fontSize: 13,
-                  fontWeight: pathname.startsWith(item.to) ? 700 : 400,
-                  color: pathname.startsWith(item.to) ? 'var(--text)' : 'var(--muted)',
-                  borderBottom: pathname.startsWith(item.to) ? '2px solid var(--text)' : '2px solid transparent',
-                  paddingBottom: 2,
-                  display: 'block',
-                  padding: '18px 0 18px',
-                }}
-              >
+              <span style={{
+                fontSize: 13,
+                fontWeight: pathname.startsWith(item.prefix) ? 700 : 400,
+                color: pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
+                borderBottom: pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
+                paddingBottom: 2,
+                cursor: 'default',
+                display: 'block',
+                padding: '18px 0',
+                userSelect: 'none',
+              }}>
                 {item.label}
-              </Link>
+              </span>
 
-              {hovered === item.to && (
+              {hovered === item.label && (
                 <div style={{
                   position: 'absolute',
                   top: '100%',
                   left: 0,
                   background: '#fff',
                   border: '1px solid var(--border)',
-                  minWidth: 200,
+                  minWidth: 210,
                   zIndex: 200,
                 }}>
                   {item.subs.map(sub => (
@@ -97,6 +96,8 @@ export default function Nav() {
                         fontWeight: pathname === sub.to ? 600 : 400,
                         borderBottom: '1px solid var(--bg2)',
                         textDecoration: 'none',
+                        background: 'transparent',
+                        transition: 'background 0.1s',
                       }}
                       onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg2)')}
                       onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -123,12 +124,12 @@ export default function Nav() {
       {mobileOpen && (
         <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {navItems.map(item => (
-            <div key={item.to}>
-              <Link to={item.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', display: 'block', padding: '8px 0' }}>
+            <div key={item.label}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', padding: '8px 0 4px', fontFamily: 'var(--font)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 {item.label}
-              </Link>
+              </p>
               {item.subs.map(sub => (
-                <Link key={sub.to} to={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 16px' }}>
+                <Link key={sub.to} to={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
                   {sub.label}
                 </Link>
               ))}
