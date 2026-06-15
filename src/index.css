@@ -1,3 +1,21 @@
+/* Tailwind v4 - mode additif, SANS preflight (on garde le reset maison ci-dessous intact) */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Palette du projet exposée en utilities Tailwind : bg-accent, text-accent, border-border, text-muted, bg-bg-2... */
+@theme {
+  --color-bg: #0a0a0a;
+  --color-bg-2: #111111;
+  --color-bg-3: #1a1a1a;
+  --color-border: #2a2a2a;
+  --color-text: #e0e0e0;
+  --color-muted: #777777;
+  --color-accent: #c8a951;
+  --color-accent-2: #e0bc60;
+}
+
+/* ===== Styles existants du projet (inchangés) ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
