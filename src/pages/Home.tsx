@@ -13,7 +13,7 @@ const sections = [
     num: '02',
     label: 'Agir',
     desc: 'Bonnes pratiques',
-    subs: ['Comment débuter', 'Par zone du festival', 'Exemples de festivals', 'Diagnostic personnalisé'],
+    subs: ['Mon diagnostic', 'Comment débuter', 'Par zone du festival', 'Exemples de festivals'],
   },
   {
     to: '/outils',
@@ -43,12 +43,7 @@ export default function Home() {
           <p style={{ fontSize: 16, maxWidth: 520, marginBottom: 36, lineHeight: 1.7 }}>
             Un guide pratique pour les organisateurs de petits festivals — sans budget imposant, sans expertise préalable.
           </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link to="/comprendre" className="btn btn-primary">Commencer ici</Link>
-            <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              Faire un audit →
-            </a>
-          </div>
+          <Link to="/comprendre" className="btn btn-primary">Commencer ici</Link>
         </div>
       </section>
 
@@ -80,54 +75,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section style={{ borderTop: '1px solid var(--border)', background: '#fff' }}>
+      <section style={{ borderTop: '1px solid var(--border)' }}>
         <div className="container">
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 24 }}>
-            Parcours utilisateur
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, border: '1px solid var(--border)' }}>
+          <span className="tag">En chiffres</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--border)' }}>
             {[
-              { n: '1', t: 'Il arrive perdu', s: '"Où en êtes-vous ?"' },
-              { n: '2', t: 'Il comprend', s: 'Handicaps & enjeux légaux' },
-              { n: '3', t: 'Il agit', s: 'Bonnes pratiques adaptées' },
-              { n: '4', t: 'Il se dote d\'outils', s: 'Signalétiques & checklist' },
-              { n: '5', t: 'Il va plus loin', s: 'Audit professionnel' },
-            ].map((step, i) => (
-              <div key={step.n} style={{ padding: '20px 16px', borderRight: i < 4 ? '1px solid var(--border)' : 'none' }}>
-                <p style={{ fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)', marginBottom: 8 }}>{step.n}.</p>
-                <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 6, fontFamily: 'var(--font)' }}>{step.t}</p>
-                <p style={{ fontSize: 12, lineHeight: 1.5 }}>{step.s}</p>
+              { n: '12M', l: 'Français en situation de handicap' },
+              { n: '80%', l: 'Des handicaps sont invisibles' },
+              { n: '1/5', l: 'Personnes touchées par un trouble psychique' },
+            ].map((s, i) => (
+              <div key={s.n} style={{ padding: '32px 24px', borderRight: i < 2 ? '1px solid var(--border)' : 'none' }}>
+                <p style={{ fontSize: 40, fontFamily: 'var(--font)', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>{s.n}</p>
+                <p style={{ fontSize: 13 }}>{s.l}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }}>
-          <div>
-            <span className="tag">En chiffres</span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              {[
-                { n: '12M', l: 'Français en situation de handicap' },
-                { n: '80%', l: 'Des handicaps sont invisibles' },
-                { n: '1/5', l: 'Personnes touchées par un trouble psychique' },
-              ].map(s => (
-                <div key={s.n} style={{ display: 'flex', gap: 20, alignItems: 'baseline', borderBottom: '1px solid var(--border)', paddingBottom: 20 }}>
-                  <span style={{ fontSize: 36, fontFamily: 'var(--font)', fontWeight: 700, color: 'var(--text)', minWidth: 80 }}>{s.n}</span>
-                  <span style={{ fontSize: 14, color: 'var(--muted)' }}>{s.l}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', padding: 32 }}>
-            <h2 style={{ marginBottom: 12 }}>Faire un audit</h2>
-            <p style={{ fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
-              Évaluez l'accessibilité de votre festival et recevez un rapport personnalisé.
-            </p>
-            <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              Démarrer →
-            </a>
           </div>
         </div>
       </section>

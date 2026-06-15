@@ -1,53 +1,117 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const links = [
-  { to: '/comprendre', label: 'Comprendre' },
-  { to: '/agir', label: 'Agir' },
-  { to: '/outils', label: 'Outils' },
-  { to: '/fmm', label: 'La FMM' },
+const navItems = [
+  {
+    to: '/comprendre',
+    label: 'Comprendre',
+    subs: [
+      { to: '/comprendre/handicaps', label: 'Types de handicap' },
+      { to: '/comprendre/chiffres', label: 'Chiffres & enjeux' },
+      { to: '/comprendre/normes', label: 'Normes & lois' },
+    ],
+  },
+  {
+    to: '/agir',
+    label: 'Agir',
+    subs: [
+      { to: '/agir/diagnostic', label: 'Mon diagnostic' },
+      { to: '/agir/debuter', label: 'Comment débuter' },
+      { to: '/agir/zones', label: 'Par zone du festival' },
+      { to: '/agir/exemples', label: 'Exemples de festivals' },
+    ],
+  },
+  {
+    to: '/outils',
+    label: 'Outils',
+    subs: [
+      { to: '/outils/signaletiques', label: 'Signalétiques' },
+      { to: '/outils/checklist', label: 'Checklist interactive' },
+    ],
+  },
+  {
+    to: '/fmm',
+    label: 'La FMM',
+    subs: [
+      { to: '/fmm/apropos', label: 'À propos' },
+      { to: '/fmm/objectif', label: 'Notre objectif' },
+    ],
+  },
 ]
 
 export default function Nav() {
-  const [open, setOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [hovered, setHovered] = useState<string | null>(null)
   const { pathname } = useLocation()
 
   return (
     <nav style={{ borderBottom: '1px solid var(--border)', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
-        <Link to="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)', letterSpacing: '-0.01em' }}>
+        <Link to="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
           FEST_ACCESS
         </Link>
 
         <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links">
-          {links.map(l => (
-            <Link
-              key={l.to}
-              to={l.to}
-              style={{
-                fontSize: 13,
-                fontWeight: pathname.startsWith(l.to) ? 700 : 400,
-                color: pathname.startsWith(l.to) ? 'var(--text)' : 'var(--muted)',
-                borderBottom: pathname.startsWith(l.to) ? '2px solid var(--text)' : '2px solid transparent',
-                paddingBottom: 2,
-              }}
+          {navItems.map(item => (
+            <div
+              key={item.to}
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setHovered(item.to)}
+              onMouseLeave={() => setHovered(null)}
             >
-              {l.label}
-            </Link>
+              <Link
+                to={item.to}
+                style={{
+                  fontSize: 13,
+                  fontWeight: pathname.startsWith(item.to) ? 700 : 400,
+                  color: pathname.startsWith(item.to) ? 'var(--text)' : 'var(--muted)',
+                  borderBottom: pathname.startsWith(item.to) ? '2px solid var(--text)' : '2px solid transparent',
+                  paddingBottom: 2,
+                  display: 'block',
+                  padding: '18px 0 18px',
+                }}
+              >
+                {item.label}
+              </Link>
+
+              {hovered === item.to && (
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  background: '#fff',
+                  border: '1px solid var(--border)',
+                  minWidth: 200,
+                  zIndex: 200,
+                }}>
+                  {item.subs.map(sub => (
+                    <Link
+                      key={sub.to}
+                      to={sub.to}
+                      onClick={() => setHovered(null)}
+                      style={{
+                        display: 'block',
+                        padding: '10px 16px',
+                        fontSize: 13,
+                        color: pathname === sub.to ? 'var(--text)' : 'var(--muted)',
+                        fontWeight: pathname === sub.to ? 600 : 400,
+                        borderBottom: '1px solid var(--bg2)',
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg2)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
-          <a
-            href="https://www.helloasso.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-            style={{ padding: '7px 16px', fontSize: 11 }}
-          >
-            Faire un audit →
-          </a>
         </div>
 
         <button
-          onClick={() => setOpen(!open)}
+          onClick={() => setMobileOpen(!mobileOpen)}
           style={{ display: 'none', background: 'none', border: '1px solid var(--border)', color: 'var(--text)', fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
           className="nav-burger"
           aria-label="Menu"
@@ -56,16 +120,20 @@ export default function Nav() {
         </button>
       </div>
 
-      {open && (
-        <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {links.map(l => (
-            <Link key={l.to} to={l.to} onClick={() => setOpen(false)} style={{ fontSize: 14, color: 'var(--text)', fontWeight: 600 }}>
-              {l.label}
-            </Link>
+      {mobileOpen && (
+        <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {navItems.map(item => (
+            <div key={item.to}>
+              <Link to={item.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', display: 'block', padding: '8px 0' }}>
+                {item.label}
+              </Link>
+              {item.subs.map(sub => (
+                <Link key={sub.to} to={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 16px' }}>
+                  {sub.label}
+                </Link>
+              ))}
+            </div>
           ))}
-          <a href="https://www.helloasso.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ textAlign: 'center' }}>
-            Faire un audit →
-          </a>
         </div>
       )}
 
