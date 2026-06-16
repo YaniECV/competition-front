@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { articles } from '../data/articles'
 import type { Phase } from '../data/articles'
 
-export function OutilsIndex() {
+export function RessourcesIndex() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">03 — S'équiper</span>
+          <span className="tag">03 — Ressources</span>
           <h1>Signalétiques & checklist</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
             Des ressources prêtes à l'emploi pour votre festival.
@@ -18,8 +18,8 @@ export function OutilsIndex() {
       <div className="container" style={{ paddingBottom: 80 }}>
         <div className="grid-2">
           {[
-            { to: '/outils/signaletiques', label: 'Signalétiques à télécharger', desc: 'Packs par handicap · Pictos · Affiches' },
-            { to: '/outils/checklist', label: 'Checklist interactive', desc: 'Avant / Pendant / Après le festival' },
+            { to: '/ressources/signaletiques', label: 'Signalétiques à télécharger', desc: 'Packs par handicap · Pictos · Affiches' },
+            { to: '/ressources/checklist', label: 'Checklist interactive', desc: 'Avant / Pendant / Après le festival' },
           ].map(c => (
             <Link key={c.to} to={c.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
               <div className="accent-line" />
@@ -33,7 +33,7 @@ export function OutilsIndex() {
   )
 }
 
-export function OutilsSignaletiques() {
+export function RessourcesSignaletiques() {
   const packs = [
     { label: 'Pack Mobilité', items: ['Accès fauteuil roulant', 'Toilettes adaptées', 'Espace PMR', 'Parking réservé'] },
     { label: 'Pack Auditif', items: ['Boucle magnétique', 'Interprète LSF', 'Sous-titrage disponible', 'Zone calme'] },
@@ -45,8 +45,8 @@ export function OutilsSignaletiques() {
     <>
       <div className="page-hero">
         <div className="container">
-          <Link to="/outils" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← S'équiper</Link>
-          <span className="tag">03 — S'équiper</span>
+          <Link to="/ressources" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← Ressources</Link>
+          <span className="tag">03 — Ressources</span>
           <h1>Signalétiques à télécharger</h1>
           <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
             Formats PNG et SVG — style métal, accessibles visuellement, prêts à imprimer.
@@ -83,7 +83,7 @@ const phases: { key: Phase; label: string }[] = [
   { key: 'apres', label: 'Après le festival' },
 ]
 
-export function OutilsChecklist() {
+export function RessourcesChecklist() {
   const [checked, setChecked] = useState<Set<string>>(new Set())
 
   const toggle = (id: string) => {
@@ -106,8 +106,8 @@ export function OutilsChecklist() {
     <>
       <div className="page-hero">
         <div className="container">
-          <Link to="/outils" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← S'équiper</Link>
-          <span className="tag">03 — S'équiper</span>
+          <Link to="/ressources" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← Ressources</Link>
+          <span className="tag">03 — Ressources</span>
           <h1>Checklist interactive</h1>
           <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
             Suivez votre progression avant, pendant et après le festival.

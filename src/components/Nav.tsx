@@ -3,38 +3,37 @@ import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
   {
-    label: 'Repérer',
-    prefix: '/reperer',
+    label: 'S\'informer',
+    prefix: '/sinformer',
     subs: [
-      { to: '/reperer/handicaps', label: 'Types de handicap' },
-      { to: '/reperer/chiffres', label: 'Chiffres & enjeux' },
-      { to: '/reperer/cadre-legal', label: 'Cadre légal' },
+      { to: '/sinformer/handicaps', label: 'Comprendre les handicaps' },
+      { to: '/sinformer/conformite', label: 'Se mettre en conformité' },
+      { to: '/sinformer/engager', label: 'Pourquoi s\'engager ?' },
     ],
   },
   {
-    label: 'Préparer',
-    prefix: '/preparer',
+    label: 'Devenir accessible',
+    prefix: '/accessible',
     subs: [
-      { to: '/preparer/diagnostic', label: 'Mon diagnostic' },
-      { to: '/preparer/debuter', label: 'Comment débuter' },
-      { to: '/preparer/zones', label: 'Par zone du festival' },
-      { to: '/preparer/cas-concrets', label: 'Cas concrets' },
+      { to: '/accessible/diagnostic', label: 'Construire mon plan d\'action' },
+      { to: '/accessible/mise-en-place', label: 'Mettre en place l\'accessibilité' },
+      { to: '/accessible/cas-concrets', label: 'Cas concrets' },
     ],
   },
   {
-    label: 'S\'équiper',
-    prefix: '/outils',
+    label: 'Ressources',
+    prefix: '/ressources',
     subs: [
-      { to: '/outils/signaletiques', label: 'Signalétiques' },
-      { to: '/outils/checklist', label: 'Checklist interactive' },
+      { to: '/ressources/signaletiques', label: 'Signalétiques' },
+      { to: '/ressources/checklist', label: 'Checklist interactive' },
     ],
   },
   {
-    label: 'S\'engager',
-    prefix: '/fmm',
+    label: 'La fédération',
+    prefix: '/federation',
     subs: [
-      { to: '/fmm/apropos', label: 'À propos' },
-      { to: '/fmm/objectif', label: 'Notre objectif' },
+      { to: '/federation/apropos', label: 'À propos' },
+      { to: '/federation/objectif', label: 'Notre objectif' },
     ],
   },
 ]
@@ -68,6 +67,7 @@ export default function Nav() {
                 display: 'block',
                 padding: '18px 0',
                 userSelect: 'none',
+                whiteSpace: 'nowrap',
               }}>
                 {item.label}
               </span>
@@ -79,7 +79,7 @@ export default function Nav() {
                   left: 0,
                   background: '#fff',
                   border: '1px solid var(--border)',
-                  minWidth: 210,
+                  minWidth: 230,
                   zIndex: 200,
                 }}>
                   {item.subs.map(sub => (
@@ -108,6 +108,24 @@ export default function Nav() {
               )}
             </div>
           ))}
+
+          <a
+            href="#"
+            style={{
+              fontSize: 11,
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 500,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: '#fff',
+              background: 'var(--text)',
+              padding: '8px 16px',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Faire un audit →
+          </a>
         </div>
 
         <button
@@ -134,6 +152,9 @@ export default function Nav() {
               ))}
             </div>
           ))}
+          <a href="#" onClick={() => setMobileOpen(false)} style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', display: 'block', padding: '10px 0 6px' }}>
+            Faire un audit →
+          </a>
         </div>
       )}
 

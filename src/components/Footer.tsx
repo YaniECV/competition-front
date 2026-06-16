@@ -9,10 +9,10 @@ export default function Footer() {
           <p style={{ fontSize: 13, lineHeight: 1.6 }}>Rendre les festivals de metal accessibles à tous.</p>
         </div>
         {[
-          { title: '01 — Repérer', links: [{ to: '/reperer/handicaps', l: 'Types de handicap' }, { to: '/reperer/chiffres', l: 'Chiffres & enjeux' }, { to: '/reperer/cadre-legal', l: 'Cadre légal' }] },
-          { title: '02 — Préparer', links: [{ to: '/preparer/debuter', l: 'Comment débuter' }, { to: '/preparer/zones', l: 'Par zone' }, { to: '/preparer/diagnostic', l: 'Diagnostic' }] },
-          { title: '03 — S\'équiper', links: [{ to: '/outils/signaletiques', l: 'Signalétiques' }, { to: '/outils/checklist', l: 'Checklist' }] },
-          { title: '04 — S\'engager', links: [{ to: '/fmm/apropos', l: 'À propos' }, { to: '/fmm/objectif', l: 'Notre objectif' }] },
+          { title: '01 — S\'informer', links: [{ to: '/sinformer/handicaps', l: 'Comprendre les handicaps' }, { to: '/sinformer/conformite', l: 'Se mettre en conformité' }, { to: '/sinformer/engager', l: 'Pourquoi s\'engager ?' }] },
+          { title: '02 — Devenir accessible', links: [{ to: '/accessible/diagnostic', l: 'Construire mon plan d\'action' }, { to: '/accessible/mise-en-place', l: 'Mettre en place l\'accessibilité' }, { to: '/accessible/cas-concrets', l: 'Cas concrets' }] },
+          { title: '03 — Ressources', links: [{ to: '/ressources/signaletiques', l: 'Signalétiques' }, { to: '/ressources/checklist', l: 'Checklist' }] },
+          { title: '04 — La fédération', links: [{ to: '/federation/apropos', l: 'À propos' }, { to: '/federation/objectif', l: 'Notre objectif' }] },
         ].map(col => (
           <div key={col.title}>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-// ── Handicaps (tabbed) ────────────────────────────────────────────────────
+// ── Comprendre les handicaps (tabbed) ────────────────────────────────────
 
 const handicapTabs = [
   {
@@ -98,7 +98,7 @@ const zoneLabels: Record<string, string> = {
   hebergement: 'Hébergement',
 }
 
-export function RepererHandicaps() {
+export function SinformerHandicaps() {
   const [activeTab, setActiveTab] = useState(0)
   const tab = handicapTabs[activeTab]
 
@@ -106,8 +106,8 @@ export function RepererHandicaps() {
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">01 — Repérer</span>
-          <h1>Les types de handicap</h1>
+          <span className="tag">01 — S'informer</span>
+          <h1>Comprendre les handicaps</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
             6 profils à connaître, leurs réalités en contexte festival et les bonnes pratiques de communication.
           </p>
@@ -163,14 +163,14 @@ export function RepererHandicaps() {
               {tab.renvoiZones.map(z => (
                 <Link
                   key={z}
-                  to={`/preparer/zones?zone=${z}`}
+                  to={`/accessible/mise-en-place?zone=${z}`}
                   style={{ fontSize: 11, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}
                 >
                   Zone {zoneLabels[z]} →
                 </Link>
               ))}
               <Link
-                to="/outils/signaletiques"
+                to="/ressources/signaletiques"
                 style={{ fontSize: 11, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}
               >
                 Signalétiques →
@@ -207,15 +207,18 @@ export function RepererHandicaps() {
   )
 }
 
-// ── Chiffres ──────────────────────────────────────────────────────────────
+// ── Pourquoi s'engager ? ──────────────────────────────────────────────────
 
-export function RepererChiffres() {
+export function SinformerEngager() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">01 — Repérer</span>
-          <h1>Chiffres & enjeux</h1>
+          <span className="tag">01 — S'informer</span>
+          <h1>Pourquoi s'engager ?</h1>
+          <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
+            Les chiffres, l'impact médiatique et les financements disponibles pour passer à l'action.
+          </p>
         </div>
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
@@ -235,7 +238,7 @@ export function RepererChiffres() {
           ))}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 640 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 640, marginBottom: 56 }}>
           {[
             { t: 'Un public qui existe et qui dépense', d: '80% des handicaps étant invisibles, ce public achète des places, fait la route et veut vivre le concert. Il repartira ailleurs si votre festival n\'est pas accessible.' },
             { t: 'Une obligation légale depuis 2005', d: 'La loi du 11 février 2005 et l\'arrêté du 15 janvier 2007 imposent des exigences d\'accessibilité aux Installations Ouvertes au Public, dont les festivals.' },
@@ -248,17 +251,57 @@ export function RepererChiffres() {
           ))}
         </div>
 
-        <p style={{ marginTop: 24, fontSize: 11, color: 'var(--muted)' }}>
-          Sources : Guide d\'accompagnement Métropole Aix-Marseille-Provence (2024), Ministère chargé des personnes handicapées, INSEE.
+        {/* Impact médiatique */}
+        <div style={{ marginBottom: 56 }}>
+          <span className="tag">Impact médiatique</span>
+          <h2 style={{ marginBottom: 20 }}>Une image qui se démarque</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 640 }}>
+            {[
+              { t: 'Une couverture presse différenciante', d: 'Les festivals qui communiquent sur leur démarche d\'accessibilité obtiennent une couverture presse spécialisée (médias handicap, RSE, collectivités) en plus de la presse musicale classique.' },
+              { t: 'Un argument pour vos partenaires et sponsors', d: 'L\'accessibilité est un critère de plus en plus regardé dans les appels à projets publics et par les sponsors soucieux de leur image RSE.' },
+              { t: 'Une fidélisation du public', d: 'Un public qui se sent bienvenu en parle et revient — le bouche-à-oreille positif touche aussi son entourage non directement concerné par le handicap.' },
+            ].map(c => (
+              <div key={c.t} className="card" style={{ paddingLeft: 20, borderLeft: '2px solid var(--accent)' }}>
+                <h3 style={{ marginBottom: 6 }}>{c.t}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--muted)' }}>{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Subventions */}
+        <div>
+          <span className="tag">Financements</span>
+          <h2 style={{ marginBottom: 20 }}>Subventions disponibles</h2>
+          <div className="grid-2">
+            {[
+              { n: 'DRAC', d: 'Direction Régionale des Affaires Culturelles · Financement de la mise en accessibilité des équipements et événements culturels.' },
+              { n: 'CNM', d: 'Centre National de la Musique · Aides à l\'accessibilité des lieux et événements de musiques actuelles.' },
+              { n: 'Collectivités locales', d: 'Région, département, commune · Subventions événementielles ciblées accessibilité et inclusion.' },
+              { n: 'AGEFIPH / FIPHFP', d: 'Pour les volets emploi et bénévolat de personnes en situation de handicap sur votre événement.' },
+            ].map(p => (
+              <div key={p.n} className="card">
+                <h3 style={{ marginBottom: 6 }}>{p.n}</h3>
+                <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{p.d}</p>
+              </div>
+            ))}
+          </div>
+          <p style={{ marginTop: 16, fontSize: 11, color: 'var(--muted)' }}>
+            Renseignez-vous auprès de votre DRAC régionale pour connaître les dispositifs actifs et les dates de dépôt.
+          </p>
+        </div>
+
+        <p style={{ marginTop: 32, fontSize: 11, color: 'var(--muted)' }}>
+          Sources : Guide d'accompagnement Métropole Aix-Marseille-Provence (2024), Ministère chargé des personnes handicapées, INSEE.
         </p>
       </div>
     </>
   )
 }
 
-// ── Cadre légal ───────────────────────────────────────────────────────────
+// ── Se mettre en conformité ───────────────────────────────────────────────
 
-export function CadreLegal() {
+export function SinformerConformite() {
   const textes = [
     {
       ref: 'Loi n° 2005-102',
@@ -296,8 +339,8 @@ export function CadreLegal() {
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">01 — Repérer</span>
-          <h1>Cadre légal</h1>
+          <span className="tag">01 — S'informer</span>
+          <h1>Se mettre en conformité</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
             Les textes qui s\'appliquent aux festivals. Savoir ce qu\'on doit faire est le premier pas pour le faire.
           </p>
@@ -340,24 +383,24 @@ export function CadreLegal() {
 
 // ── Index ─────────────────────────────────────────────────────────────────
 
-export function RepererIndex() {
+export function SinformerIndex() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">01 — Repérer</span>
-          <h1>Repérer</h1>
+          <span className="tag">01 — S'informer</span>
+          <h1>S'informer</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
-            Comprendre les handicaps, les chiffres, et le cadre légal qui s\'applique à votre festival.
+            Comprendre les handicaps, le cadre légal et pourquoi s'engager dès maintenant.
           </p>
         </div>
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
         <div className="grid-3">
           {[
-            { to: '/reperer/handicaps', label: 'Types de handicap', desc: 'Moteur · Visuel · Auditif · Autisme · Psy · Invisibles' },
-            { to: '/reperer/chiffres', label: 'Chiffres & enjeux', desc: '12M de Français · 80% d\'handicaps invisibles · Enjeux légaux' },
-            { to: '/reperer/cadre-legal', label: 'Cadre légal', desc: 'Loi 2005 · ERP/IOP · Arrêté 2007 · PMR · RGAA' },
+            { to: '/sinformer/handicaps', label: 'Comprendre les handicaps', desc: 'Moteur · Visuel · Auditif · Autisme · Psy · Invisibles' },
+            { to: '/sinformer/conformite', label: 'Se mettre en conformité', desc: 'Loi 2005 · ERP/IOP · Arrêté 2007 · PMR · RGAA' },
+            { to: '/sinformer/engager', label: 'Pourquoi s\'engager ?', desc: 'Chiffres · Impact médiatique · Subventions disponibles' },
           ].map(c => (
             <Link key={c.to} to={c.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
               <div className="accent-line" />

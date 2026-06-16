@@ -1,37 +1,9 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { articles } from '../data/articles'
-import type { Article, Zone } from '../data/articles'
+import type { Article, Zone, HandicapType } from '../data/articles'
 
-// ── Débuter ───────────────────────────────────────────────────────────────
-
-export function PreparerDebuter() {
-  const debuterArticles = articles.filter(a => a.debuter)
-
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">02 — Préparer</span>
-          <h1>Comment débuter</h1>
-          <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
-            {debuterArticles.length} actions fondamentales — gratuites ou à faible coût — pour un impact immédiat.
-          </p>
-        </div>
-      </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 48 }}>
-          {debuterArticles.map((a, i) => (
-            <ArticleCard key={a.id} article={a} index={i} />
-          ))}
-        </div>
-        <Link to="/preparer/diagnostic" className="btn btn-primary">Faire mon diagnostic →</Link>
-      </div>
-    </>
-  )
-}
-
-// ── Zones ─────────────────────────────────────────────────────────────────
+// ── Mettre en place l'accessibilité (Débuter + Zones fusionnés) ──────────
 
 const zoneOptions: { key: 'tous' | Zone, label: string }[] = [
   { key: 'tous', label: 'Toutes les zones' },
@@ -42,58 +14,88 @@ const zoneOptions: { key: 'tous' | Zone, label: string }[] = [
   { key: 'hebergement', label: 'Hébergement' },
 ]
 
-export function PreparerZones() {
+const handicapOptions: { key: 'tous' | HandicapType, label: string }[] = [
+  { key: 'tous', label: 'Tous les handicaps' },
+  { key: 'moteur', label: 'Moteur' },
+  { key: 'visuel', label: 'Visuel' },
+  { key: 'auditif', label: 'Auditif' },
+  { key: 'autisme', label: 'Autisme' },
+  { key: 'psy', label: 'Psychologique' },
+  { key: 'invisible', label: 'Invisibles' },
+]
+
+function FilterRow<T extends string>({ label, options, active, onChange }: {
+  label: string
+  options: { key: T, label: string }[]
+  active: T
+  onChange: (key: T) => void
+}) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <h4 style={{ marginBottom: 10 }}>{label}</h4>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {options.map(o => (
+          <button
+            key={o.key}
+            onClick={() => onChange(o.key)}
+            style={{
+              padding: '6px 14px',
+              fontSize: 12,
+              fontFamily: 'var(--font)',
+              border: '1px solid var(--border)',
+              background: active === o.key ? 'var(--text)' : 'transparent',
+              color: active === o.key ? '#fff' : 'var(--muted)',
+              cursor: 'pointer',
+            }}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function AccessibleMiseEnPlace() {
   const [searchParams] = useSearchParams()
   const initialZone = (searchParams.get('zone') as Zone | null) || 'tous'
   const [activeZone, setActiveZone] = useState<'tous' | Zone>(initialZone)
+  const [activeHandicap, setActiveHandicap] = useState<'tous' | HandicapType>('tous')
 
-  const filtered = activeZone === 'tous'
-    ? articles.filter(a => a.zone !== undefined)
-    : articles.filter(a => a.zone === activeZone)
+  const baseArticles = articles.filter(a => a.debuter || a.zone !== undefined)
+
+  const filtered = baseArticles.filter(a => {
+    if (activeZone !== 'tous' && a.zone !== activeZone) return false
+    if (activeHandicap !== 'tous' && !a.handicaps.includes(activeHandicap)) return false
+    return true
+  })
 
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">02 — Préparer</span>
-          <h1>Par zone du festival</h1>
-          <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
-            Filtrez les aménagements par zone. Chaque action inclut les étapes concrètes pour la mettre en place.
+          <span className="tag">02 — Devenir accessible</span>
+          <h1>Mettre en place l'accessibilité</h1>
+          <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
+            Toutes les actions concrètes, filtrables par zone du festival ou par type de handicap.
           </p>
         </div>
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
-        {/* Zone filter */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
-          {zoneOptions.map(z => (
-            <button
-              key={z.key}
-              onClick={() => setActiveZone(z.key)}
-              style={{
-                padding: '6px 14px',
-                fontSize: 12,
-                fontFamily: 'var(--font)',
-                border: '1px solid var(--border)',
-                background: activeZone === z.key ? 'var(--text)' : 'transparent',
-                color: activeZone === z.key ? '#fff' : 'var(--muted)',
-                cursor: 'pointer',
-              }}
-            >
-              {z.label}
-            </button>
-          ))}
-        </div>
+        <FilterRow label="Par zone" options={zoneOptions} active={activeZone} onChange={setActiveZone} />
+        <FilterRow label="Par type de handicap" options={handicapOptions} active={activeHandicap} onChange={setActiveHandicap} />
 
-        {/* Article list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 32, marginBottom: 32 }}>
           {filtered.map(a => (
             <ArticleCard key={a.id} article={a} showZone />
           ))}
         </div>
 
         {filtered.length === 0 && (
-          <p style={{ color: 'var(--muted)', fontSize: 14 }}>Aucune action pour cette zone.</p>
+          <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 32 }}>Aucune action pour ces filtres.</p>
         )}
+
+        <Link to="/accessible/diagnostic" className="btn btn-primary">Faire mon diagnostic →</Link>
       </div>
     </>
   )
@@ -101,14 +103,14 @@ export function PreparerZones() {
 
 // ── Cas concrets ──────────────────────────────────────────────────────────
 
-export function PreparerCasConcrets() {
+export function AccessibleCasConcrets() {
   const exemples = articles.filter(a => a.exemple)
 
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">02 — Préparer</span>
+          <span className="tag">02 — Devenir accessible</span>
           <h1>Cas concrets</h1>
           <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
             Ce que d'autres festivals ont mis en place — et comment s'en inspirer.
@@ -150,7 +152,7 @@ export function PreparerCasConcrets() {
   )
 }
 
-// ── Diagnostic ────────────────────────────────────────────────────────────
+// ── Construire mon plan d'action (diagnostic) ────────────────────────────
 
 type Step = 'jauge' | 'terrain' | 'budget' | 'handicaps' | 'result'
 
@@ -163,7 +165,7 @@ const handicapsList = [
   { label: 'Invisibles', key: 'invisible' },
 ]
 
-export function PreparerDiagnostic() {
+export function AccessibleDiagnostic() {
   const [step, setStep] = useState<Step>('jauge')
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
 
@@ -216,10 +218,10 @@ export function PreparerDiagnostic() {
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">02 — Préparer</span>
-          <h1>Diagnostic personnalisé</h1>
+          <span className="tag">02 — Devenir accessible</span>
+          <h1>Construire mon plan d'action</h1>
           <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
-            4 questions pour obtenir un plan d'action adapté à votre festival — gratuit, sans inscription.
+            4 questions pour cadrer mes opérations et obtenir un plan d'action adapté à mon festival — gratuit, sans inscription.
           </p>
         </div>
       </div>
@@ -300,7 +302,7 @@ export function PreparerDiagnostic() {
                 )
               })}
             </div>
-            <button className="btn btn-primary" onClick={() => setStep('result')}>Voir mon diagnostic →</button>
+            <button className="btn btn-primary" onClick={() => setStep('result')}>Voir mon plan d'action →</button>
           </div>
         )}
 
@@ -358,7 +360,7 @@ export function PreparerDiagnostic() {
                     </div>
                   ))}
                 </div>
-                <Link to="/reperer/cadre-legal" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
+                <Link to="/sinformer/conformite" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
                   Consulter le cadre légal complet →
                 </Link>
               </div>
@@ -391,25 +393,24 @@ export function PreparerDiagnostic() {
 
 // ── Index ─────────────────────────────────────────────────────────────────
 
-export function PreparerIndex() {
+export function AccessibleIndex() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">02 — Préparer</span>
-          <h1>Préparer</h1>
+          <span className="tag">02 — Devenir accessible</span>
+          <h1>Devenir accessible</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
-            Actions concrètes, classées par zone et par effort. Un seul endroit pour tout ce qu'il faut faire.
+            Bonnes pratiques, actions concrètes et plan d'action sur-mesure pour votre festival.
           </p>
         </div>
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
         <div className="grid-2">
           {[
-            { to: '/preparer/diagnostic', label: 'Diagnostic personnalisé', desc: 'Formulaire interactif → rapport adapté à votre festival', highlight: true },
-            { to: '/preparer/debuter', label: 'Comment débuter', desc: 'Les 5 réflexes clés · Par où commencer' },
-            { to: '/preparer/zones', label: 'Par zone du festival', desc: 'Accès · Scène · Services · Accueil · Hébergement' },
-            { to: '/preparer/cas-concrets', label: 'Cas concrets', desc: 'Témoignages · Exemples · Retours d\'expérience' },
+            { to: '/accessible/diagnostic', label: 'Construire mon plan d\'action', desc: 'Formulaire interactif → rapport adapté à votre festival', highlight: true },
+            { to: '/accessible/mise-en-place', label: 'Mettre en place l\'accessibilité', desc: 'Articles filtrables par zone et par type de handicap' },
+            { to: '/accessible/cas-concrets', label: 'Cas concrets', desc: 'Témoignages · Exemples · Retours d\'expérience' },
           ].map(c => (
             <Link key={c.to} to={c.to} className="card" style={{ display: 'block', textDecoration: 'none', background: c.highlight ? 'var(--text)' : '#fff' }}>
               <div className="accent-line" style={{ background: c.highlight ? '#fff' : 'var(--border2)' }} />

@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import { RepererIndex, RepererHandicaps, RepererChiffres, CadreLegal } from './pages/Reperer'
-import { PreparerIndex, PreparerDebuter, PreparerZones, PreparerCasConcrets, PreparerDiagnostic } from './pages/Preparer'
-import { OutilsIndex, OutilsSignaletiques, OutilsChecklist } from './pages/Outils'
-import { FMMIndex, FMMapropos, FMMobjectif } from './pages/FMM'
+import { SinformerIndex, SinformerHandicaps, SinformerEngager, SinformerConformite } from './pages/Reperer'
+import { AccessibleIndex, AccessibleDiagnostic, AccessibleMiseEnPlace, AccessibleCasConcrets } from './pages/Preparer'
+import { RessourcesIndex, RessourcesSignaletiques, RessourcesChecklist } from './pages/Outils'
+import { FederationIndex, FederationApropos, FederationObjectif } from './pages/FMM'
 
 export default function App() {
   return (
@@ -15,24 +15,23 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
 
-          <Route path="/reperer" element={<RepererIndex />} />
-          <Route path="/reperer/handicaps" element={<RepererHandicaps />} />
-          <Route path="/reperer/chiffres" element={<RepererChiffres />} />
-          <Route path="/reperer/cadre-legal" element={<CadreLegal />} />
+          <Route path="/sinformer" element={<SinformerIndex />} />
+          <Route path="/sinformer/handicaps" element={<SinformerHandicaps />} />
+          <Route path="/sinformer/engager" element={<SinformerEngager />} />
+          <Route path="/sinformer/conformite" element={<SinformerConformite />} />
 
-          <Route path="/preparer" element={<PreparerIndex />} />
-          <Route path="/preparer/diagnostic" element={<PreparerDiagnostic />} />
-          <Route path="/preparer/debuter" element={<PreparerDebuter />} />
-          <Route path="/preparer/zones" element={<PreparerZones />} />
-          <Route path="/preparer/cas-concrets" element={<PreparerCasConcrets />} />
+          <Route path="/accessible" element={<AccessibleIndex />} />
+          <Route path="/accessible/diagnostic" element={<AccessibleDiagnostic />} />
+          <Route path="/accessible/mise-en-place" element={<AccessibleMiseEnPlace />} />
+          <Route path="/accessible/cas-concrets" element={<AccessibleCasConcrets />} />
 
-          <Route path="/outils" element={<OutilsIndex />} />
-          <Route path="/outils/signaletiques" element={<OutilsSignaletiques />} />
-          <Route path="/outils/checklist" element={<OutilsChecklist />} />
+          <Route path="/ressources" element={<RessourcesIndex />} />
+          <Route path="/ressources/signaletiques" element={<RessourcesSignaletiques />} />
+          <Route path="/ressources/checklist" element={<RessourcesChecklist />} />
 
-          <Route path="/fmm" element={<FMMIndex />} />
-          <Route path="/fmm/apropos" element={<FMMapropos />} />
-          <Route path="/fmm/objectif" element={<FMMobjectif />} />
+          <Route path="/federation" element={<FederationIndex />} />
+          <Route path="/federation/apropos" element={<FederationApropos />} />
+          <Route path="/federation/objectif" element={<FederationObjectif />} />
         </Routes>
       </main>
       <Footer />

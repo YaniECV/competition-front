@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 
-export function FMMIndex() {
+export function FederationIndex() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">04 — S'engager</span>
+          <span className="tag">04 — La fédération</span>
           <h1>Fédération des Musiques Métal</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
             La FMM œuvre pour une scène metal française plus inclusive et accessible à tous.
@@ -15,8 +15,8 @@ export function FMMIndex() {
       <div className="container" style={{ paddingBottom: 80 }}>
         <div className="grid-2">
           {[
-            { to: '/fmm/apropos', label: 'À propos', desc: 'Qui sommes-nous · Notre mission · Reconnaissance Sacem' },
-            { to: '/fmm/objectif', label: 'Notre objectif', desc: 'Engagements · Actions · Glossaire' },
+            { to: '/federation/apropos', label: 'À propos', desc: 'Qui sommes-nous · Notre mission · Reconnaissance Sacem' },
+            { to: '/federation/objectif', label: 'Notre objectif', desc: 'Engagements · Actions · Glossaire' },
           ].map(c => (
             <Link key={c.to} to={c.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
               <div className="accent-line" />
@@ -30,13 +30,13 @@ export function FMMIndex() {
   )
 }
 
-export function FMMapropos() {
+export function FederationApropos() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <Link to="/fmm" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← S'engager</Link>
-          <span className="tag">04 — S'engager</span>
+          <Link to="/federation" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← La fédération</Link>
+          <span className="tag">04 — La fédération</span>
           <h1>À propos</h1>
         </div>
       </div>
@@ -103,13 +103,13 @@ const glossaire = [
   { terme: 'PSH', def: 'Personne en Situation de Handicap. Formulation recommandée par le mouvement des personnes handicapées, qui place la situation avant la caractéristique, et rappelle que le handicap est aussi produit par l\'environnement.' },
 ]
 
-export function FMMobjectif() {
+export function FederationObjectif() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <Link to="/fmm" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← S'engager</Link>
-          <span className="tag">04 — S'engager</span>
+          <Link to="/federation" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← La fédération</Link>
+          <span className="tag">04 — La fédération</span>
           <h1>Notre objectif</h1>
         </div>
       </div>
