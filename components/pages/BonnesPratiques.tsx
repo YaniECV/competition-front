@@ -25,33 +25,62 @@ const handicapOptions: { key: 'tous' | Handicap, label: string }[] = [
   { key: 'invisible', label: 'Invisibles' },
 ]
 
-function FilterRow<T extends string>({ label, options, active, onChange }: {
+function FilterRow<T extends string>({ label, options, active, onChange, counts }: {
   label: string
   options: { key: T, label: string }[]
   active: T
   onChange: (key: T) => void
+  counts?: Partial<Record<T, number>>
 }) {
   return (
     <div style={{ marginBottom: 20 }}>
       <h4 style={{ marginBottom: 10 }}>{label}</h4>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        {options.map(o => (
-          <button
-            key={o.key}
-            onClick={() => onChange(o.key)}
-            style={{
-              padding: '6px 14px',
-              fontSize: 12,
-              fontFamily: 'var(--font)',
-              border: '1px solid var(--border)',
-              background: active === o.key ? 'var(--text)' : 'transparent',
-              color: active === o.key ? '#fff' : 'var(--muted)',
-              cursor: 'pointer',
-            }}
-          >
-            {o.label}
-          </button>
-        ))}
+        {options.map(o => {
+          const count = counts?.[o.key]
+          const isActive = active === o.key
+          return (
+            <button
+              key={o.key}
+              onClick={() => onChange(o.key)}
+              style={{
+                position: 'relative',
+                padding: '6px 14px',
+                paddingTop: counts ? '14px' : '6px',
+                fontSize: 12,
+                fontFamily: 'var(--font)',
+                border: '1px solid var(--border)',
+                background: isActive ? 'var(--text)' : 'transparent',
+                color: isActive ? '#fff' : 'var(--muted)',
+                cursor: 'pointer',
+              }}
+            >
+              {counts && count !== undefined && (
+                <span style={{
+                  position: 'absolute',
+                  top: -8,
+                  right: -6,
+                  minWidth: 18,
+                  height: 18,
+                  borderRadius: '99px',
+                  background: isActive ? 'var(--accent)' : 'var(--border2)',
+                  color: isActive ? '#fff' : 'var(--bg)',
+                  fontSize: 10,
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 4px',
+                  lineHeight: 1,
+                }}>
+                  {count}
+                </span>
+              )}
+              {o.label}
+            </button>
+          )
+        })}
       </div>
     </div>
   )
@@ -67,6 +96,21 @@ export function BonnesPratiquesIndex() {
     return true
   })
 
+  // Compter les résultats par handicap selon la zone active
+  const handicapCounts = handicapOptions.reduce((acc, o) => {
+    if (o.key === 'tous') {
+      acc[o.key] = bonnesPratiques.filter(bp =>
+        activeZone === 'toutes' || bp.zone === activeZone
+      ).length
+    } else {
+      acc[o.key] = bonnesPratiques.filter(bp => {
+        if (activeZone !== 'toutes' && bp.zone !== activeZone) return false
+        return bp.handicaps.includes(o.key) || bp.handicaps.includes('tous')
+      }).length
+    }
+    return acc
+  }, {} as Partial<Record<'tous' | Handicap, number>>)
+
   return (
     <>
       <div className="page-hero">
@@ -80,7 +124,7 @@ export function BonnesPratiquesIndex() {
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
         <FilterRow label="Par zone" options={zoneOptions} active={activeZone} onChange={setActiveZone} />
-        <FilterRow label="Par type de handicap" options={handicapOptions} active={activeHandicap} onChange={setActiveHandicap} />
+        <FilterRow label="Par type de handicap" options={handicapOptions} active={activeHandicap} onChange={setActiveHandicap} counts={handicapCounts} />
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 32 }}>
           {filtered.map((bp) => (
