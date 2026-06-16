@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 const navItems = [
   {
     label: 'Les handicaps',
+    href: '/handicaps',
     prefix: '/handicaps',
     subs: [
-      { to: '/handicaps',              label: 'Tous les handicaps' },
       { to: '/handicaps/moteur',       label: 'Handicap moteur' },
       { to: '/handicaps/visuel',       label: 'Handicap visuel' },
       { to: '/handicaps/auditif',      label: 'Handicap auditif' },
@@ -46,24 +46,24 @@ export default function Nav() {
             <div
               key={item.label}
               style={{ position: 'relative' }}
-              onMouseEnter={() => item.subs && setHovered(item.label)}
-              onMouseLeave={() => item.subs && setHovered(null)}
+              onMouseEnter={() => setHovered(item.label)}
+              onMouseLeave={() => setHovered(null)}
             >
               {item.href ? (
                 <Link
                   href={item.href}
                   style={{
                     fontSize: 13,
-                    fontWeight: pathname.startsWith(item.href) ? 700 : 400,
-                    color: pathname.startsWith(item.href) ? 'var(--text)' : 'var(--muted)',
-                    borderBottom: pathname.startsWith(item.href) ? '2px solid var(--text)' : '2px solid transparent',
+                    fontWeight: pathname.startsWith(item.prefix ?? item.href) ? 700 : 400,
+                    color: pathname.startsWith(item.prefix ?? item.href) ? 'var(--text)' : 'var(--muted)',
+                    borderBottom: pathname.startsWith(item.prefix ?? item.href) ? '2px solid var(--text)' : '2px solid transparent',
                     display: 'block',
                     padding: '18px 0',
                     textDecoration: 'none',
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {item.label}
+                  {item.label}{item.subs && <span style={{ fontSize: 10, opacity: 0.5, marginLeft: 4 }}>▾</span>}
                 </Link>
               ) : (
                 <span style={{
@@ -77,7 +77,7 @@ export default function Nav() {
                   userSelect: 'none' as const,
                   whiteSpace: 'nowrap',
                 }}>
-                  {item.label} <span style={{ fontSize: 10, opacity: 0.6 }}>▾</span>
+                  {item.label} <span style={{ fontSize: 10, opacity: 0.5 }}>▾</span>
                 </span>
               )}
 
