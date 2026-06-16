@@ -167,7 +167,7 @@ function InlineSearch() {
 
   return (
     <div ref={wrapRef} style={{ position: 'relative', width: 240 }}>
-      <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', background: 'var(--bg2)', padding: '0 10px', gap: 8, height: 34 }}>
+      <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid var(--border2)', background: '#fff', padding: '0 10px', gap: 8, height: 34 }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
