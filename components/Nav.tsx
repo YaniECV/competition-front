@@ -61,10 +61,21 @@ function SearchModal({ onClose }: { onClose: () => void }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  const results = query.trim().length < 2 ? [] : searchIndex.filter(item =>
-    item.label.toLowerCase().includes(query.toLowerCase()) ||
-    item.desc.toLowerCase().includes(query.toLowerCase())
+  const q = query.trim()
+  const results = q.length === 0 ? [] : searchIndex.filter(item =>
+    item.label.toLowerCase().includes(q.toLowerCase()) ||
+    item.desc.toLowerCase().includes(q.toLowerCase())
   )
+
+  const suggestions = [
+    { label: 'Handicap moteur', href: '/handicaps/moteur', tag: 'Handicap' },
+    { label: 'Boucle magnétique', href: '/s-informer/bonnes-pratiques/boucle-magnetique', tag: 'Bonne pratique' },
+    { label: 'Parking PMR', href: '/s-informer/bonnes-pratiques/parking-pmr', tag: 'Bonne pratique' },
+    { label: 'Faire mon diagnostic', href: '/accessible/diagnostic', tag: 'Outil' },
+    { label: 'Signalétiques', href: '/les-ressources', tag: 'Ressource' },
+  ]
+
+  const items = q.length === 0 ? suggestions : results
 
   return (
     <div
@@ -87,39 +98,36 @@ function SearchModal({ onClose }: { onClose: () => void }) {
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 20, lineHeight: 1, padding: 4 }}>✕</button>
         </div>
 
-        {/* Résultats */}
+        {/* Suggestions ou résultats */}
         <div style={{ maxHeight: 420, overflowY: 'auto' }}>
-          {query.trim().length < 2 && (
-            <p style={{ padding: '16px 20px', fontSize: 13, color: 'var(--muted)' }}>Tapez au moins 2 caractères…</p>
+          {q.length === 0 && (
+            <p style={{ padding: '12px 20px 8px', fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              Suggestions
+            </p>
           )}
-          {query.trim().length >= 2 && results.length === 0 && (
-            <p style={{ padding: '16px 20px', fontSize: 13, color: 'var(--muted)' }}>Aucun résultat pour « {query} »</p>
+          {q.length > 0 && results.length === 0 && (
+            <p style={{ padding: '16px 20px', fontSize: 13, color: 'var(--muted)' }}>Aucun résultat pour « {q} »</p>
           )}
-          {results.map((r, i) => (
+          {items.map((r, i) => (
             <Link
               key={i}
               href={r.href}
               onClick={onClose}
-              style={{ display: 'flex', gap: 14, padding: '14px 20px', borderBottom: '1px solid var(--bg2)', textDecoration: 'none', alignItems: 'flex-start' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg2)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              style={{ display: 'flex', gap: 14, padding: '12px 20px', borderBottom: '1px solid var(--bg2)', textDecoration: 'none', alignItems: 'center', background: 'transparent', transition: 'background 0.1s' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
             >
-              <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '3px 7px', color: 'var(--muted)', whiteSpace: 'nowrap', marginTop: 2, flexShrink: 0 }}>
+              <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '3px 7px', color: 'var(--muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>
                 {r.tag}
               </span>
-              <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', margin: '0 0 3px' }}>{r.label}</p>
-                <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>{r.desc}</p>
-              </div>
+              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', margin: 0 }}>{r.label}</p>
             </Link>
           ))}
         </div>
 
-        {results.length > 0 && (
-          <p style={{ padding: '10px 20px', fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', borderTop: '1px solid var(--border)' }}>
-            {results.length} résultat{results.length > 1 ? 's' : ''} — Échap pour fermer
-          </p>
-        )}
+        <p style={{ padding: '10px 20px', fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', borderTop: '1px solid var(--border)' }}>
+          {q.length > 0 ? `${results.length} résultat${results.length > 1 ? 's' : ''}` : `${searchIndex.length} éléments indexés`} — Échap pour fermer
+        </p>
       </div>
     </div>
   )
