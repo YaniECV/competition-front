@@ -272,11 +272,11 @@ export function SinformerHandicaps() {
             {/* Liens zones */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {tab.renvoiZones.map(z => (
-                <Link key={z} to={`/preparer/zones?zone=${z}`} style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
+                <Link key={z} to={`/accessible/mise-en-place?zone=${z}`} style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
                   Zone {zoneLabels[z]} →
                 </Link>
               ))}
-              <Link to="/outils/signaletiques" style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
+              <Link to="/ressources/signaletiques" style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
                 Signalétiques →
               </Link>
             </div>
