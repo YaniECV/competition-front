@@ -41,7 +41,7 @@ function FilterRow<T extends string>({ label, options, active, onChange, counts 
           const isActive = active === o.key
           return (
             <div key={o.key} style={{ position: 'relative' }}>
-              {counts && count !== undefined && (
+              {counts && count !== undefined && isActive && (
                 <span style={{
                   position: 'absolute',
                   top: -9,
