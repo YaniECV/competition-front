@@ -8,6 +8,7 @@ const navItems = [
     label: 'Les handicaps',
     prefix: '/handicaps',
     subs: [
+      { to: '/handicaps',              label: 'Tous les handicaps' },
       { to: '/handicaps/moteur',       label: 'Handicap moteur' },
       { to: '/handicaps/visuel',       label: 'Handicap visuel' },
       { to: '/handicaps/auditif',      label: 'Handicap auditif' },
