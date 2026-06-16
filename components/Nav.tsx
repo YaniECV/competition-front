@@ -4,7 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { label: 'Les handicaps', href: '/handicaps' },
+  {
+    label: 'Les handicaps',
+    prefix: '/handicaps',
+    subs: [
+      { to: '/handicaps/moteur',       label: 'Handicap moteur' },
+      { to: '/handicaps/visuel',       label: 'Handicap visuel' },
+      { to: '/handicaps/auditif',      label: 'Handicap auditif' },
+      { to: '/handicaps/autisme',      label: 'Autisme & troubles cognitifs' },
+      { to: '/handicaps/psychologique',label: 'Troubles psychiques' },
+      { to: '/handicaps/invisibles',   label: 'Handicaps invisibles' },
+    ],
+  },
   {
     label: "S'informer",
     prefix: '/s-informer',
@@ -59,13 +70,13 @@ export default function Nav() {
                   fontWeight: item.prefix && pathname.startsWith(item.prefix) ? 700 : 400,
                   color: item.prefix && pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
                   borderBottom: item.prefix && pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
-                  cursor: 'default',
+                  cursor: 'pointer',
                   display: 'block',
                   padding: '18px 0',
-                  userSelect: 'none',
+                  userSelect: 'none' as const,
                   whiteSpace: 'nowrap',
                 }}>
-                  {item.label}
+                  {item.label} <span style={{ fontSize: 10, opacity: 0.6 }}>▾</span>
                 </span>
               )}
 
@@ -95,8 +106,8 @@ export default function Nav() {
                         background: 'transparent',
                         transition: 'background 0.1s',
                       }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg2)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                      onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
+                      onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
                     >
                       {sub.label}
                     </Link>
@@ -153,7 +164,7 @@ export default function Nav() {
                     {item.label}
                   </p>
                   {item.subs?.map(sub => (
-                    <Link key={sub.to} href={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
+                    <Link key={sub.to} href={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px', textDecoration: 'none' }}>
                       {sub.label}
                     </Link>
                   ))}
