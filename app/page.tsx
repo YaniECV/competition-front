@@ -75,25 +75,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Les ressources */}
+      {/* Signalétiques */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
             <div>
-              <span className="tag">Les ressources</span>
-              <h2>Prêt à l'emploi</h2>
-            </div>
-          </div>
-          <div className="grid-2">
-            <Link href="/les-ressources" className="card" style={{ display: 'block', textDecoration: 'none' }}>
-              <div className="accent-line" />
-              <h3 style={{ marginBottom: 8 }}>Signalétiques à télécharger</h3>
-              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                Packs par type de besoin. Style métal, haut contraste, prêts à imprimer.
+              <span className="tag">Signalétiques</span>
+              <h2>Pictogrammes prêts à télécharger</h2>
+              <p style={{ fontSize: 14, color: 'var(--muted)', marginTop: 8, maxWidth: 480, lineHeight: 1.7 }}>
+                Packs par type de besoin — style métal, haut contraste, prêts à imprimer.
               </p>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les packs →</span>
+            </div>
+            <Link href="/les-ressources" className="btn btn-primary" style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
+              Voir le guide complet →
             </Link>
           </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            {[
+              { icon: '♿', label: 'PMR / mobilité réduite',         slug: 'pmr-mobilite-reduite' },
+              { icon: '👁',  label: 'Malvoyants / non-voyants',      slug: 'malvoyants-non-voyants' },
+              { icon: '🦻', label: 'Sourds / malentendants',          slug: 'sourds-malentendants' },
+              { icon: '🧘', label: 'Espace de repos calme',           slug: 'espace-repos-calme' },
+              { icon: '⭐', label: 'Accueil prioritaire',             slug: 'accueil-prioritaire' },
+              { icon: '🐕', label: 'Chiens guides autorisés',         slug: 'chiens-guides' },
+              { icon: '🚻', label: 'Sanitaires adaptés',              slug: 'sanitaires-adaptes' },
+              { icon: '🔋', label: 'Recharge fauteuils',              slug: 'recharge-fauteuils' },
+            ].map(p => (
+              <Link
+                key={p.slug}
+                href={`/les-ressources#${p.slug}`}
+                className="card"
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 12, padding: '24px 16px', textDecoration: 'none' }}
+              >
+                <span style={{ fontSize: 36, lineHeight: 1 }}>{p.icon}</span>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', lineHeight: 1.4, margin: 0 }}>{p.label}</p>
+                <span style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+                  ↓ Télécharger
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <style>{`
+            @media (max-width: 768px) {
+              .signa-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            }
+          `}</style>
         </div>
       </section>
 
