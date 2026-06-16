@@ -14,7 +14,7 @@ export default function Home() {
             12 millions de Français vivent avec un handicap. Beaucoup sont fans de metal et ne peuvent pas accéder à vos événements. Ce site vous donne les outils pour changer ça — gratuitement, étape par étape.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link href="/accessible/diagnostic" className="btn btn-primary">Faire mon diagnostic</Link>
+            <Link href="/accessible/diagnostic" className="btn btn-primary" style={{ background: '#87ceeb', borderColor: '#87ceeb', color: '#0a0a0a' }}>Faire mon diagnostic</Link>
             <Link href="/sinformer/handicaps" className="btn btn-outline">Comprendre les handicaps</Link>
           </div>
         </div>
