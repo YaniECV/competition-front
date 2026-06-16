@@ -7,6 +7,17 @@ const handicapTabs = [
   {
     slug: 'moteur',
     label: 'Moteur',
+    header: 'Et si le terrain en herbe était votre premier mur ?',
+    corps: [
+      'Un festival, c\'est de la boue, des pentes, des kilomètres à pied, de la foule. Pour la plupart des festivaliers, c\'est l\'aventure. Pour une personne en fauteuil roulant, une personne qui marche avec des béquilles ou qui manque d\'endurance — c\'est souvent une série d\'obstacles invisibles aux autres.',
+      'En France, 850 000 personnes utilisent un fauteuil roulant. Mais le handicap moteur ne se résume pas à ça. Il prend trois visages :',
+    ],
+    visages: [
+      { label: 'Le fauteuil', desc: 'manuel ou électrique, il exige des surfaces planes, de l\'espace, et une recharge possible' },
+      { label: 'Les aides à la marche', desc: 'canne, béquilles, déambulateur : chaque marche, chaque terrain irrégulier est une épreuve' },
+      { label: 'L\'endurance réduite', desc: 'invisible, souvent ignorée : cette personne marche, mais pas longtemps, pas loin, pas debout toute une journée' },
+    ],
+    conclusion: 'Ce que vous faites en tant qu\'organisateur peut transformer une expérience épuisante en souvenir inoubliable. Voici comment.',
     realite: '850 000 personnes utilisent un fauteuil roulant en France. Les personnes à mobilité réduite se divisent en 3 profils : fauteuil électrique, aide à la marche (béquilles, déambulateur), ou sans aide mais avec endurance réduite. En festival metal, le terrain en herbe est souvent le premier obstacle éliminatoire.',
     communication: [
       'Mettez-vous à hauteur de la personne avant de parler',
@@ -15,7 +26,53 @@ const handicapTabs = [
       'Proposez votre aide sans l\'imposer : "puis-je vous aider ?"',
       'Guidez vers les espaces accessibles clairement et concrètement',
     ],
-    besoins: ['Surfaces planes et non glissantes', 'Cheminements sans marches', 'Pauses régulières', 'Autonomie dans les déplacements'],
+    besoins: [
+      'Trajets les plus courts possible',
+      'Surfaces planes, non glissantes, bien éclairées',
+      'Signalétique visible depuis un fauteuil',
+      'Pauses possibles tout au long du parcours',
+      'Bonne visibilité depuis les zones spectateurs',
+      'Autonomie totale dans l\'expérience festival',
+    ],
+    amenagements: [
+      {
+        icon: '🚗',
+        title: 'Avant d\'arriver',
+        items: [
+          'Info accessibilité des transports clairement publiée',
+          'Stationnement réservé au plus près de l\'entrée',
+          'Navettes entre parkings et accès festival',
+        ],
+      },
+      {
+        icon: '🛤️',
+        title: 'Circuler sur le site',
+        items: [
+          'Cheminements accessibles balisés, sans marches',
+          'Plaques de roulage sur terrains boueux ou accidentés',
+          'Pentes inférieures à 5% pour les longues montées',
+          'Mains courantes aux points stratégiques',
+          'Points d\'étapes pour faire des pauses',
+        ],
+      },
+      {
+        icon: '🎸',
+        title: 'Vivre le festival',
+        items: [
+          'Plateformes dédiées fauteuils + accompagnants avec bonne visibilité',
+          'Comptoirs abaissés (bar, restauration, billetterie)',
+          'Cabines toilettes adaptées',
+          'Bornes de recharge et réparation pour fauteuils électriques',
+        ],
+      },
+      {
+        icon: '🏕️',
+        title: 'Autour du festival',
+        items: [
+          'Recensement des hébergements accessibles à proximité',
+        ],
+      },
+    ],
     renvoiZones: ['acces', 'scene', 'services'],
   },
   {
@@ -140,7 +197,94 @@ export function SinformerHandicaps() {
           ))}
         </div>
 
-        {/* Tab content */}
+        {/* Tab content — moteur (rich layout) */}
+        {tab.slug === 'moteur' && 'header' in tab && (
+          <div>
+            {/* Header accrocheur */}
+            <p style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text)', marginBottom: 20, lineHeight: 1.2, maxWidth: 600 }}>
+              {(tab as typeof tab & { header: string }).header}
+            </p>
+
+            {/* Corps narratif */}
+            {(tab as typeof tab & { corps: string[] }).corps.map((p, i) => (
+              <p key={i} style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--muted)', marginBottom: 16, maxWidth: 680 }}>{p}</p>
+            ))}
+
+            {/* 3 visages */}
+            <div style={{ border: '1px solid var(--border)', marginBottom: 20 }}>
+              {(tab as typeof tab & { visages: { label: string; desc: string }[] }).visages.map((v, i, arr) => (
+                <div key={v.label} style={{ display: 'flex', gap: 16, padding: '14px 20px', borderBottom: i < arr.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)', paddingTop: 2, flexShrink: 0 }}>—</span>
+                  <p style={{ fontSize: 14, margin: 0 }}>
+                    <strong style={{ color: 'var(--text)', fontWeight: 700 }}>{v.label}</strong>
+                    <span style={{ color: 'var(--muted)' }}> — {v.desc}</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--muted)', marginBottom: 40, maxWidth: 680 }}>
+              {(tab as typeof tab & { conclusion: string }).conclusion}
+            </p>
+
+            {/* Besoins */}
+            <h4 style={{ marginBottom: 14 }}>⚡ LEURS BESOINS EN FESTIVAL</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, border: '1px solid var(--border)', marginBottom: 40 }}>
+              {tab.besoins.map((b, i) => (
+                <div key={b} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderRight: i % 2 === 0 ? '1px solid var(--border)' : 'none', borderBottom: i < tab.besoins.length - 2 ? '1px solid var(--border)' : 'none' }}>
+                  <span style={{ color: 'var(--muted)', flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 11 }}>—</span>
+                  <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>{b}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Aménagements */}
+            <h4 style={{ marginBottom: 14 }}>🛠️ LES AMÉNAGEMENTS ESSENTIELS</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 40 }}>
+              {(tab as typeof tab & { amenagements: { icon: string; title: string; items: string[] }[] }).amenagements.map(a => (
+                <div key={a.title} className="card">
+                  <h4 style={{ marginBottom: 12 }}>{a.icon} {a.title}</h4>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {a.items.map(item => (
+                      <li key={item} style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
+                        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)' }}>—</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Communication */}
+            <h4 style={{ marginBottom: 14 }}>💬 RÈGLES DE COMMUNICATION</h4>
+            <div style={{ border: '1px solid var(--border)', marginBottom: 40 }}>
+              {tab.communication.map((c, i) => (
+                <div key={i} style={{ display: 'flex', gap: 20, padding: '14px 20px', borderBottom: i < tab.communication.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)', flexShrink: 0, paddingTop: 2 }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{c}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Liens zones */}
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {tab.renvoiZones.map(z => (
+                <Link key={z} to={`/preparer/zones?zone=${z}`} style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
+                  Zone {zoneLabels[z]} →
+                </Link>
+              ))}
+              <Link to="/outils/signaletiques" style={{ fontSize: 11, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '4px 10px', color: 'var(--muted)', textDecoration: 'none' }}>
+                Signalétiques →
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Tab content — autres handicaps (layout standard 2 colonnes) */}
+        {tab.slug !== 'moteur' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
           <div>
             <h2 style={{ marginBottom: 8 }}>Réalité en contexte festival</h2>
@@ -196,6 +340,7 @@ export function SinformerHandicaps() {
             </div>
           </div>
         </div>
+        )}
 
         <style>{`
           @media (max-width: 768px) {
