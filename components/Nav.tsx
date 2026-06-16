@@ -4,40 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
+  { label: 'Les handicaps', href: '/handicaps' },
   {
-    label: 'S\'informer',
-    prefix: '/sinformer',
+    label: "S'informer",
+    prefix: '/s-informer',
     subs: [
-      { to: '/sinformer/handicaps', label: 'Comprendre les handicaps' },
-      { to: '/sinformer/conformite', label: 'Se mettre en conformité' },
-      { to: '/sinformer/engager', label: 'Pourquoi s\'engager ?' },
+      { to: '/s-informer/bonnes-pratiques', label: 'Les bonnes pratiques' },
+      { to: '/s-informer/les-lois', label: 'Les lois' },
     ],
   },
-  {
-    label: 'Devenir accessible',
-    prefix: '/accessible',
-    subs: [
-      { to: '/accessible/diagnostic', label: 'Construire mon plan d\'action' },
-      { to: '/accessible/mise-en-place', label: 'Mettre en place l\'accessibilité' },
-      { to: '/accessible/cas-concrets', label: 'Cas concrets' },
-    ],
-  },
-  {
-    label: 'Ressources',
-    prefix: '/ressources',
-    subs: [
-      { to: '/ressources/signaletiques', label: 'Signalétiques' },
-      { to: '/ressources/checklist', label: 'Checklist interactive' },
-    ],
-  },
-  {
-    label: 'La fédération',
-    prefix: '/federation',
-    subs: [
-      { to: '/federation/apropos', label: 'À propos' },
-      { to: '/federation/objectif', label: 'Notre objectif' },
-    ],
-  },
+  { label: 'Les ressources', href: '/les-ressources' },
+  { label: 'La fédération', href: '/la-federation' },
 ];
 
 export default function Nav() {
@@ -57,31 +34,49 @@ export default function Nav() {
             <div
               key={item.label}
               style={{ position: 'relative' }}
-              onMouseEnter={() => setHovered(item.label)}
-              onMouseLeave={() => setHovered(null)}
+              onMouseEnter={() => item.subs && setHovered(item.label)}
+              onMouseLeave={() => item.subs && setHovered(null)}
             >
-              <span style={{
-                fontSize: 13,
-                fontWeight: pathname.startsWith(item.prefix) ? 700 : 400,
-                color: pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
-                borderBottom: pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
-                cursor: 'default',
-                display: 'block',
-                padding: '18px 0',
-                userSelect: 'none',
-                whiteSpace: 'nowrap',
-              }}>
-                {item.label}
-              </span>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  style={{
+                    fontSize: 13,
+                    fontWeight: pathname.startsWith(item.href) ? 700 : 400,
+                    color: pathname.startsWith(item.href) ? 'var(--text)' : 'var(--muted)',
+                    borderBottom: pathname.startsWith(item.href) ? '2px solid var(--text)' : '2px solid transparent',
+                    display: 'block',
+                    padding: '18px 0',
+                    textDecoration: 'none',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span style={{
+                  fontSize: 13,
+                  fontWeight: item.prefix && pathname.startsWith(item.prefix) ? 700 : 400,
+                  color: item.prefix && pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
+                  borderBottom: item.prefix && pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
+                  cursor: 'default',
+                  display: 'block',
+                  padding: '18px 0',
+                  userSelect: 'none',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {item.label}
+                </span>
+              )}
 
-              {hovered === item.label && (
+              {item.subs && hovered === item.label && (
                 <div style={{
                   position: 'absolute',
                   top: '100%',
                   left: 0,
                   background: '#fff',
                   border: '1px solid var(--border)',
-                  minWidth: 230,
+                  minWidth: 200,
                   zIndex: 200,
                 }}>
                   {item.subs.map(sub => (
@@ -111,23 +106,27 @@ export default function Nav() {
             </div>
           ))}
 
-          <a
-            href="#"
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            title="Bientôt disponible"
             style={{
               fontSize: 11,
               fontFamily: 'var(--font-mono)',
               fontWeight: 500,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#fff',
-              background: 'var(--text)',
+              color: 'var(--muted)',
+              background: 'var(--bg2)',
+              border: '1px solid var(--border)',
               padding: '8px 16px',
-              textDecoration: 'none',
               whiteSpace: 'nowrap',
+              cursor: 'not-allowed',
             }}
           >
-            Faire un audit →
-          </a>
+            Faire un audit · Bientôt disponible
+          </button>
         </div>
 
         <button
@@ -144,19 +143,33 @@ export default function Nav() {
         <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {navItems.map(item => (
             <div key={item.label}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', padding: '8px 0 4px', fontFamily: 'var(--font)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                {item.label}
-              </p>
-              {item.subs.map(sub => (
-                <Link key={sub.to} href={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
-                  {sub.label}
+              {item.href ? (
+                <Link href={item.href} onClick={() => setMobileOpen(false)} style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', display: 'block', padding: '8px 0 4px', fontFamily: 'var(--font)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  {item.label}
                 </Link>
-              ))}
+              ) : (
+                <>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text)', padding: '8px 0 4px', fontFamily: 'var(--font)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    {item.label}
+                  </p>
+                  {item.subs?.map(sub => (
+                    <Link key={sub.to} href={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
+                      {sub.label}
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           ))}
-          <a href="#" onClick={() => setMobileOpen(false)} style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', display: 'block', padding: '10px 0 6px' }}>
-            Faire un audit →
-          </a>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            title="Bientôt disponible"
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--muted)', background: 'none', border: 'none', textAlign: 'left', padding: '10px 0 6px', cursor: 'not-allowed' }}
+          >
+            Faire un audit · Bientôt disponible
+          </button>
         </div>
       )}
 

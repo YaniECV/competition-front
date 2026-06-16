@@ -15,7 +15,7 @@ export default function Home() {
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link href="/accessible/diagnostic" className="btn btn-primary" style={{ background: '#87ceeb', borderColor: '#87ceeb', color: '#0a0a0a' }}>Faire mon diagnostic</Link>
-            <Link href="/sinformer/handicaps" className="btn btn-outline">Comprendre les handicaps</Link>
+            <Link href="/handicaps" className="btn btn-outline">Comprendre les handicaps</Link>
           </div>
         </div>
       </section>
@@ -39,7 +39,7 @@ export default function Home() {
                   <p style={{ fontSize: 14, lineHeight: 1.7 }}>{c.d}</p>
                 </div>
               ))}
-              <Link href="/sinformer/conformite" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
+              <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
                 Voir le cadre légal →
               </Link>
             </div>
@@ -52,10 +52,10 @@ export default function Home() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
             <div>
-              <span className="tag">S'informer</span>
+              <span className="tag">Les handicaps</span>
               <h2>6 types de handicap à connaître</h2>
             </div>
-            <Link href="/sinformer/handicaps" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline', whiteSpace: 'nowrap' }}>
+            <Link href="/handicaps" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline', whiteSpace: 'nowrap' }}>
               Tout voir →
             </Link>
           </div>
@@ -68,7 +68,7 @@ export default function Home() {
               { label: 'Psychologique', desc: 'Stress, foule, attente — réduire les facteurs anxiogènes en amont.' },
               { label: 'Invisibles', desc: '80% des handicaps — maladies chroniques, fatigue, épilepsie, douleurs.' },
             ].map(h => (
-              <Link key={h.label} href="/sinformer/handicaps" className="card" style={{ display: 'block', textDecoration: 'none' }}>
+              <Link key={h.label} href="/handicaps" className="card" style={{ display: 'block', textDecoration: 'none' }}>
                 <h3 style={{ marginBottom: 8 }}>{h.label}</h3>
                 <p style={{ fontSize: 13, lineHeight: 1.6 }}>{h.desc}</p>
               </Link>
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
           <div>
             <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '3px 10px', display: 'inline-block', marginBottom: 16, fontFamily: 'var(--font)' }}>
-              Devenir accessible
+              Diagnostic
             </span>
             <h2 style={{ color: '#fff', marginBottom: 16 }}>Trouvez votre plan d'action en 4 questions</h2>
             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, marginBottom: 32 }}>
@@ -113,26 +113,18 @@ export default function Home() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
             <div>
-              <span className="tag">Ressources</span>
+              <span className="tag">Les ressources</span>
               <h2>Prêt à l'emploi</h2>
             </div>
           </div>
           <div className="grid-2">
-            <Link href="/ressources/signaletiques" className="card" style={{ display: 'block', textDecoration: 'none' }}>
+            <Link href="/les-ressources" className="card" style={{ display: 'block', textDecoration: 'none' }}>
               <div className="accent-line" />
               <h3 style={{ marginBottom: 8 }}>Signalétiques à télécharger</h3>
               <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                Packs PNG + SVG par type de handicap. Style métal, haut contraste, prêts à imprimer.
+                Packs par type de besoin. Style métal, haut contraste, prêts à imprimer.
               </p>
               <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les packs →</span>
-            </Link>
-            <Link href="/ressources/checklist" className="card" style={{ display: 'block', textDecoration: 'none' }}>
-              <div className="accent-line" />
-              <h3 style={{ marginBottom: 8 }}>Checklist interactive</h3>
-              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                Avant, pendant, après le festival. Cochez au fur et à mesure et suivez votre progression.
-              </p>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Ouvrir la checklist →</span>
             </Link>
           </div>
         </div>
@@ -147,7 +139,7 @@ export default function Home() {
             <p style={{ fontSize: 14, lineHeight: 1.8, marginBottom: 24 }}>
               La FMM accompagne les organisateurs de festivals de metal pour rendre la scène plus inclusive. Formation, ressources, mise en réseau — nous sommes là pour que vous ne repartiez pas de zéro.
             </p>
-            <Link href="/federation/apropos" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
+            <Link href="/la-federation" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
               En savoir plus →
             </Link>
           </div>

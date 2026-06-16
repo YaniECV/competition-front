@@ -9,10 +9,10 @@ export default function Footer() {
           <p style={{ fontSize: 13, lineHeight: 1.6 }}>Rendre les festivals de metal accessibles à tous.</p>
         </div>
         {[
-          { title: '01 — S\'informer', links: [{ to: '/sinformer/handicaps', l: 'Comprendre les handicaps' }, { to: '/sinformer/conformite', l: 'Se mettre en conformité' }, { to: '/sinformer/engager', l: 'Pourquoi s\'engager ?' }] },
-          { title: '02 — Devenir accessible', links: [{ to: '/accessible/diagnostic', l: 'Construire mon plan d\'action' }, { to: '/accessible/mise-en-place', l: 'Mettre en place l\'accessibilité' }, { to: '/accessible/cas-concrets', l: 'Cas concrets' }] },
-          { title: '03 — Ressources', links: [{ to: '/ressources/signaletiques', l: 'Signalétiques' }, { to: '/ressources/checklist', l: 'Checklist' }] },
-          { title: '04 — La fédération', links: [{ to: '/federation/apropos', l: 'À propos' }, { to: '/federation/objectif', l: 'Notre objectif' }] },
+          { title: 'Les handicaps', links: [{ to: '/handicaps', l: 'Tous les profils' }] },
+          { title: "S'informer", links: [{ to: '/s-informer/bonnes-pratiques', l: 'Les bonnes pratiques' }, { to: '/s-informer/les-lois', l: 'Les lois' }] },
+          { title: 'Les ressources', links: [{ to: '/les-ressources', l: 'Signalétiques' }] },
+          { title: 'La fédération', links: [{ to: '/la-federation', l: 'À propos & objectifs' }] },
         ].map(col => (
           <div key={col.title}>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>

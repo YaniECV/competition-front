@@ -1,49 +1,37 @@
-import Link from 'next/link'
+const glossaire = [
+  { terme: 'BIM', def: 'Boucle à Induction Magnétique. Dispositif qui transmet le son directement aux prothèses auditives et implants cochléaires, sans passer par l\'air ambiant. Indispensable pour les personnes appareillées dans les espaces bruyants.' },
+  { terme: 'LSF', def: 'Langue des Signes Française. Langue à part entière, avec sa propre syntaxe, utilisée par la communauté sourde. Pour les sourds de naissance, le français est souvent une seconde langue — la LSF est leur langue maternelle.' },
+  { terme: 'LPC', def: 'Langage Parlé Complété. Méthode qui complète la lecture labiale par des gestes de la main représentant les sons, utilisée par certaines personnes sourdes ou malentendantes oralisées.' },
+  { terme: 'PMR', def: 'Personne à Mobilité Réduite. Terme désignant toute personne qui éprouve des difficultés à se déplacer, temporairement ou de façon permanente : fauteuil, béquilles, poussette, âge, blessure.' },
+  { terme: 'ERP', def: 'Établissement Recevant du Public. Catégorie juridique qui détermine les obligations réglementaires (accessibilité, sécurité, évacuation). Les structures temporaires des festivals (chapiteaux, scènes) sont classées ERP 5e catégorie.' },
+  { terme: 'IOP', def: 'Installation Ouverte au Public. Catégorie qui couvre les espaces en plein air accueillant du public : festivals, marchés, rassemblements sportifs. Soumise à l\'arrêté du 15 janvier 2007.' },
+  { terme: 'FALC', def: 'Facile À Lire et à Comprendre. Méthode de communication simplifiée : phrases courtes, vocabulaire courant, pictogrammes, mise en page aérée. Pensée pour les personnes avec déficience intellectuelle, mais utile pour tous.' },
+  { terme: 'RGAA', def: 'Référentiel Général d\'Amélioration de l\'Accessibilité. Norme française d\'accessibilité numérique (sites web, applications). Impose des critères de contrastes, navigation au clavier, compatibilité avec les lecteurs d\'écran.' },
+  { terme: 'ESAT', def: 'Établissement et Service d\'Aide par le Travail. Structure médico-sociale permettant à des personnes en situation de handicap d\'exercer une activité professionnelle adaptée.' },
+  { terme: 'EA', def: 'Entreprise Adaptée. Entreprise du milieu ordinaire employant majoritairement des travailleurs en situation de handicap.' },
+  { terme: 'DRAC', def: 'Direction Régionale des Affaires Culturelles. Service déconcentré du ministère de la Culture, qui accompagne et peut co-financer la mise en accessibilité des évènements culturels.' },
+  { terme: 'CCAH', def: 'Comité Coordination Action Handicap. Collectif associatif qui finance et accompagne des projets en faveur des personnes en situation de handicap.' },
+  { terme: 'ATH', def: 'Assistance Technique pour le Handicap. Structure de conseil technique et d\'audit accessibilité.' },
+]
 
-export function FederationIndex() {
+export function LaFederation() {
   return (
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">04 — La fédération</span>
+          <span className="tag">La fédération</span>
           <h1>Fédération des Musiques Métal</h1>
           <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
             La FMM œuvre pour une scène metal française plus inclusive et accessible à tous.
           </p>
         </div>
       </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div className="grid-2">
-          {[
-            { to: '/federation/apropos', label: 'À propos', desc: 'Qui sommes-nous · Notre mission · Reconnaissance Sacem' },
-            { to: '/federation/objectif', label: 'Notre objectif', desc: 'Engagements · Actions · Glossaire' },
-          ].map(c => (
-            <Link key={c.to} href={c.to} className="card" style={{ display: 'block', textDecoration: 'none' }}>
-              <div className="accent-line" />
-              <h3 style={{ marginBottom: 8 }}>{c.label}</h3>
-              <p style={{ fontSize: 13 }}>{c.desc}</p>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </>
-  )
-}
 
-export function FederationApropos() {
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <Link href="/federation" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← La fédération</Link>
-          <span className="tag">04 — La fédération</span>
-          <h1>À propos</h1>
-        </div>
-      </div>
       <div className="container" style={{ paddingBottom: 80 }}>
-        <div className="grid-2" style={{ alignItems: 'start', gap: 40 }}>
+        {/* À propos */}
+        <h2 style={{ marginBottom: 24 }}>À propos</h2>
+        <div className="grid-2" style={{ alignItems: 'start', gap: 40, marginBottom: 64 }}>
           <div>
-            <h2 style={{ marginBottom: 16 }}>Qui sommes-nous</h2>
             <p style={{ fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>
               La Fédération des Musiques Métal regroupe des organisateurs, des artistes et des acteurs de la scène metal française engagés pour l'inclusion.
             </p>
@@ -87,37 +75,15 @@ export function FederationApropos() {
             </div>
           </div>
         </div>
-      </div>
-    </>
-  )
-}
 
-const glossaire = [
-  { terme: 'BIM', def: 'Boucle à Induction Magnétique. Dispositif qui transmet le son directement aux prothèses auditives et implants cochléaires, sans passer par l\'air ambiant. Indispensable pour les personnes appareillées dans les espaces bruyants.' },
-  { terme: 'LSF', def: 'Langue des Signes Française. Langue à part entière, avec sa propre syntaxe, utilisée par la communauté sourde. Pour les sourds de naissance, le français est souvent une seconde langue — la LSF est leur langue maternelle.' },
-  { terme: 'PMR', def: 'Personne à Mobilité Réduite. Terme légal désignant toute personne qui éprouve des difficultés à se déplacer, temporairement ou de façon permanente : fauteuil, béquilles, poussette, âge, blessure.' },
-  { terme: 'ERP', def: 'Établissement Recevant du Public. Catégorie juridique qui détermine les obligations réglementaires (accessibilité, sécurité, évacuation). Les structures temporaires des festivals (chapiteaux, scènes) sont classées ERP 5e catégorie.' },
-  { terme: 'FALC', def: 'Facile À Lire et à Comprendre. Méthode de communication simplifiée : phrases courtes, vocabulaire courant, pictogrammes, mise en page aérée. Pensée pour les personnes avec déficience intellectuelle, mais utile pour tous.' },
-  { terme: 'RGAA', def: 'Référentiel Général d\'Amélioration de l\'Accessibilité. Norme française d\'accessibilité numérique (sites web, applications). Impose des critères de contrastes, navigation au clavier, compatibilité avec les lecteurs d\'écran.' },
-  { terme: 'IOP', def: 'Installation Ouverte au Public. Catégorie qui couvre les espaces en plein air accueillant du public : festivals, marchés, rassemblements sportifs. Soumis à l\'arrêté du 15 janvier 2007.' },
-  { terme: 'PSH', def: 'Personne en Situation de Handicap. Formulation recommandée par le mouvement des personnes handicapées, qui place la situation avant la caractéristique, et rappelle que le handicap est aussi produit par l\'environnement.' },
-]
+        <hr />
 
-export function FederationObjectif() {
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <Link href="/federation" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginBottom: 20 }}>← La fédération</Link>
-          <span className="tag">04 — La fédération</span>
-          <h1>Notre objectif</h1>
-        </div>
-      </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
+        {/* Nos objectifs */}
+        <h2 style={{ marginBottom: 24 }}>Nos objectifs</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 48 }}>
           {[
             { t: 'Formation', d: 'Organiser des sessions de sensibilisation pour les équipes de festivals avec des associations spécialisées.' },
-            { t: 'Ressources', d: 'Mettre à disposition gratuitement signalétiques, checklists et guides adaptés à la culture metal.' },
+            { t: 'Ressources', d: 'Mettre à disposition gratuitement signalétiques et guides adaptés à la culture metal.' },
             { t: 'Réseau', d: 'Mettre en relation les organisateurs avec des experts du handicap et des festivals pionniers.' },
             { t: 'Plaidoyer', d: 'Représenter la scène metal dans les discussions institutionnelles sur l\'accessibilité culturelle.' },
           ].map(e => (

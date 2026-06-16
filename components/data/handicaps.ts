@@ -1,0 +1,128 @@
+export type HandicapSlug =
+  | 'moteur'
+  | 'visuel'
+  | 'auditif'
+  | 'autisme'
+  | 'psychologique'
+  | 'invisibles'
+
+export interface Handicap {
+  slug: HandicapSlug
+  nom: string
+  realite: string
+  communication: string[]
+  bonnesPratiquesIds: string[]
+  signaletiqueSlug?: string
+}
+
+export const handicaps: Handicap[] = [
+  {
+    slug: 'moteur',
+    nom: 'Moteur',
+    realite:
+      'Le handicap moteur recouvre des réalités très différentes : fauteuil roulant (manuel ou électrique), aide à la marche (canne, béquilles, déambulateur), ou simplement une endurance réduite. En festival, les cheminements longs, les terrains instables (herbe, gravier, pentes) et la fatigue qui s\'accumule sur la journée sont les principaux obstacles à anticiper.',
+    communication: [
+      'Se mettre à hauteur de la personne',
+      'Ne pas gêner sa déambulation',
+      'S\'adresser directement à elle, pas à son accompagnateur',
+    ],
+    bonnesPratiquesIds: [
+      'parking-pmr',
+      'cheminement-accessible',
+      'tapis-franchissement',
+      'plateforme-pmr',
+      'sanitaires-pmr',
+      'recharge-fauteuils',
+    ],
+    signaletiqueSlug: 'pmr-mobilite-reduite',
+  },
+  {
+    slug: 'visuel',
+    nom: 'Visuel',
+    realite:
+      'De la malvoyance à la cécité, les personnes concernées doivent pouvoir se repérer et se déplacer de façon autonome sur le site, et accéder aux informations essentielles (horaires, plan, consignes) sans dépendre uniquement de supports visuels.',
+    communication: [
+      'Se présenter verbalement',
+      'Proposer son bras avec autorisation',
+      'Ne pas interagir avec le chien guide sans permission',
+      'Prévenir quand on s\'éloigne',
+    ],
+    bonnesPratiquesIds: [
+      'balises-sonores',
+      'audiodescription-lsf',
+      'accueil-chiens-guides',
+      'plans-tactiles',
+    ],
+    signaletiqueSlug: 'malvoyants-non-voyants',
+  },
+  {
+    slug: 'auditif',
+    nom: 'Auditif',
+    realite:
+      'Les personnes sourdes ou malentendantes doivent pouvoir suivre les annonces et échanges malgré un environnement très bruyant, et être alertées visuellement en cas d\'urgence — la communication orale classique et les alarmes sonores ne suffisent pas.',
+    communication: [
+      'Parler face à la personne, visage bien éclairé',
+      'Prévoir du papier et un crayon',
+      'Ne pas exagérer l\'articulation',
+    ],
+    bonnesPratiquesIds: [
+      'sous-titrage-surtitrage',
+      'bim-portative',
+      'gilet-vibrant',
+      'alarme-visuelle',
+      'communication-ecrite-accueil',
+    ],
+    signaletiqueSlug: 'sourds-malentendants',
+  },
+  {
+    slug: 'autisme',
+    nom: 'Autisme',
+    realite:
+      'La surcharge sensorielle — bruit, foule, lumières changeantes — et l\'imprévisibilité du déroulement sont les principales difficultés rencontrées par les personnes autistes en festival. Un cadre prévisible et des informations claires sur ce qui va se passer réduisent considérablement l\'anxiété.',
+    communication: [
+      'Prendre son temps',
+      'Utiliser des phrases courtes et simples',
+      'Donner des informations claires sur le déroulement',
+      'Éviter les métaphores',
+    ],
+    bonnesPratiquesIds: [
+      'espace-repos-calme',
+      'info-accessibilite-site',
+      'transparence-offre',
+    ],
+    signaletiqueSlug: 'espace-repos-calme',
+  },
+  {
+    slug: 'psychologique',
+    nom: 'Psychologique',
+    realite:
+      'Troubles anxieux, fatigue émotionnelle ou simple besoin de repères : la foule, l\'attente et l\'incertitude peuvent rapidement devenir difficiles à gérer. Savoir où se trouvent les sorties, les postes de secours et des personnes relais identifiables est rassurant pour ce public.',
+    communication: [
+      'Préciser le déroulement',
+      'Indiquer clairement entrées, sorties et postes de secours',
+      'Identifier des personnes relais',
+    ],
+    bonnesPratiquesIds: [
+      'espace-repos-calme',
+      'equipe-identifiable',
+      'brigade-accompagnement',
+    ],
+    signaletiqueSlug: 'espace-repos-calme',
+  },
+  {
+    slug: 'invisibles',
+    nom: 'Invisibles',
+    realite:
+      'Maladies chroniques, troubles cognitifs, fatigue invisible : ces besoins ne se voient pas et varient d\'une personne à l\'autre. Certaines personnes ont besoin d\'un accès prioritaire ou d\'aménagements sans avoir à justifier ou démontrer leur situation.',
+    communication: [
+      'Ne pas présumer des capacités de la personne',
+      'Accueil respectueux, sans demande de justification',
+      'File prioritaire sans questionnement',
+    ],
+    bonnesPratiquesIds: [
+      'file-prioritaire',
+      'espace-repos-calme',
+    ],
+    signaletiqueSlug: 'accueil-prioritaire',
+  },
+]

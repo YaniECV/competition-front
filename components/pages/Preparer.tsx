@@ -1,157 +1,8 @@
 "use client";
 import { useState } from 'react'
-import Link from 'next/link';import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { articles } from '../data/articles'
-import type { Article, Zone, HandicapType } from '../data/articles'
-
-// ── Mettre en place l'accessibilité (Débuter + Zones fusionnés) ──────────
-
-const zoneOptions: { key: 'tous' | Zone, label: string }[] = [
-  { key: 'tous', label: 'Toutes les zones' },
-  { key: 'acces', label: 'Accès' },
-  { key: 'scene', label: 'Scène' },
-  { key: 'services', label: 'Services' },
-  { key: 'accueil', label: 'Accueil' },
-  { key: 'hebergement', label: 'Hébergement' },
-]
-
-const handicapOptions: { key: 'tous' | HandicapType, label: string }[] = [
-  { key: 'tous', label: 'Tous les handicaps' },
-  { key: 'moteur', label: 'Moteur' },
-  { key: 'visuel', label: 'Visuel' },
-  { key: 'auditif', label: 'Auditif' },
-  { key: 'autisme', label: 'Autisme' },
-  { key: 'psy', label: 'Psychologique' },
-  { key: 'invisible', label: 'Invisibles' },
-]
-
-function FilterRow<T extends string>({ label, options, active, onChange }: {
-  label: string
-  options: { key: T, label: string }[]
-  active: T
-  onChange: (key: T) => void
-}) {
-  return (
-    <div style={{ marginBottom: 20 }}>
-      <h4 style={{ marginBottom: 10 }}>{label}</h4>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        {options.map(o => (
-          <button
-            key={o.key}
-            onClick={() => onChange(o.key)}
-            style={{
-              padding: '6px 14px',
-              fontSize: 12,
-              fontFamily: 'var(--font)',
-              border: '1px solid var(--border)',
-              background: active === o.key ? 'var(--text)' : 'transparent',
-              color: active === o.key ? '#fff' : 'var(--muted)',
-              cursor: 'pointer',
-            }}
-          >
-            {o.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-export function AccessibleMiseEnPlace() {
-  const searchParams = useSearchParams()
-  const initialZone = (searchParams.get('zone') as Zone | null) || 'tous'
-  const [activeZone, setActiveZone] = useState<'tous' | Zone>(initialZone)
-  const [activeHandicap, setActiveHandicap] = useState<'tous' | HandicapType>('tous')
-
-  const baseArticles = articles.filter(a => a.debuter || a.zone !== undefined)
-
-  const filtered = baseArticles.filter(a => {
-    if (activeZone !== 'tous' && a.zone !== activeZone) return false
-    if (activeHandicap !== 'tous' && !a.handicaps.includes(activeHandicap)) return false
-    return true
-  })
-
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">02 — Devenir accessible</span>
-          <h1>Mettre en place l'accessibilité</h1>
-          <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
-            Toutes les actions concrètes, filtrables par zone du festival ou par type de handicap.
-          </p>
-        </div>
-      </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <FilterRow label="Par zone" options={zoneOptions} active={activeZone} onChange={setActiveZone} />
-        <FilterRow label="Par type de handicap" options={handicapOptions} active={activeHandicap} onChange={setActiveHandicap} />
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 32, marginBottom: 32 }}>
-          {filtered.map(a => (
-            <ArticleCard key={a.id} article={a} showZone />
-          ))}
-        </div>
-
-        {filtered.length === 0 && (
-          <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 32 }}>Aucune action pour ces filtres.</p>
-        )}
-
-        <Link href="/accessible/diagnostic" className="btn btn-primary">Faire mon diagnostic →</Link>
-      </div>
-    </>
-  )
-}
-
-// ── Cas concrets ──────────────────────────────────────────────────────────
-
-export function AccessibleCasConcrets() {
-  const exemples = articles.filter(a => a.exemple)
-
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">02 — Devenir accessible</span>
-          <h1>Cas concrets</h1>
-          <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
-            Ce que d'autres festivals ont mis en place — et comment s'en inspirer.
-          </p>
-        </div>
-      </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {exemples.map(a => (
-            <div key={a.id} className="card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, marginBottom: 16 }}>
-                <h3>{a.titre}</h3>
-                <span style={{ fontSize: 10, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '2px 8px', color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-                  {a.statut}
-                </span>
-              </div>
-              <div style={{ padding: '16px', background: 'var(--bg2)', border: '1px solid var(--border)', marginBottom: 16, fontSize: 14, lineHeight: 1.7, fontStyle: 'italic' }}>
-                "{a.exemple}"
-              </div>
-              <h4 style={{ fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10, color: 'var(--muted)' }}>
-                Comment s'en inspirer
-              </h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {a.commentFaire.map(step => (
-                  <li key={step} style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--muted)' }}>
-                    <span style={{ flexShrink: 0 }}>→</span><span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="wf-block" style={{ marginTop: 24 }}>
-          [Témoignages d'organisateurs de petits festivals de metal à intégrer]
-        </div>
-      </div>
-    </>
-  )
-}
+import type { Article } from '../data/articles'
 
 // ── Construire mon plan d'action (diagnostic) ────────────────────────────
 
@@ -219,7 +70,7 @@ export function AccessibleDiagnostic() {
     <>
       <div className="page-hero">
         <div className="container">
-          <span className="tag">02 — Devenir accessible</span>
+          <span className="tag">Devenir accessible</span>
           <h1>Construire mon plan d'action</h1>
           <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
             4 questions pour cadrer mes opérations et obtenir un plan d'action adapté à mon festival — gratuit, sans inscription.
@@ -361,7 +212,7 @@ export function AccessibleDiagnostic() {
                     </div>
                   ))}
                 </div>
-                <Link href="/sinformer/conformite" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
+                <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
                   Consulter le cadre légal complet →
                 </Link>
               </div>
@@ -389,88 +240,5 @@ export function AccessibleDiagnostic() {
         })()}
       </div>
     </>
-  )
-}
-
-// ── Index ─────────────────────────────────────────────────────────────────
-
-export function AccessibleIndex() {
-  return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">02 — Devenir accessible</span>
-          <h1>Devenir accessible</h1>
-          <p style={{ fontSize: 16, maxWidth: 540, marginTop: 16, lineHeight: 1.7 }}>
-            Bonnes pratiques, actions concrètes et plan d'action sur-mesure pour votre festival.
-          </p>
-        </div>
-      </div>
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div className="grid-2">
-          {[
-            { to: '/accessible/diagnostic', label: 'Construire mon plan d\'action', desc: 'Formulaire interactif → rapport adapté à votre festival', highlight: true },
-            { to: '/accessible/mise-en-place', label: 'Mettre en place l\'accessibilité', desc: 'Articles filtrables par zone et par type de handicap' },
-            { to: '/accessible/cas-concrets', label: 'Cas concrets', desc: 'Témoignages · Exemples · Retours d\'expérience' },
-          ].map(c => (
-            <Link key={c.to} href={c.to} className="card" style={{ display: 'block', textDecoration: 'none', background: c.highlight ? 'var(--text)' : '#fff' }}>
-              <div className="accent-line" style={{ background: c.highlight ? '#fff' : 'var(--border2)' }} />
-              <h3 style={{ marginBottom: 8, color: c.highlight ? '#fff' : 'var(--text)' }}>{c.label}</h3>
-              <p style={{ fontSize: 13, color: c.highlight ? 'rgba(255,255,255,0.7)' : 'var(--muted)' }}>{c.desc}</p>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </>
-  )
-}
-
-// ── Shared component ──────────────────────────────────────────────────────
-
-function ArticleCard({ article, index, showZone }: { article: Article, index?: number, showZone?: boolean }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <div className="card">
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        {index !== undefined && (
-          <span style={{ fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)', minWidth: 24, paddingTop: 2 }}>
-            {String(index + 1).padStart(2, '0')}
-          </span>
-        )}
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
-            <h3 style={{ marginBottom: 0 }}>{article.titre}</h3>
-            <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-              {showZone && article.zone && (
-                <span style={{ fontSize: 10, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '2px 6px', color: 'var(--muted)' }}>
-                  {article.zone}
-                </span>
-              )}
-              <span style={{ fontSize: 10, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '2px 6px', color: 'var(--muted)' }}>
-                {article.statut}
-              </span>
-            </div>
-          </div>
-          <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--muted)', marginBottom: open ? 16 : 0 }}>{article.resume}</p>
-
-          {open && (
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {article.commentFaire.map(step => (
-                <li key={step} style={{ display: 'flex', gap: 10, fontSize: 13 }}>
-                  <span style={{ flexShrink: 0, color: 'var(--muted)' }}>→</span><span>{step}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-      <button
-        onClick={() => setOpen(!open)}
-        style={{ marginTop: 12, fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'block' }}
-      >
-        {open ? '▲ Masquer les étapes' : '▼ Voir comment faire'}
-      </button>
-    </div>
   )
 }
