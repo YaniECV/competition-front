@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -18,7 +18,7 @@ export default function Footer() {
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>
             {col.links.map(l => (
               <div key={l.to} style={{ marginBottom: 8 }}>
-                <Link to={l.to} style={{ fontSize: 13 }}>{l.l}</Link>
+                <Link href={l.to} style={{ fontSize: 13 }}>{l.l}</Link>
               </div>
             ))}
           </div>
@@ -28,5 +28,5 @@ export default function Footer() {
         <p style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font)' }}>© 2026 FestAccess × FMM</p>
       </div>
     </footer>
-  )
+  );
 }

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
 
-/* ── Variables ──────────────────────────────────────────────────────────── */
+/* ── Variables (DA BetterOff Studio) ────────────────────────────────────── */
 :root {
   --bg:      #f9f9f9;
   --bg2:     #f1f1f1;
@@ -28,10 +29,10 @@ body {
   font-weight: 500;
   line-height: 1.5;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   -webkit-font-smoothing: antialiased;
 }
-
-#root { min-height: 100vh; display: flex; flex-direction: column; }
 
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; }

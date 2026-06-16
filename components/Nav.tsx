@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   {
@@ -36,17 +38,17 @@ const navItems = [
       { to: '/federation/objectif', label: 'Notre objectif' },
     ],
   },
-]
+];
 
 export default function Nav() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [hovered, setHovered] = useState<string | null>(null)
-  const { pathname } = useLocation()
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const pathname = usePathname() ?? '';
 
   return (
     <nav style={{ borderBottom: '1px solid var(--border)', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
-        <Link to="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
+        <Link href="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
           FEST_ACCESS
         </Link>
 
@@ -85,7 +87,7 @@ export default function Nav() {
                   {item.subs.map(sub => (
                     <Link
                       key={sub.to}
-                      to={sub.to}
+                      href={sub.to}
                       onClick={() => setHovered(null)}
                       style={{
                         display: 'block',
@@ -146,7 +148,7 @@ export default function Nav() {
                 {item.label}
               </p>
               {item.subs.map(sub => (
-                <Link key={sub.to} to={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
+                <Link key={sub.to} href={sub.to} onClick={() => setMobileOpen(false)} style={{ fontSize: 13, color: 'var(--muted)', display: 'block', padding: '6px 0 6px 12px' }}>
                   {sub.label}
                 </Link>
               ))}
@@ -165,5 +167,5 @@ export default function Nav() {
         }
       `}</style>
     </nav>
-  )
+  );
 }
