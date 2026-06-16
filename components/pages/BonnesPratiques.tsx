@@ -35,31 +35,17 @@ function FilterRow<T extends string>({ label, options, active, onChange, counts 
   return (
     <div style={{ marginBottom: 20 }}>
       <h4 style={{ marginBottom: 10 }}>{label}</h4>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', overflow: 'visible', paddingTop: counts ? 12 : 0 }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', paddingTop: counts ? 12 : 0 }}>
         {options.map(o => {
           const count = counts?.[o.key]
           const isActive = active === o.key
           return (
-            <button
-              key={o.key}
-              onClick={() => onChange(o.key)}
-              style={{
-                position: 'relative',
-                padding: '6px 14px',
-                overflow: 'visible',
-                fontSize: 12,
-                fontFamily: 'var(--font)',
-                border: '1px solid var(--border)',
-                background: isActive ? 'var(--text)' : 'transparent',
-                color: isActive ? '#fff' : 'var(--muted)',
-                cursor: 'pointer',
-              }}
-            >
+            <div key={o.key} style={{ position: 'relative' }}>
               {counts && count !== undefined && (
                 <span style={{
                   position: 'absolute',
-                  top: -10,
-                  right: -8,
+                  top: -9,
+                  right: -7,
                   minWidth: 18,
                   height: 18,
                   borderRadius: '99px',
@@ -79,8 +65,22 @@ function FilterRow<T extends string>({ label, options, active, onChange, counts 
                   {count}
                 </span>
               )}
-              {o.label}
-            </button>
+              <button
+                onClick={() => onChange(o.key)}
+                style={{
+                  padding: '6px 14px',
+                  fontSize: 12,
+                  fontFamily: 'var(--font)',
+                  border: '1px solid var(--border)',
+                  background: isActive ? 'var(--text)' : 'transparent',
+                  color: isActive ? '#fff' : 'var(--muted)',
+                  cursor: 'pointer',
+                  display: 'block',
+                }}
+              >
+                {o.label}
+              </button>
+            </div>
           )
         })}
       </div>
