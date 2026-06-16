@@ -15,39 +15,11 @@ export default function Home() {
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link href="/accessible/diagnostic" className="btn btn-primary" style={{ background: '#87ceeb', borderColor: '#87ceeb', color: '#0a0a0a' }}>Faire mon diagnostic</Link>
-            <Link href="/handicaps" className="btn btn-outline">Comprendre les handicaps</Link>
           </div>
         </div>
       </section>
 
-      {/* Pourquoi agir */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'start' }}>
-            <div>
-              <span className="tag">Pourquoi agir</span>
-              <h2>Un enjeu humain, légal et artistique</h2>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              {[
-                { t: 'Un public qui existe', d: '80% des handicaps sont invisibles. Ces personnes achètent des places, font la route, veulent vivre le concert — mais repartent souvent sans pouvoir y accéder.' },
-                { t: 'Une obligation légale', d: 'La loi du 11 février 2005 et l\'arrêté du 15 janvier 2007 imposent des exigences d\'accessibilité aux Installations Ouvertes au Public, dont les festivals.' },
-                { t: 'Une cohérence avec vos valeurs', d: 'La scène metal se construit sur la communauté et la solidarité. Un festival accessible, c\'est un festival qui va au bout de ces valeurs.' },
-              ].map(c => (
-                <div key={c.t} style={{ paddingLeft: 20, borderLeft: '2px solid var(--border2)' }}>
-                  <h3 style={{ marginBottom: 6 }}>{c.t}</h3>
-                  <p style={{ fontSize: 14, lineHeight: 1.7 }}>{c.d}</p>
-                </div>
-              ))}
-              <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
-                Voir le cadre légal →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Types de handicap */}
+      {/* Les handicaps */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
@@ -77,38 +49,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Diagnostic CTA */}
-      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--text)' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
-          <div>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.2)', padding: '3px 10px', display: 'inline-block', marginBottom: 16, fontFamily: 'var(--font)' }}>
-              Diagnostic
-            </span>
-            <h2 style={{ color: '#fff', marginBottom: 16 }}>Trouvez votre plan d'action en 4 questions</h2>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, marginBottom: 32 }}>
-              Jauge, terrain, budget, type de public prioritaire. On génère un plan adapté à votre festival — gratuit, sans inscription.
-            </p>
-            <Link href="/accessible/diagnostic" style={{ display: 'inline-block', padding: '10px 22px', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#fff', color: 'var(--text)', fontFamily: 'var(--font)', textDecoration: 'none' }}>
-              Démarrer le diagnostic →
+      {/* S'informer */}
+      <section style={{ borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <span className="tag">S'informer</span>
+          <h2 style={{ marginBottom: 32 }}>Bonnes pratiques & cadre légal</h2>
+          <div className="grid-2">
+            <Link href="/s-informer/bonnes-pratiques" className="card" style={{ display: 'block', textDecoration: 'none' }}>
+              <div className="accent-line" />
+              <h3 style={{ marginBottom: 8 }}>Les bonnes pratiques</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
+                Des actions concrètes, filtrables par zone du festival et par type de handicap.
+              </p>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les bonnes pratiques →</span>
             </Link>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {[
-              '01 · Quelle est la jauge de votre festival ?',
-              '02 · Quel type de terrain ?',
-              '03 · Quel budget accessibilité ?',
-              '04 · Quels publics prioriser ?',
-              '→  Votre plan d\'action personnalisé',
-            ].map((s, i) => (
-              <div key={s} style={{ padding: '12px 16px', background: i === 4 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)', fontSize: 13, color: i === 4 ? '#fff' : 'rgba(255,255,255,0.5)', fontFamily: i === 4 ? 'var(--font)' : 'var(--font-ui)', fontWeight: i === 4 ? 700 : 400 }}>
-                {s}
-              </div>
-            ))}
+            <Link href="/s-informer/les-lois" className="card" style={{ display: 'block', textDecoration: 'none' }}>
+              <div className="accent-line" />
+              <h3 style={{ marginBottom: 8 }}>Les lois</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
+                Loi de 2005, ERP/IOP, arrêté de 2007 — ce que dit la loi pour votre festival.
+              </p>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les lois →</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Outils */}
+      {/* Les ressources */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
@@ -130,7 +97,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* La FMM */}
+      {/* La fédération */}
       <section>
         <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
           <div>

@@ -13,6 +13,7 @@ export default function Footer() {
           { title: "S'informer", links: [{ to: '/s-informer/bonnes-pratiques', l: 'Les bonnes pratiques' }, { to: '/s-informer/les-lois', l: 'Les lois' }] },
           { title: 'Les ressources', links: [{ to: '/les-ressources', l: 'Signalétiques' }] },
           { title: 'La fédération', links: [{ to: '/la-federation', l: 'À propos & objectifs' }] },
+          { title: 'Contact', links: [{ to: 'mailto:contact@fmm.fr', l: 'contact@fmm.fr' }] },
         ].map(col => (
           <div key={col.title}>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>
