@@ -220,12 +220,17 @@ export default function Nav() {
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
 
       <nav style={{ borderBottom: '1px solid var(--border)', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
-          <Link href="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 24, height: 56 }}>
+          <Link href="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)', flexShrink: 0 }}>
             FEST_ACCESS
           </Link>
 
-          <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links">
+          {/* Search bar — toujours visible */}
+          <div className="nav-search">
+            <InlineSearch />
+          </div>
+
+          <div style={{ display: 'flex', gap: 24, alignItems: 'center', marginLeft: 'auto' }} className="nav-links">
             {navItems.map(item => (
               <div
                 key={item.label}
@@ -283,9 +288,6 @@ export default function Nav() {
                 )}
               </div>
             ))}
-
-            {/* Search bar inline */}
-            <InlineSearch />
 
             <button
               type="button"
@@ -349,6 +351,10 @@ export default function Nav() {
           @media (max-width: 768px) {
             .nav-links { display: none !important; }
             .nav-burger { display: block !important; }
+            .nav-search { display: none; }
+          }
+          @media (min-width: 769px) {
+            .nav-search { display: block; }
           }
         `}</style>
       </nav>
