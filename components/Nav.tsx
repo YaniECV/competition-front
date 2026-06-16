@@ -133,6 +133,79 @@ function SearchModal({ onClose }: { onClose: () => void }) {
   )
 }
 
+function InlineSearch() {
+  const [query, setQuery] = useState('')
+  const [open, setOpen] = useState(false)
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  const q = query.trim()
+  const suggestions = [
+    { label: 'Handicap moteur', href: '/handicaps/moteur', tag: 'Handicap' },
+    { label: 'Parking PMR', href: '/s-informer/bonnes-pratiques/parking-pmr', tag: 'Pratique' },
+    { label: 'Boucle magnétique', href: '/s-informer/bonnes-pratiques/boucle-magnetique', tag: 'Pratique' },
+    { label: 'Mon diagnostic', href: '/accessible/diagnostic', tag: 'Outil' },
+  ]
+  const results = q.length === 0 ? suggestions : searchIndex.filter(item =>
+    item.label.toLowerCase().includes(q.toLowerCase()) ||
+    item.desc.toLowerCase().includes(q.toLowerCase())
+  ).slice(0, 8)
+
+  // Fermer au clic extérieur
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  return (
+    <div ref={wrapRef} style={{ position: 'relative', width: 240 }}>
+      <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', background: 'var(--bg2)', padding: '0 10px', gap: 8, height: 34 }}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          value={query}
+          onChange={e => { setQuery(e.target.value); setOpen(true) }}
+          onFocus={() => setOpen(true)}
+          placeholder="Rechercher…"
+          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 12, fontFamily: 'var(--font)', color: 'var(--text)' }}
+        />
+        {query && (
+          <button onClick={() => { setQuery(''); setOpen(false) }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 14, padding: 0, lineHeight: 1 }}>✕</button>
+        )}
+      </div>
+
+      {open && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: '#fff', border: '1px solid var(--border)', zIndex: 300, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+          {q.length === 0 && <p style={{ padding: '8px 14px 4px', fontSize: 10, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Suggestions</p>}
+          {q.length > 0 && results.length === 0 && <p style={{ padding: '12px 14px', fontSize: 13, color: 'var(--muted)' }}>Aucun résultat</p>}
+          {results.map((r, i) => (
+            <Link
+              key={i}
+              href={r.href}
+              onClick={() => { setOpen(false); setQuery('') }}
+              style={{ display: 'flex', gap: 10, padding: '9px 14px', borderBottom: i < results.length - 1 ? '1px solid var(--bg2)' : 'none', textDecoration: 'none', alignItems: 'center', background: 'transparent' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
+            >
+              <span style={{ fontSize: 9, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '2px 6px', color: 'var(--muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>{r.tag}</span>
+              <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>{r.label}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -211,16 +284,8 @@ export default function Nav() {
               </div>
             ))}
 
-            {/* Bouton search */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Rechercher"
-              style={{ background: 'none', border: '1px solid var(--border)', padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--muted)' }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
-            </button>
+            {/* Search bar inline */}
+            <InlineSearch />
 
             <button
               type="button"
