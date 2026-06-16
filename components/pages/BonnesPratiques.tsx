@@ -35,50 +35,52 @@ function FilterRow<T extends string>({ label, options, active, onChange, counts 
   return (
     <div style={{ marginBottom: 20 }}>
       <h4 style={{ marginBottom: 10 }}>{label}</h4>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', paddingTop: counts ? 12 : 0 }}>
         {options.map(o => {
           const count = counts?.[o.key]
           const isActive = active === o.key
           return (
-            <button
-              key={o.key}
-              onClick={() => onChange(o.key)}
-              style={{
-                position: 'relative',
-                padding: '6px 14px',
-                paddingTop: counts ? '14px' : '6px',
-                fontSize: 12,
-                fontFamily: 'var(--font)',
-                border: '1px solid var(--border)',
-                background: isActive ? 'var(--text)' : 'transparent',
-                color: isActive ? '#fff' : 'var(--muted)',
-                cursor: 'pointer',
-              }}
-            >
-              {counts && count !== undefined && (
+            <div key={o.key} style={{ position: 'relative' }}>
+              {counts && count !== undefined && isActive && (
                 <span style={{
                   position: 'absolute',
-                  top: -8,
-                  right: -6,
+                  top: -9,
+                  right: -7,
                   minWidth: 18,
                   height: 18,
                   borderRadius: '99px',
-                  background: isActive ? 'var(--accent)' : 'var(--border2)',
-                  color: isActive ? '#fff' : 'var(--bg)',
+                  background: isActive ? 'var(--accent)' : 'var(--text)',
+                  color: '#fff',
                   fontSize: 10,
                   fontFamily: 'var(--font-mono)',
                   fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '0 4px',
+                  padding: '0 5px',
                   lineHeight: 1,
+                  zIndex: 10,
+                  pointerEvents: 'none',
                 }}>
                   {count}
                 </span>
               )}
-              {o.label}
-            </button>
+              <button
+                onClick={() => onChange(o.key)}
+                style={{
+                  padding: '6px 14px',
+                  fontSize: 12,
+                  fontFamily: 'var(--font)',
+                  border: '1px solid var(--border)',
+                  background: isActive ? 'var(--text)' : 'transparent',
+                  color: isActive ? '#fff' : 'var(--muted)',
+                  cursor: 'pointer',
+                  display: 'block',
+                }}
+              >
+                {o.label}
+              </button>
+            </div>
           )
         })}
       </div>
