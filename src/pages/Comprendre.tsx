@@ -51,14 +51,164 @@ export function ComprendreIndex() {
   )
 }
 
-export function ComprendreHandicaps() {
-  const items = [
+function HandicapMoteur() {
+  const amenagements = [
     {
-      slug: 'moteur', label: 'Moteur',
-      intro: 'Les personnes atteintes de handicap moteur peuvent être regroupées en 3 catégories : fauteuil roulant, aide à la marche, ou sans aide mais avec manque d\'endurance.',
-      besoins: ['Déplacements courts', 'Surfaces planes et non glissantes', 'Bon éclairage', 'Signalétique visible depuis un fauteuil', 'Possibilité de pauses', 'Autonomie'],
-      solutions: ['Stationnement PMR (2% min)', 'Cheminements sans marches', 'Plaques de roulage', 'Plateformes dédiées fauteuils', 'Pentes < 5%', 'Comptoirs abaissés', 'Sanitaires adaptés', 'Bornes recharge fauteuils électriques'],
+      icon: '🚗',
+      title: 'Avant d\'arriver',
+      items: [
+        'Info accessibilité des transports clairement publiée',
+        'Stationnement réservé au plus près de l\'entrée',
+        'Navettes entre parkings et accès festival',
+      ],
     },
+    {
+      icon: '🛤️',
+      title: 'Circuler sur le site',
+      items: [
+        'Cheminements accessibles balisés, sans marches',
+        'Plaques de roulage sur terrains boueux ou accidentés',
+        'Pentes inférieures à 5% pour les longues montées',
+        'Mains courantes aux points stratégiques',
+        'Points d\'étapes pour faire des pauses',
+      ],
+    },
+    {
+      icon: '🎸',
+      title: 'Vivre le festival',
+      items: [
+        'Plateformes dédiées fauteuils + accompagnants avec bonne visibilité',
+        'Comptoirs abaissés (bar, restauration, billetterie)',
+        'Cabines toilettes adaptées',
+        'Bornes de recharge et réparation pour fauteuils électriques',
+      ],
+    },
+    {
+      icon: '🏕️',
+      title: 'Autour du festival',
+      items: [
+        'Recensement des hébergements accessibles à proximité',
+      ],
+    },
+  ]
+
+  const visages = [
+    { label: 'Le fauteuil', desc: 'manuel ou électrique, il exige des surfaces planes, de l\'espace, et une recharge possible' },
+    { label: 'Les aides à la marche', desc: 'canne, béquilles, déambulateur : chaque marche, chaque terrain irrégulier est une épreuve' },
+    { label: 'L\'endurance réduite', desc: 'invisible, souvent ignorée : cette personne marche, mais pas longtemps, pas loin, pas debout toute une journée' },
+  ]
+
+  const besoins = [
+    'Trajets les plus courts possible',
+    'Surfaces planes, non glissantes, bien éclairées',
+    'Signalétique visible depuis un fauteuil',
+    'Pauses possibles tout au long du parcours',
+    'Bonne visibilité depuis les zones spectateurs',
+    'Autonomie totale dans l\'expérience festival',
+  ]
+
+  const communication = [
+    'Mettez-vous à hauteur de la personne avant de parler',
+    'Parlez à la personne, pas à son accompagnant',
+    'Ne vous appuyez pas sur le fauteuil — c\'est une partie du corps',
+    'Proposez votre aide sans l\'imposer : "puis-je vous aider ?"',
+    'Guidez vers les espaces accessibles clairement et concrètement',
+  ]
+
+  return (
+    <div id="moteur" style={{ marginBottom: 64, paddingBottom: 64, borderBottom: '1px solid var(--border)' }}>
+      {/* Header */}
+      <h2 style={{ marginBottom: 6 }}>Moteur</h2>
+      <p style={{ fontSize: 22, fontFamily: 'var(--font)', fontWeight: 700, color: 'var(--text)', marginBottom: 24, lineHeight: 1.2 }}>
+        Et si le terrain en herbe était votre premier mur ?
+      </p>
+
+      {/* Corps */}
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 20, color: 'var(--muted)' }}>
+        Un festival, c'est de la boue, des pentes, des kilomètres à pied, de la foule. Pour la plupart des festivaliers, c'est l'aventure. Pour une personne en fauteuil roulant, une personne qui marche avec des béquilles ou qui manque d'endurance — c'est souvent une série d'obstacles invisibles aux autres.
+      </p>
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 24, color: 'var(--muted)' }}>
+        En France, 850 000 personnes utilisent un fauteuil roulant. Mais le handicap moteur ne se résume pas à ça. Il prend trois visages :
+      </p>
+
+      {/* 3 visages */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginBottom: 32, border: '1px solid var(--border)' }}>
+        {visages.map((v, i) => (
+          <div key={v.label} style={{ display: 'flex', gap: 20, padding: '16px 20px', borderBottom: i < visages.length - 1 ? '1px solid var(--border)' : 'none', alignItems: 'flex-start' }}>
+            <span style={{ fontFamily: 'var(--font)', fontSize: 12, color: 'var(--muted)', minWidth: 20, paddingTop: 2 }}>—</span>
+            <div>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--font)' }}>{v.label}</span>
+              <span style={{ fontSize: 14, color: 'var(--muted)' }}> — {v.desc}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 40, color: 'var(--muted)' }}>
+        Ce que vous faites en tant qu'organisateur peut transformer une expérience épuisante en souvenir inoubliable. Voici comment.
+      </p>
+
+      {/* Besoins */}
+      <div style={{ marginBottom: 40 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font)', color: 'var(--text)', marginBottom: 16 }}>
+          ⚡ LEURS BESOINS EN FESTIVAL
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid var(--border)' }}>
+          {besoins.map((b, i) => (
+            <div key={b} style={{ padding: '12px 16px', borderRight: i % 2 === 0 ? '1px solid var(--border)' : 'none', borderBottom: i < besoins.length - 2 ? '1px solid var(--border)' : 'none', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ color: 'var(--muted)', flexShrink: 0, fontFamily: 'var(--font)', fontSize: 12 }}>—</span>
+              <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>{b}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Aménagements */}
+      <div style={{ marginBottom: 40 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font)', color: 'var(--text)', marginBottom: 16 }}>
+          🛠️ LES AMÉNAGEMENTS ESSENTIELS
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          {amenagements.map(a => (
+            <div key={a.title} className="card">
+              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: 'var(--font)', color: 'var(--text)', marginBottom: 12 }}>
+                {a.icon} {a.title}
+              </p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {a.items.map(item => (
+                  <li key={item} style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
+                    <span style={{ flexShrink: 0, fontFamily: 'var(--font)' }}>—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Communication */}
+      <div>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font)', color: 'var(--text)', marginBottom: 16 }}>
+          💬 RÈGLES DE COMMUNICATION
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0, border: '1px solid var(--border)' }}>
+          {communication.map((c, i) => (
+            <div key={c} style={{ display: 'flex', gap: 20, padding: '14px 20px', borderBottom: i < communication.length - 1 ? '1px solid var(--border)' : 'none', alignItems: 'flex-start' }}>
+              <span style={{ fontFamily: 'var(--font)', fontSize: 11, color: 'var(--muted)', minWidth: 20, paddingTop: 2, flexShrink: 0 }}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{c}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function ComprendreHandicaps() {
+  const otherItems = [
     {
       slug: 'visuel', label: 'Visuel',
       intro: '1,3 million de personnes en France. Seulement 2-3% sont non-voyantes. Beaucoup s\'orientent via les textures, contrastes, odeurs et sons.',
@@ -101,8 +251,9 @@ export function ComprendreHandicaps() {
         </div>
       </div>
       <div className="container" style={{ paddingBottom: 80 }}>
-        {items.map((h, i) => (
-          <div key={h.slug} id={h.slug} style={{ marginBottom: 48, paddingBottom: 48, borderBottom: i < items.length - 1 ? '1px solid var(--border)' : 'none' }}>
+        <HandicapMoteur />
+        {otherItems.map((h, i) => (
+          <div key={h.slug} id={h.slug} style={{ marginBottom: 48, paddingBottom: 48, borderBottom: i < otherItems.length - 1 ? '1px solid var(--border)' : 'none' }}>
             <h2 style={{ marginBottom: 12 }}>{h.label}</h2>
             <p style={{ fontSize: 14, marginBottom: 24, maxWidth: 640, lineHeight: 1.7 }}>{h.intro}</p>
             <div className="grid-2">
