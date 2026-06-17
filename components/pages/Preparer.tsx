@@ -1,244 +1,469 @@
 "use client";
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { articles } from '../data/articles'
 import type { Article } from '../data/articles'
 
-// ── Construire mon plan d'action (diagnostic) ────────────────────────────
+// ── Questions ─────────────────────────────────────────────────────────────────
 
-type Step = 'jauge' | 'terrain' | 'budget' | 'handicaps' | 'result'
+const QUESTIONS = [
+  {
+    id: 'jauge',
+    text: 'Est-ce que tu as une idée de combien de personnes tu accueilleras au festival ?',
+    type: 'single' as const,
+    options: [
+      { val: 'petit',  label: 'Moins de 500 personnes' },
+      { val: 'moyen',  label: '500 à 2 000 personnes' },
+      { val: 'grand',  label: 'Plus de 2 000 personnes' },
+    ],
+  },
+  {
+    id: 'terrain',
+    text: 'Sur quel type de terrain se déroule ton festival ?',
+    type: 'single' as const,
+    options: [
+      { val: 'dur',    label: 'Surface dure — asphalte, béton, bois' },
+      { val: 'herbe',  label: 'Herbe ou terrain meuble' },
+      { val: 'mixte',  label: 'Les deux — terrain mixte' },
+    ],
+  },
+  {
+    id: 'budget',
+    text: 'Quel budget peux-tu mobiliser pour l\'accessibilité ?',
+    type: 'single' as const,
+    options: [
+      { val: 'zero',   label: 'Aucun — uniquement organisationnel' },
+      { val: 'petit',  label: 'Moins de 500 €' },
+      { val: 'moyen',  label: '500 € à 2 000 €' },
+      { val: 'grand',  label: 'Plus de 2 000 €' },
+    ],
+  },
+  {
+    id: 'handicaps',
+    text: 'Quels publics veux-tu prioriser ?',
+    type: 'multi' as const,
+    hint: 'Sélectionne un ou plusieurs',
+    options: [
+      { val: 'moteur',   label: 'Handicap moteur' },
+      { val: 'visuel',   label: 'Handicap visuel' },
+      { val: 'auditif',  label: 'Handicap auditif' },
+      { val: 'autisme',  label: 'Autisme & TSA' },
+      { val: 'psy',      label: 'Troubles psychiques' },
+      { val: 'invisible',label: 'Handicaps invisibles' },
+    ],
+  },
+] as const
 
-const handicapsList = [
-  { label: 'Moteur', key: 'moteur' },
-  { label: 'Visuel', key: 'visuel' },
-  { label: 'Auditif', key: 'auditif' },
-  { label: 'Autisme', key: 'autisme' },
-  { label: 'Psychologique', key: 'psy' },
-  { label: 'Invisibles', key: 'invisible' },
+type Answers = Record<string, string | string[]>
+
+// ── Résultats data ────────────────────────────────────────────────────────────
+
+const OBLIGATIONS = [
+  '2 % minimum des places de stationnement réservées PMR',
+  'Cheminements accessibles (largeur ≥ 1,40 m)',
+  'Sanitaires adaptés sur le site',
+  'Accueil principal accessible en fauteuil',
+  "Plan d'évacuation adapté aux PSH",
 ]
 
+const PRESTATAIRES = [
+  { n: 'Accès Culture',  d: 'Boucles magnétiques, formations, accompagnement', url: 'https://www.acces-culture.org' },
+  { n: 'ATH',            d: 'Assistance Technique Handicap — conseil et audit', url: '#' },
+  { n: 'CEMAFORRE',      d: 'Centre national ressources loisirs — formations', url: 'https://www.cemaforre.asso.fr' },
+  { n: 'DRAC',           d: 'Subventions et accompagnement culturel public', url: '#' },
+]
+
+function getRecos(answers: Answers): Article[] {
+  const budget = answers.budget as string
+  const selectedKeys = (answers.handicaps as string[]) || []
+  const jauge = answers.jauge as string
+  const statutFilter = budget === 'zero' || budget === 'petit'
+    ? ['essentiel']
+    : budget === 'moyen'
+    ? ['essentiel', 'recommande']
+    : ['essentiel', 'recommande', 'avance']
+  return articles.filter(a => {
+    if (!statutFilter.includes(a.statut)) return false
+    if (selectedKeys.length > 0 && !a.handicaps.some(h => selectedKeys.includes(h))) return false
+    if (jauge === 'petit' && a.statut === 'avance') return false
+    return true
+  }).slice(0, 8)
+}
+
+// ── Result page ───────────────────────────────────────────────────────────────
+
+function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => void }) {
+  const recos = getRecos(answers)
+  return (
+    <div style={{ minHeight: '100dvh', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
+      {/* Header */}
+      <div style={{ position: 'sticky', top: 0, background: '#f7f7f7', zIndex: 10, padding: '20px 48px 0' }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 15, color: '#000', textDecoration: 'none' }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Retour à l'accueil
+        </Link>
+      </div>
+
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '48px 32px 80px' }}>
+        <p style={{ fontSize: 13, color: '#929292', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>Ton plan d'action</p>
+        <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, color: '#000', marginBottom: 48, lineHeight: 1.1 }}>
+          Voilà ce qu'on te recommande.
+        </h1>
+
+        {/* Profil */}
+        <div style={{ marginBottom: 56 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#929292', marginBottom: 16 }}>01 — Ton profil festival</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: '#d1d1d1' }}>
+            {[
+              { l: 'Jauge', v: answers.jauge as string },
+              { l: 'Terrain', v: answers.terrain as string },
+              { l: 'Budget', v: answers.budget as string },
+            ].map(r => (
+              <div key={r.l} style={{ background: '#f7f7f7', padding: '20px 24px' }}>
+                <p style={{ fontSize: 10, color: '#929292', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>{r.l}</p>
+                <p style={{ fontSize: 18, fontWeight: 700, color: '#000' }}>{r.v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recommandations */}
+        <div style={{ marginBottom: 56 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#929292', marginBottom: 16 }}>02 — Plan d'action</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            {recos.map((a, i) => (
+              <div key={a.id} style={{ background: '#fff', border: '1px solid #e5e5e5', padding: '20px 24px', display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 11, color: '#929292', minWidth: 24, paddingTop: 3, fontFamily: 'monospace' }}>{String(i + 1).padStart(2, '0')}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 15, fontWeight: 600, color: '#000', marginBottom: 4 }}>{a.titre}</p>
+                  <p style={{ fontSize: 13, color: '#5b5b5b', lineHeight: 1.6 }}>{a.resume}</p>
+                </div>
+                <span style={{ fontSize: 10, border: '1px solid #e5e5e5', padding: '3px 8px', color: '#929292', whiteSpace: 'nowrap', flexShrink: 0 }}>{a.statut}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Obligations légales */}
+        <div style={{ marginBottom: 56 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#929292', marginBottom: 16 }}>03 — Obligations légales</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            {OBLIGATIONS.map(o => (
+              <div key={o} style={{ background: '#fff', border: '1px solid #e5e5e5', padding: '14px 20px', display: 'flex', gap: 14, fontSize: 14, color: '#000' }}>
+                <span style={{ color: '#a122e2' }}>⚖</span><span>{o}</span>
+              </div>
+            ))}
+          </div>
+          <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: '#929292', textDecoration: 'underline', display: 'inline-block', marginTop: 12 }}>
+            Consulter le cadre légal complet →
+          </Link>
+        </div>
+
+        {/* Prestataires */}
+        <div style={{ marginBottom: 56 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#929292', marginBottom: 16 }}>04 — Qui peut t'aider</p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#d1d1d1' }}>
+            {PRESTATAIRES.map(p => (
+              <div key={p.n} style={{ background: '#fff', padding: '20px 24px' }}>
+                <p style={{ fontSize: 15, fontWeight: 700, color: '#000', marginBottom: 6 }}>{p.n}</p>
+                <p style={{ fontSize: 13, color: '#5b5b5b', lineHeight: 1.6 }}>{p.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            onClick={onReset}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1.5px dashed #929292', borderRadius: 999, padding: '12px 24px', background: 'none', cursor: 'pointer', fontSize: 15, color: '#929292', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: 'scaleX(-1)' }}><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+            Recommencer
+          </button>
+          <a
+            href="mailto:contact@fmm.fr"
+            style={{ display: 'inline-block', background: '#000', color: '#fff', borderRadius: 999, padding: '14px 28px', fontSize: 15, textDecoration: 'none', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}
+          >
+            Demander un accompagnement FMM →
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Main diagnostic ───────────────────────────────────────────────────────────
+
 export function AccessibleDiagnostic() {
-  const [step, setStep] = useState<Step>('jauge')
-  const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
+  const [qIndex, setQIndex] = useState(0)
+  const [answers, setAnswers] = useState<Answers>({})
+  const [selected, setSelected] = useState<string | string[]>('')
+  const [animKey, setAnimKey] = useState(0)
+  const [prevText, setPrevText] = useState<string | null>(null)
+  const [showResult, setShowResult] = useState(false)
+  const [exiting, setExiting] = useState(false)
 
-  const steps: Step[] = ['jauge', 'terrain', 'budget', 'handicaps', 'result']
-  const stepIdx = steps.indexOf(step)
+  const q = QUESTIONS[qIndex]
+  const total = QUESTIONS.length
+  const progress = ((qIndex) / total) * 100
 
-  const set = (key: string, val: string) => setAnswers(prev => ({ ...prev, [key]: val }))
+  // Sync selected with already-given answer when going back
+  useEffect(() => {
+    const existing = answers[QUESTIONS[qIndex].id]
+    if (existing !== undefined) {
+      setSelected(existing)
+    } else {
+      setSelected(q.type === 'multi' ? [] : '')
+    }
+  }, [qIndex, answers, q.type])
 
-  const toggleHandicap = (key: string) => {
-    const current = (answers.handicaps as string[]) || []
-    const next = current.includes(key) ? current.filter(x => x !== key) : [...current, key]
-    setAnswers(prev => ({ ...prev, handicaps: next }))
+  const canAdvance = q.type === 'multi'
+    ? (selected as string[]).length > 0
+    : (selected as string) !== ''
+
+  const advance = useCallback(() => {
+    if (!canAdvance) return
+
+    const newAnswers = { ...answers, [q.id]: selected }
+    setAnswers(newAnswers)
+
+    if (qIndex === total - 1) {
+      setExiting(true)
+      setTimeout(() => { setShowResult(true) }, 350)
+      return
+    }
+
+    // Transition
+    setPrevText(q.text)
+    setExiting(true)
+    setTimeout(() => {
+      setQIndex(i => i + 1)
+      setAnimKey(k => k + 1)
+      setExiting(false)
+      setPrevText(null)
+    }, 300)
+  }, [canAdvance, answers, q.id, q.text, selected, qIndex, total])
+
+  const goBack = useCallback(() => {
+    if (qIndex === 0) return
+    setPrevText(null)
+    setExiting(true)
+    setTimeout(() => {
+      setQIndex(i => i - 1)
+      setAnimKey(k => k + 1)
+      setExiting(false)
+    }, 250)
+  }, [qIndex])
+
+  // Keyboard: Enter = advance
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && canAdvance) advance()
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [advance, canAdvance])
+
+  const toggleMulti = (val: string) => {
+    const arr = (selected as string[]) || []
+    setSelected(arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val])
   }
 
-  const getArticleRecos = (): Article[] => {
-    const budget = answers.budget as string
-    const selectedKeys = (answers.handicaps as string[]) || []
-    const jauge = answers.jauge as string
-
-    const statutFilter = budget === 'zero' || budget === 'petit'
-      ? ['essentiel']
-      : budget === 'moyen'
-      ? ['essentiel', 'recommande']
-      : ['essentiel', 'recommande', 'avance']
-
-    return articles.filter(a => {
-      if (!statutFilter.includes(a.statut)) return false
-      if (selectedKeys.length > 0 && !a.handicaps.some(h => selectedKeys.includes(h))) return false
-      if (jauge === 'petit' && a.statut === 'avance') return false
-      return true
-    }).slice(0, 8)
-  }
-
-  const obligationsLegales = [
-    '2% minimum des places de stationnement en PMR',
-    'Cheminements accessibles (largeur ≥ 1,40m)',
-    'Sanitaires adaptés sur le site',
-    'Accessibilité de l\'accueil principal',
-    'Plan d\'évacuation adapté aux PSH',
-  ]
-
-  const prestataires = [
-    { n: 'Accès Culture', d: 'Association nationale · Boucles magnétiques, formations, accompagnement', url: 'https://www.acces-culture.org' },
-    { n: 'ATH', d: 'Assistance Technique pour le Handicap · Conseil technique et audit', url: '#' },
-    { n: 'CEMAFORRE', d: 'Centre national ressources loisirs · Formations et outils', url: 'https://www.cemaforre.asso.fr' },
-    { n: 'DRAC', d: 'Direction Régionale des Affaires Culturelles · Subventions et accompagnement public', url: '#' },
-  ]
+  if (showResult) return <ResultPage answers={answers} onReset={() => { setShowResult(false); setQIndex(0); setAnswers({}); setSelected(''); setAnimKey(0); setPrevText(null); setExiting(false) }} />
 
   return (
-    <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">Devenir accessible</span>
-          <h1>Construire mon plan d'action</h1>
-          <p style={{ fontSize: 16, maxWidth: 500, marginTop: 16, lineHeight: 1.7 }}>
-            4 questions pour cadrer mes opérations et obtenir un plan d'action adapté à mon festival — gratuit, sans inscription.
-          </p>
-        </div>
-      </div>
+    <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', overflow: 'hidden' }}>
+      <style>{`
+        @keyframes questionIn {
+          from { opacity: 0; transform: translateY(36px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes optionsIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+        .diag-option:hover {
+          background: rgba(161,34,226,0.06) !important;
+          border-color: #a122e2 !important;
+        }
+        @media (max-width: 640px) {
+          .diag-options { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
-      <div className="container" style={{ paddingBottom: 80, maxWidth: 720 }}>
+      {/* ── Header ── */}
+      <div style={{ padding: '20px 48px 0', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 15, color: '#000', textDecoration: 'none' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Retour à l'accueil
+          </Link>
+          <span style={{ fontSize: 13, color: '#6b7280' }}>Question {qIndex + 1}/{total}</span>
+        </div>
+
         {/* Progress bar */}
-        <div style={{ display: 'flex', gap: 0, marginBottom: 40, border: '1px solid var(--border)' }}>
-          {steps.slice(0, 4).map((s, i) => (
-            <div key={s} style={{
-              flex: 1,
-              padding: '10px 0',
-              textAlign: 'center',
-              fontSize: 11,
-              fontFamily: 'var(--font)',
-              background: stepIdx >= i ? 'var(--text)' : 'transparent',
-              color: stepIdx >= i ? '#fff' : 'var(--muted)',
-              borderRight: i < 3 ? '1px solid var(--border)' : 'none',
-            }}>
-              {i + 1}
-            </div>
-          ))}
+        <div style={{ height: 5, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
+          <div style={{
+            height: '100%',
+            width: `${progress + (1 / total) * 100}%`,
+            background: 'linear-gradient(90deg, #a122e2, #ce9de7)',
+            borderRadius: 3,
+            transition: 'width 0.4s ease',
+          }} />
         </div>
-
-        {step === 'jauge' && (
-          <div>
-            <h2 style={{ marginBottom: 24 }}>Quelle est la jauge de votre festival ?</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[['petit', '< 500 personnes'], ['moyen', '500 à 2 000 personnes'], ['grand', '> 2 000 personnes']].map(([val, label]) => (
-                <button key={val} onClick={() => { set('jauge', val); setStep('terrain') }}
-                  className="card" style={{ textAlign: 'left', cursor: 'pointer', border: answers.jauge === val ? '1px solid var(--text)' : '1px solid var(--border)', background: answers.jauge === val ? 'var(--bg2)' : '#fff' }}>
-                  <span style={{ fontSize: 14 }}>{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 'terrain' && (
-          <div>
-            <h2 style={{ marginBottom: 24 }}>Quel type de terrain ?</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[['dur', 'Surface dure (asphalte, béton, bois)'], ['herbe', 'Herbe / terrain meuble'], ['mixte', 'Mixte']].map(([val, label]) => (
-                <button key={val} onClick={() => { set('terrain', val); setStep('budget') }}
-                  className="card" style={{ textAlign: 'left', cursor: 'pointer', border: answers.terrain === val ? '1px solid var(--text)' : '1px solid var(--border)', background: answers.terrain === val ? 'var(--bg2)' : '#fff' }}>
-                  <span style={{ fontSize: 14 }}>{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 'budget' && (
-          <div>
-            <h2 style={{ marginBottom: 24 }}>Quel budget accessibilité pouvez-vous mobiliser ?</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[['zero', 'Aucun (actions organisationnelles uniquement)'], ['petit', '< 500 €'], ['moyen', '500 € à 2 000 €'], ['grand', '> 2 000 €']].map(([val, label]) => (
-                <button key={val} onClick={() => { set('budget', val); setStep('handicaps') }}
-                  className="card" style={{ textAlign: 'left', cursor: 'pointer', border: answers.budget === val ? '1px solid var(--text)' : '1px solid var(--border)', background: answers.budget === val ? 'var(--bg2)' : '#fff' }}>
-                  <span style={{ fontSize: 14 }}>{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 'handicaps' && (
-          <div>
-            <h2 style={{ marginBottom: 8 }}>Quels publics voulez-vous prioriser ?</h2>
-            <p style={{ fontSize: 13, marginBottom: 24, color: 'var(--muted)' }}>Sélectionnez un ou plusieurs.</p>
-            <div className="grid-2" style={{ marginBottom: 24 }}>
-              {handicapsList.map(h => {
-                const selected = ((answers.handicaps as string[]) || []).includes(h.key)
-                return (
-                  <button key={h.key} onClick={() => toggleHandicap(h.key)}
-                    className="card" style={{ textAlign: 'left', cursor: 'pointer', border: selected ? '1px solid var(--text)' : '1px solid var(--border)', background: selected ? 'var(--bg3)' : '#fff' }}>
-                    <span style={{ fontSize: 14, fontFamily: 'var(--font)' }}>{selected ? '✓ ' : ''}{h.label}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <button className="btn btn-primary" onClick={() => setStep('result')}>Voir mon plan d'action →</button>
-          </div>
-        )}
-
-        {step === 'result' && (() => {
-          const recos = getArticleRecos()
-          return (
-            <div>
-              {/* Block 1 — Cadrage */}
-              <div style={{ marginBottom: 40 }}>
-                <span className="tag">01 — Cadrage</span>
-                <h2 style={{ marginBottom: 16 }}>Votre profil festival</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)' }}>
-                  {[
-                    { l: 'Jauge', v: answers.jauge as string },
-                    { l: 'Terrain', v: answers.terrain as string },
-                    { l: 'Budget', v: answers.budget as string },
-                  ].map(r => (
-                    <div key={r.l} style={{ background: 'var(--bg)', padding: '16px 20px' }}>
-                      <p style={{ fontSize: 10, fontFamily: 'var(--font)', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>{r.l}</p>
-                      <p style={{ fontSize: 16, fontFamily: 'var(--font)', fontWeight: 700 }}>{r.v}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Block 2 — Plan d'action */}
-              <div style={{ marginBottom: 40 }}>
-                <span className="tag">02 — Plan d'action</span>
-                <h2 style={{ marginBottom: 16 }}>Vos recommandations</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {recos.map((a, i) => (
-                    <div key={a.id} className="card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                      <span style={{ fontSize: 11, fontFamily: 'var(--font)', color: 'var(--muted)', minWidth: 24 }}>{String(i + 1).padStart(2, '0')}</span>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{a.titre}</p>
-                        <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{a.resume}</p>
-                      </div>
-                      <span style={{ fontSize: 10, fontFamily: 'var(--font)', border: '1px solid var(--border)', padding: '2px 6px', color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-                        {a.statut}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Block 3 — Obligations légales */}
-              <div style={{ marginBottom: 40 }}>
-                <span className="tag">03 — Obligations légales</span>
-                <h2 style={{ marginBottom: 16 }}>Ce que vous devez faire</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-                  {obligationsLegales.map(o => (
-                    <div key={o} style={{ display: 'flex', gap: 12, fontSize: 14, padding: '12px 16px', background: '#fff', border: '1px solid var(--border)' }}>
-                      <span style={{ color: 'var(--muted)' }}>⚖</span>
-                      <span>{o}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline' }}>
-                  Consulter le cadre légal complet →
-                </Link>
-              </div>
-
-              {/* Block 4 — Prestataires */}
-              <div style={{ marginBottom: 40 }}>
-                <span className="tag">04 — Prestataires</span>
-                <h2 style={{ marginBottom: 16 }}>Qui peut vous aider</h2>
-                <div className="grid-2">
-                  {prestataires.map(p => (
-                    <div key={p.n} className="card">
-                      <h3 style={{ marginBottom: 6 }}>{p.n}</h3>
-                      <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{p.d}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <button className="btn btn-outline" onClick={() => { setStep('jauge'); setAnswers({}) }}>Recommencer</button>
-                <a href="mailto:contact@fmm.fr" className="btn btn-primary">Demander un accompagnement FMM →</a>
-              </div>
-            </div>
-          )
-        })()}
       </div>
-    </>
+
+      {/* ── Content ── */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 48px', position: 'relative', overflow: 'hidden' }}>
+
+        {/* Previous question — blurred ghost */}
+        {prevText && (
+          <p style={{
+            position: 'absolute',
+            top: '15%',
+            left: 48,
+            right: 48,
+            fontSize: 'clamp(1.4rem, 3vw, 2.4rem)',
+            color: '#5b5b5b',
+            lineHeight: 1.25,
+            filter: 'blur(8px)',
+            opacity: 0.35,
+            pointerEvents: 'none',
+            fontWeight: 400,
+          }}>
+            {prevText}
+          </p>
+        )}
+
+        {/* Current question */}
+        <div
+          key={animKey}
+          style={{
+            animation: `questionIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards`,
+            opacity: exiting ? 0 : 1,
+            transform: exiting ? 'translateY(-24px)' : 'translateY(0)',
+            transition: exiting ? 'opacity 0.25s ease, transform 0.25s ease' : 'none',
+            maxWidth: 780,
+          }}
+        >
+          {/* Question text */}
+          <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.5rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40 }}>
+            {q.text}
+            <span style={{ display: 'inline-block', width: 2, height: '1em', background: '#000', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 1s step-end infinite' }} />
+          </h1>
+
+          {'hint' in q && q.hint && (
+            <p style={{ fontSize: 13, color: '#929292', marginBottom: 20, marginTop: -32 }}>{q.hint}</p>
+          )}
+
+          {/* Options */}
+          <div
+            className="diag-options"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
+              gap: 10,
+              maxWidth: q.type === 'multi' ? 640 : 480,
+              animation: `optionsIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both`,
+            }}
+          >
+            {q.options.map(opt => {
+              const isSelected = q.type === 'multi'
+                ? (selected as string[]).includes(opt.val)
+                : selected === opt.val
+              return (
+                <button
+                  key={opt.val}
+                  className="diag-option"
+                  onClick={() => {
+                    if (q.type === 'multi') {
+                      toggleMulti(opt.val)
+                    } else {
+                      setSelected(opt.val)
+                    }
+                  }}
+                  style={{
+                    textAlign: 'left',
+                    background: isSelected ? 'rgba(161,34,226,0.08)' : '#fff',
+                    border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e5e5e5',
+                    borderRadius: 12,
+                    padding: '16px 20px',
+                    fontSize: 16,
+                    color: '#000',
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                    transition: 'all 0.15s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                  }}
+                >
+                  <span style={{
+                    width: 20, height: 20, borderRadius: q.type === 'multi' ? 4 : '50%',
+                    border: isSelected ? '2px solid #a122e2' : '2px solid #d1d1d1',
+                    background: isSelected ? '#a122e2' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, transition: 'all 0.15s',
+                  }}>
+                    {isSelected && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  </span>
+                  {opt.label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Footer nav ── */}
+      <div style={{ padding: '20px 48px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+        {/* Précèdent */}
+        <button
+          onClick={goBack}
+          disabled={qIndex === 0}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
+            opacity: qIndex === 0 ? 0.3 : 1, transition: 'opacity 0.2s',
+          }}
+        >
+          <div style={{
+            width: 55, height: 55, borderRadius: '50%',
+            border: '2px dashed #929292',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="2" style={{ transform: 'scaleX(-1)' }}>
+              <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+            </svg>
+          </div>
+          <span style={{ fontSize: 20, color: '#929292', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>Précèdent</span>
+        </button>
+
+        {/* Suivant */}
+        <button
+          onClick={advance}
+          disabled={!canAdvance}
+          style={{
+            background: canAdvance ? '#000' : '#d1d1d1',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 999,
+            padding: '14px 32px',
+            fontSize: 20,
+            cursor: canAdvance ? 'pointer' : 'default',
+            fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+            transition: 'all 0.2s',
+          }}
+        >
+          {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
+        </button>
+      </div>
+    </div>
   )
 }
