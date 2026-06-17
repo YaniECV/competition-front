@@ -812,104 +812,122 @@ export function AccessibleDiagnostic() {
   return (
     <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', overflow: 'hidden' }}>
       <style>{`
-        @keyframes questionIn {
-          from { opacity: 0; transform: translateY(36px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes loco-enter {
+          0%   { opacity: 0; transform: translateY(52px); filter: blur(6px); }
+          100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
         }
-        @keyframes optionsIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes loco-exit {
+          0%   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+          100% { opacity: 0; transform: translateY(-36px); filter: blur(10px); }
+        }
+        @keyframes loco-option {
+          0%   { opacity: 0; transform: translateY(28px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes cursorBlink {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0; }
         }
-        .diag-option:hover {
-          background: rgba(161,34,226,0.06) !important;
-          border-color: #a122e2 !important;
+        @keyframes ghostIn {
+          0%   { opacity: 0; filter: blur(12px); transform: translateY(10px); }
+          100% { opacity: 0.28; filter: blur(9px); transform: translateY(0); }
         }
+        .diag-option { transition: background 0.15s, border-color 0.15s, transform 0.1s; }
+        .diag-option:hover {
+          background: rgba(161,34,226,0.07) !important;
+          border-color: #a122e2 !important;
+          transform: translateY(-1px);
+        }
+        .diag-option:active { transform: translateY(0); }
         @media (max-width: 640px) {
           .diag-options { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       {/* ── Header ── */}
-      <div style={{ padding: '20px 48px 0', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 15, color: '#000', textDecoration: 'none' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            Retour à l'accueil
+      <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#888', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Retour
           </Link>
-          <span style={{ fontSize: 13, color: '#6b7280' }}>Question {qIndex + 1}/{total}</span>
+          <span style={{ fontSize: 12, color: '#aaa', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+            {qIndex + 1} / {total}
+          </span>
         </div>
-
         {/* Progress bar */}
-        <div style={{ height: 5, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
+        <div style={{ height: 3, background: '#e5e7eb', borderRadius: 99 }}>
           <div style={{
             height: '100%',
-            width: `${progress + (1 / total) * 100}%`,
+            width: `${((qIndex + 1) / total) * 100}%`,
             background: 'linear-gradient(90deg, #a122e2, #ce9de7)',
-            borderRadius: 3,
-            transition: 'width 0.4s ease',
+            borderRadius: 99,
+            transition: 'width 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
           }} />
         </div>
       </div>
 
-      {/* ── Content ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 48px', position: 'relative', overflow: 'hidden' }}>
+      {/* ── Content — fully centered ── */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '0 24px' }}>
 
-        {/* Previous question — blurred ghost */}
+        {/* Ghost — previous question blurred above */}
         {prevText && (
           <p style={{
             position: 'absolute',
-            top: '15%',
-            left: 48,
-            right: 48,
-            fontSize: 'clamp(1.4rem, 3vw, 2.4rem)',
-            color: '#5b5b5b',
+            top: '12%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '100%',
+            maxWidth: 580,
+            fontSize: 'clamp(1.3rem, 2.6vw, 2.1rem)',
+            color: '#333',
             lineHeight: 1.25,
-            filter: 'blur(8px)',
-            opacity: 0.35,
-            pointerEvents: 'none',
             fontWeight: 400,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            animation: 'ghostIn 0.3s ease forwards',
           }}>
             {prevText}
           </p>
         )}
 
-        {/* Current question */}
+        {/* Current question — centered */}
         <div
           key={animKey}
           style={{
-            animation: `questionIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards`,
-            opacity: exiting ? 0 : 1,
-            transform: exiting ? 'translateY(-24px)' : 'translateY(0)',
-            transition: exiting ? 'opacity 0.25s ease, transform 0.25s ease' : 'none',
-            maxWidth: 780,
+            width: '100%',
+            maxWidth: 580,
+            textAlign: 'center',
+            animation: exiting
+              ? 'loco-exit 0.32s cubic-bezier(0.4, 0, 1, 1) forwards'
+              : `loco-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards`,
           }}
         >
           {/* Question text */}
-          <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.5rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40 }}>
+          <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 8, letterSpacing: '-0.02em' }}>
             {q.text}
-            <span style={{ display: 'inline-block', width: 2, height: '1em', background: '#000', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 1s step-end infinite' }} />
+            <span style={{ display: 'inline-block', width: 2, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'cursorBlink 1s step-end infinite' }} />
           </h1>
 
           {'hint' in q && q.hint && (
-            <p style={{ fontSize: 13, color: '#929292', marginBottom: 20, marginTop: -32 }}>{q.hint}</p>
+            <p style={{ fontSize: 13, color: '#aaa', marginBottom: 0, marginTop: 10 }}>{q.hint}</p>
           )}
 
-          {/* Options */}
+          {/* Options — stagger animé, centré */}
           <div
             className="diag-options"
             style={{
               display: 'grid',
               gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
               gap: 10,
-              maxWidth: q.type === 'multi' ? 640 : 480,
-              animation: `optionsIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both`,
+              marginTop: 36,
+              width: '100%',
+              maxWidth: q.type === 'multi' ? 560 : 400,
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
           >
-            {q.options.map(opt => {
+            {q.options.map((opt, idx) => {
               const isMulti = q.type === 'multi'
               const isSelected = isMulti
                 ? (selected as string[]).includes(opt.val)
@@ -917,64 +935,47 @@ export function AccessibleDiagnostic() {
               const isOther = opt.val === 'other'
 
               return (
-                <div key={opt.val} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div key={opt.val} style={{ display: 'flex', flexDirection: 'column', gap: 8,
+                  animation: `loco-option 0.5s cubic-bezier(0.22,1,0.36,1) ${0.12 + idx * 0.06}s both`,
+                }}>
                   <button
                     className="diag-option"
-                    onClick={() => {
-                      if (isMulti) {
-                        toggleMulti(opt.val)
-                      } else {
-                        setSelected(opt.val)
-                      }
-                    }}
+                    onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
                     style={{
                       textAlign: 'left',
-                      background: isSelected ? 'rgba(161,34,226,0.08)' : '#fff',
+                      background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
                       border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e5e5e5',
-                      borderRadius: 12,
-                      padding: '16px 20px',
-                      fontSize: 16,
+                      borderRadius: 14,
+                      padding: '15px 18px',
+                      fontSize: 15,
                       color: '#000',
                       cursor: 'pointer',
                       fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                      transition: 'all 0.15s',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 12,
                       width: '100%',
+                      boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
                     }}
                   >
                     <span style={{
-                      width: 20, height: 20, borderRadius: isMulti ? 4 : '50%',
+                      width: 20, height: 20, borderRadius: isMulti ? 5 : '50%',
                       border: isSelected ? '2px solid #a122e2' : '2px solid #d1d1d1',
                       background: isSelected ? '#a122e2' : 'transparent',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0, transition: 'all 0.15s',
+                      flexShrink: 0, transition: 'all 0.18s',
                     }}>
-                      {isSelected && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                      {isSelected && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </span>
                     {opt.label}
                   </button>
-
-                  {/* Champ libre pour "Autre" */}
                   {isOther && isSelected && (
                     <input
                       autoFocus
                       value={otherText}
                       onChange={e => setOtherText(e.target.value)}
                       placeholder="Précise ton budget…"
-                      style={{
-                        border: '1.5px solid #a122e2',
-                        borderRadius: 12,
-                        padding: '14px 18px',
-                        fontSize: 16,
-                        fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                        outline: 'none',
-                        background: '#fff',
-                        color: '#000',
-                        width: '100%',
-                        boxSizing: 'border-box',
-                      }}
+                      style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box' }}
                       onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
                     />
                   )}
@@ -985,29 +986,29 @@ export function AccessibleDiagnostic() {
         </div>
       </div>
 
-      {/* ── Footer nav ── */}
-      <div style={{ padding: '20px 48px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+      {/* ── Footer nav — centré ── */}
+      <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexShrink: 0 }}>
         {/* Précèdent */}
         <button
           onClick={goBack}
           disabled={qIndex === 0}
           style={{
-            display: 'flex', alignItems: 'center', gap: 12,
+            display: 'flex', alignItems: 'center', gap: 10,
             background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
-            opacity: qIndex === 0 ? 0.3 : 1, transition: 'opacity 0.2s',
+            opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
           }}
         >
           <div style={{
-            width: 55, height: 55, borderRadius: '50%',
-            border: '2px dashed #929292',
+            width: 48, height: 48, borderRadius: '50%',
+            border: '1.5px dashed #bbb',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0,
+            flexShrink: 0, transition: 'border-color 0.2s',
           }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="2" style={{ transform: 'scaleX(-1)' }}>
-              <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
             </svg>
           </div>
-          <span style={{ fontSize: 20, color: '#929292', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>Précèdent</span>
+          <span style={{ fontSize: 16, color: '#aaa', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>Précédent</span>
         </button>
 
         {/* Suivant */}
@@ -1015,15 +1016,17 @@ export function AccessibleDiagnostic() {
           onClick={advance}
           disabled={!canAdvance}
           style={{
-            background: canAdvance ? '#000' : '#d1d1d1',
-            color: '#fff',
+            background: canAdvance ? '#000' : '#e0e0e0',
+            color: canAdvance ? '#fff' : '#bbb',
             border: 'none',
             borderRadius: 999,
-            padding: '14px 32px',
-            fontSize: 20,
+            padding: '14px 36px',
+            fontSize: 17,
             cursor: canAdvance ? 'pointer' : 'default',
             fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-            transition: 'all 0.2s',
+            transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
+            transform: canAdvance ? 'scale(1)' : 'scale(0.97)',
+            letterSpacing: '-0.01em',
           }}
         >
           {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
