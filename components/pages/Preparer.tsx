@@ -462,30 +462,39 @@ function PrioritePill({ priorite }: { priorite: 'obligatoire' | 'recommandé' })
 
 function RecoCard({ reco }: { reco: Reco }) {
   return (
-    <div style={{
-      border: '1px solid #2e2e2e', borderRadius: 8, padding: '16px 18px',
-      background: '#282828', marginBottom: 10,
-    }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-        <p style={{ fontSize: 15, fontWeight: 700, color: '#EEE9F3', lineHeight: 1.3, margin: 0 }}>{reco.titre}</p>
-        <PrioritePill priorite={reco.priorite} />
-      </div>
-      <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.65, margin: '0 0 12px' }}>{reco.detail}</p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
-        {reco.espaces.map(e => (
-          <span key={e} style={{ fontSize: 11, background: 'rgba(161,34,226,0.15)', color: '#a122e2', borderRadius: 999, padding: '2px 9px', fontWeight: 600 }}>{e}</span>
-        ))}
-        {reco.handicaps.map(h => (
-          <span key={h} style={{ fontSize: 11, background: '#1c1c1c', color: '#9491a1', borderRadius: 999, padding: '2px 9px' }}>{h}</span>
-        ))}
-        {reco.cout > 0 && (
-          <span style={{ fontSize: 11, color: '#9491a1', marginLeft: 'auto' }}>~{reco.cout.toLocaleString('fr-FR')} €</span>
+    <Link
+      href="/s-informer/bonnes-pratiques"
+      style={{ display: 'block', textDecoration: 'none', marginBottom: 10 }}
+    >
+      <div style={{
+        border: '1px solid #2e2e2e', borderRadius: 8, padding: '16px 18px',
+        background: '#282828', transition: 'border-color 0.15s',
+      }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
+        onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
+      >
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: '#EEE9F3', lineHeight: 1.3, margin: 0 }}>{reco.titre}</p>
+          <PrioritePill priorite={reco.priorite} />
+        </div>
+        <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.65, margin: '0 0 12px' }}>{reco.detail}</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+          {reco.espaces.map(e => (
+            <span key={e} style={{ fontSize: 11, background: 'rgba(161,34,226,0.15)', color: '#a122e2', borderRadius: 999, padding: '2px 9px', fontWeight: 600 }}>{e}</span>
+          ))}
+          {reco.handicaps.map(h => (
+            <span key={h} style={{ fontSize: 11, background: '#1c1c1c', color: '#9491a1', borderRadius: 999, padding: '2px 9px' }}>{h}</span>
+          ))}
+          {reco.cout > 0 && (
+            <span style={{ fontSize: 11, color: '#9491a1', marginLeft: 'auto' }}>~{reco.cout.toLocaleString('fr-FR')} €</span>
+          )}
+        </div>
+        {reco.source && (
+          <p style={{ fontSize: 11, color: '#9491a1', marginTop: 8, marginBottom: 0, fontStyle: 'italic' }}>{reco.source}</p>
         )}
+        <p style={{ fontSize: 11, color: '#a122e2', marginTop: 10, marginBottom: 0 }}>Voir la fiche →</p>
       </div>
-      {reco.source && (
-        <p style={{ fontSize: 11, color: '#9491a1', marginTop: 8, marginBottom: 0, fontStyle: 'italic' }}>{reco.source}</p>
-      )}
-    </div>
+    </Link>
   )
 }
 
@@ -608,13 +617,19 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             <AccordionSection title="Cadre légal applicable" count={report.lois.length}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {report.lois.map(l => (
-                  <div key={l.titre} style={{ background: '#282828', borderRadius: 8, padding: '14px 16px', border: '1px solid #2e2e2e' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: '#EEE9F3' }}>{l.titre}</span>
-                      <LoiStatusPill statut={l.statut} />
+                  <Link key={l.titre} href="/s-informer/les-lois" style={{ display: 'block', textDecoration: 'none' }}>
+                    <div style={{ background: '#282828', borderRadius: 8, padding: '14px 16px', border: '1px solid #2e2e2e', transition: 'border-color 0.15s' }}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: '#EEE9F3' }}>{l.titre}</span>
+                        <LoiStatusPill statut={l.statut} />
+                      </div>
+                      <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.6, margin: '0 0 8px' }}>{l.description}</p>
+                      <span style={{ fontSize: 11, color: '#a122e2' }}>Voir la loi →</span>
                     </div>
-                    <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.6, margin: 0 }}>{l.description}</p>
-                  </div>
+                  </Link>
                 ))}
               </div>
               <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: '#9491a1', textDecoration: 'underline', display: 'inline-block', marginTop: 14 }}>
@@ -726,7 +741,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
 const INTRO_SPEED = 55
-const Q_SPEED     = 80
+const Q_SPEED     = 18
 
 export function AccessibleDiagnostic() {
   const [phase, setPhase] = useState<'intro' | 'questions'>('intro')
@@ -742,9 +757,7 @@ export function AccessibleDiagnostic() {
   const [qTypedChars, setQTypedChars] = useState(0)
   const [qFullyTyped, setQFullyTyped] = useState(false)
 
-  const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
   const [enterKey, setEnterKey] = useState(0)
-  const [pushKey, setPushKey] = useState(0)
 
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
@@ -781,7 +794,7 @@ export function AccessibleDiagnostic() {
       setQTypedChars(i)
       if (i >= text.length) {
         clearInterval(iv)
-        setTimeout(() => setQFullyTyped(true), 200)
+        setTimeout(() => setQFullyTyped(true), 50)
       }
     }, Q_SPEED)
     return () => clearInterval(iv)
@@ -806,24 +819,16 @@ export function AccessibleDiagnostic() {
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
-      setPrevQIndex(qIndex)
-      setPushKey(k => k + 1)
-      setTimeout(() => setShowResult(true), 480)
+      setTimeout(() => setShowResult(true), 300)
       return
     }
 
-    setPrevQIndex(qIndex)
-    setPushKey(k => k + 1)
-    setTimeout(() => {
-      setQIndex(i => i + 1)
-      setEnterKey(k => k + 1)
-      setTimeout(() => setPrevQIndex(null), 700)
-    }, 380)
+    setQIndex(i => i + 1)
+    setEnterKey(k => k + 1)
   }, [canAdvance, q, answers, qIndex, total, selected, otherText])
 
   const goBack = useCallback(() => {
     if (qIndex === 0) return
-    setPrevQIndex(null)
     setQIndex(i => i - 1)
     setEnterKey(k => k + 1)
   }, [qIndex])
@@ -845,7 +850,6 @@ export function AccessibleDiagnostic() {
       onReset={() => {
         setShowResult(false); setPhase('intro'); setTypedChars(0); setIntroFading(false)
         setQIndex(0); setAnswers({}); setSelected(''); setEnterKey(0)
-        setPrevQIndex(null); setPushKey(0)
       }}
     />
   )
@@ -864,10 +868,6 @@ export function AccessibleDiagnostic() {
           100% { opacity: 0; filter: blur(8px); }
         }
 
-        @keyframes push-back {
-          0%   { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px);  opacity: 1; }
-          100% { transform: perspective(1000px) translateZ(-240px) scale(0.8) rotateX(10deg); filter: blur(12px); opacity: 0.18; }
-        }
         @keyframes pull-forward {
           0%   { transform: perspective(1000px) translateZ(80px) scale(1.06); filter: blur(7px); opacity: 0; }
           100% { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px); opacity: 1; }
@@ -961,27 +961,6 @@ export function AccessibleDiagnostic() {
           {/* Stage — centré */}
           <div style={{ flex: 1, position: 'relative', padding: '32px 48px 100px', maxWidth: 860, width: '100%', margin: '0 auto' }}>
 
-            {/* Question précédente en blur */}
-            {prevQIndex !== null && (
-              <p
-                key={`blur-${pushKey}`}
-                style={{
-                  fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
-                  fontWeight: 400,
-                  color: '#9491a1',
-                  lineHeight: 1.25,
-                  fontFamily: 'var(--font-title)',
-                  filter: 'blur(7px)',
-                  opacity: 0.5,
-                  pointerEvents: 'none',
-                  marginBottom: 48,
-                  animation: 'intro-in 0.3s ease forwards',
-                }}
-              >
-                {QUESTIONS[prevQIndex].text}
-              </p>
-            )}
-
             {/* Question courante — typewriter */}
             <div
               key={`enter-${enterKey}`}
@@ -991,7 +970,7 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, fontFamily: 'var(--font-title)', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 600, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, fontFamily: 'var(--font)', textAlign: 'center' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
