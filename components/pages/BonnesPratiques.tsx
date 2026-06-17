@@ -67,19 +67,55 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
   const handicapLabels = getHandicapLabels(bp)
 
   return (
-    <div className="flex gap-6 items-center">
-      <div className="border border-[#dcdcdc] rounded-[20px] w-[147px] h-[141px] shrink-0 flex items-center justify-center">
-        <div className="w-16 h-12 rounded-lg bg-[#ededed]" />
-      </div>
-      <div className="border border-[#dcdcdc] rounded-[20px] flex-1 flex items-center justify-between p-8 min-w-0">
-        <div className="flex flex-col gap-[15px] min-w-0">
-          <p className="text-2xl text-[#101010] leading-tight">{bp.titre}</p>
-          <div className="flex gap-[10px] flex-wrap">
-            <span className="border border-[#d3d3d3] rounded-full px-[14px] py-[10px] text-sm text-[#101010] leading-none whitespace-nowrap">
+    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+      {/* Carré visuel gauche — l'image sera placée ici */}
+      <div style={{
+        border: '1px solid #dcdcdc',
+        borderRadius: 20,
+        width: 147,
+        height: 141,
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 32,
+        overflow: 'hidden',
+      }} />
+      {/* Panneau contenu */}
+      <div style={{
+        border: '1px solid #dcdcdc',
+        borderRadius: 20,
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 32,
+        minWidth: 0,
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 0 }}>
+          <p style={{ fontSize: 24, color: '#101010', lineHeight: 1, fontWeight: 400 }}>{bp.titre}</p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <span style={{
+              border: '1px solid #d3d3d3',
+              borderRadius: 32,
+              padding: '10px 14px',
+              fontSize: 14,
+              color: '#101010',
+              lineHeight: 1,
+              whiteSpace: 'nowrap',
+            }}>
               {zoneLabel}
             </span>
             {handicapLabels.map(label => (
-              <span key={label} className="border border-[#d3d3d3] rounded-full px-[14px] py-[10px] text-sm text-[#101010] leading-none whitespace-nowrap">
+              <span key={label} style={{
+                border: '1px solid #d3d3d3',
+                borderRadius: 32,
+                padding: '10px 14px',
+                fontSize: 14,
+                color: '#101010',
+                lineHeight: 1,
+                whiteSpace: 'nowrap',
+              }}>
                 {label}
               </span>
             ))}
@@ -87,7 +123,17 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
         </div>
         <button
           onClick={onOpen}
-          className="border border-[#dcdcdc] rounded-full p-4 flex items-center justify-center shrink-0 ml-8 cursor-pointer"
+          style={{
+            border: '1px solid #dcdcdc',
+            borderRadius: 32,
+            padding: 16,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            cursor: 'pointer',
+            background: 'transparent',
+          }}
           aria-label={`Voir la fiche : ${bp.titre}`}
         >
           <PlusIcon />
@@ -123,51 +169,86 @@ function BpModal({
 
   return (
     <div
-      className="fixed inset-0 bg-[rgba(77,77,77,0.24)] flex items-center justify-center z-50 px-6"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(77,77,77,0.24)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 50,
+        padding: '0 24px',
+      }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="border border-[#dcdcdc] rounded-[32px] flex overflow-hidden w-full max-w-[1128px] max-h-[90vh]">
+      <div style={{
+        border: '1px solid #dcdcdc',
+        borderRadius: 32,
+        display: 'flex',
+        overflow: 'hidden',
+        width: '100%',
+        maxWidth: 1128,
+        maxHeight: '90vh',
+      }}>
 
         {/* Volet gauche */}
-        <div className="bg-white flex-1 flex flex-col gap-[42px] p-6 overflow-y-auto min-w-0">
-          <div className="flex flex-col gap-5">
+        <div style={{
+          background: '#fff',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 42,
+          padding: 24,
+          overflowY: 'auto',
+          minWidth: 0,
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-            <div className="flex flex-col gap-4">
-              <h2
-                className="text-[#101010]"
-                style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.2, letterSpacing: 0 }}
-              >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <h2 style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
                 {bp.titre}
               </h2>
-              <div className="flex gap-[10px] flex-wrap">
-                <span className="border border-[#d3d3d3] rounded-full px-[14px] py-[10px] text-sm text-[#101010] leading-none whitespace-nowrap">
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <span style={{ border: '1px solid #d3d3d3', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
                   {zoneLabel}
                 </span>
                 {handicapLabels.map(label => (
-                  <span key={label} className="border border-[#d3d3d3] rounded-full px-[14px] py-[10px] text-sm text-[#101010] leading-none whitespace-nowrap">
+                  <span key={label} style={{ border: '1px solid #d3d3d3', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
                     {label}
                   </span>
                 ))}
               </div>
-              <p className="text-base font-light leading-[1.3] text-[#101010] max-w-[408px]">{bp.resume}</p>
+              <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#101010', maxWidth: 408 }}>{bp.resume}</p>
             </div>
 
-            <div className="flex flex-col gap-[17px]">
-              <p className="text-[15px] font-semibold uppercase text-[#101010]">Comment faire</p>
-              <ul className="list-disc pl-6 flex flex-col gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
+              <p style={{ fontSize: 15, fontWeight: 600, textTransform: 'uppercase', color: '#101010' }}>Comment faire</p>
+              <ul style={{ listStyle: 'disc', paddingLeft: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {bp.commentFaire.map((step, i) => (
-                  <li key={i} className="text-base font-light leading-[1.3] text-[#101010]">{step}</li>
+                  <li key={i} style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#101010' }}>{step}</li>
                 ))}
               </ul>
             </div>
 
           </div>
 
-          <div className="flex items-center justify-between mt-auto">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
             <button
               onClick={onPrev}
               disabled={!hasPrev}
-              className="border border-[#dcdcdc] bg-white rounded-full p-4 flex items-center gap-2 text-sm text-[#101010] cursor-pointer disabled:opacity-40"
+              style={{
+                border: '1px solid #dcdcdc',
+                background: '#fff',
+                borderRadius: 999,
+                padding: 16,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontSize: 14,
+                color: '#101010',
+                cursor: hasPrev ? 'pointer' : 'default',
+                opacity: hasPrev ? 1 : 0.4,
+              }}
             >
               <ArrowLeftIcon />
               Précédent
@@ -175,7 +256,19 @@ function BpModal({
             <button
               onClick={onNext}
               disabled={!hasNext}
-              className="border border-[#dcdcdc] bg-white rounded-full p-4 flex items-center gap-2 text-sm text-[#101010] cursor-pointer disabled:opacity-40"
+              style={{
+                border: '1px solid #dcdcdc',
+                background: '#fff',
+                borderRadius: 999,
+                padding: 16,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontSize: 14,
+                color: '#101010',
+                cursor: hasNext ? 'pointer' : 'default',
+                opacity: hasNext ? 1 : 0.4,
+              }}
             >
               Suivant
               <ArrowRightIcon />
@@ -184,13 +277,34 @@ function BpModal({
         </div>
 
         {/* Volet droit */}
-        <div className="bg-[#ededed] w-[350px] shrink-0 relative flex items-center justify-center p-12">
-          <p className="text-2xl text-[#101010] text-center">
-            {handicapLabels.join('\n')}
+        <div style={{
+          background: '#ededed',
+          width: 350,
+          flexShrink: 0,
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 48,
+        }}>
+          <p style={{ fontSize: 24, color: '#101010', textAlign: 'center' }}>
+            {handicapLabels.join(' · ')}
           </p>
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 bg-white border border-[#dcdcdc] rounded-full p-4 flex items-center justify-center cursor-pointer"
+            style={{
+              position: 'absolute',
+              top: 20,
+              right: 20,
+              background: '#fff',
+              border: '1px solid #dcdcdc',
+              borderRadius: 999,
+              padding: 16,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
             aria-label="Fermer"
           >
             <XIcon />
@@ -218,19 +332,18 @@ export function BonnesPratiquesIndex() {
   return (
     <>
       {/* Hero */}
-      <div className="px-10 pt-12 bg-white">
-        <div className="max-w-[1356px] mx-auto flex flex-col gap-8">
+      <div style={{ background: '#fff', padding: '48px 40px 0' }}>
+        <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
           <div>
-            <p className="text-xs text-[#101010] leading-[1.1] mb-1">Accueil / Les bonnes pratiques</p>
-            <h1
-              className="text-[#101010]"
-              style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, letterSpacing: 0 }}
-            >
+            <p style={{ fontSize: 12, color: '#101010', lineHeight: 1.1, marginBottom: 4 }}>
+              Accueil / Les bonnes pratiques
+            </p>
+            <h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
               Parcourez nos bonnes pratiques
             </h1>
           </div>
-          <div className="flex justify-end">
-            <p className="text-base font-light leading-[1.1] text-[#101010] w-[420px]">
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#101010', maxWidth: 420 }}>
               Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
             </p>
           </div>
@@ -238,18 +351,29 @@ export function BonnesPratiquesIndex() {
       </div>
 
       {/* Filtres + Liste */}
-      <div className="px-10 pt-14 pb-20 bg-white">
-        <div className="max-w-[1356px] mx-auto flex flex-col gap-8">
+      <div style={{ background: '#fff', padding: '56px 40px 80px' }}>
+        <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
           {/* Pour qui ? */}
-          <div className="flex flex-col gap-7">
-            <p className="text-xl text-[#101010] leading-none">Pour qui ?</p>
-            <div className="flex gap-[17px] flex-wrap">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 27 }}>
+            <p style={{ fontSize: 20, color: '#101010', lineHeight: 1 }}>Pour qui ?</p>
+            <div style={{ display: 'flex', gap: 17, flexWrap: 'wrap' }}>
               {handicapOptions.map(o => (
                 <button
                   key={o.key}
                   onClick={() => setActiveHandicap(o.key)}
-                  className={`h-[42px] px-4 rounded-full text-sm text-[#101010] leading-none cursor-pointer ${activeHandicap === o.key ? 'bg-[#eee9f3]' : 'bg-[#ededed]'}`}
+                  style={{
+                    height: 42,
+                    padding: '0 16px',
+                    borderRadius: 999,
+                    border: 'none',
+                    background: activeHandicap === o.key ? '#eee9f3' : '#ededed',
+                    fontSize: 14,
+                    color: '#101010',
+                    lineHeight: 1,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
                 >
                   {o.label}
                 </button>
@@ -258,17 +382,28 @@ export function BonnesPratiquesIndex() {
           </div>
 
           {/* Où ? + Cards */}
-          <div className="flex gap-[95px] items-start">
+          <div style={{ display: 'flex', gap: 95, alignItems: 'flex-start' }}>
 
             {/* Sidebar zones */}
-            <div className="w-[130px] shrink-0 flex flex-col gap-4">
-              <p className="text-xl text-[#101010] leading-none">Où ?</p>
-              <div className="flex flex-col gap-5">
+            <div style={{ width: 130, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <p style={{ fontSize: 20, color: '#101010', lineHeight: 1 }}>Où ?</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {zoneOptions.map(o => (
                   <button
                     key={o.key}
                     onClick={() => setActiveZone(o.key)}
-                    className={`text-left text-[#101010] leading-none cursor-pointer w-full ${activeZone === o.key ? 'text-base font-bold' : 'text-sm font-normal'}`}
+                    style={{
+                      textAlign: 'left',
+                      fontSize: activeZone === o.key ? 16 : 14,
+                      fontWeight: activeZone === o.key ? 700 : 400,
+                      color: '#101010',
+                      lineHeight: 1,
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                      fontFamily: 'inherit',
+                      width: '100%',
+                    }}
                   >
                     {o.label}
                   </button>
@@ -277,9 +412,9 @@ export function BonnesPratiquesIndex() {
             </div>
 
             {/* Liste de cards */}
-            <div className="flex-1 flex flex-col gap-6 min-w-0">
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
               {filtered.length === 0 ? (
-                <p className="text-sm text-[#101010] opacity-50">Aucune bonne pratique pour ces filtres.</p>
+                <p style={{ fontSize: 14, color: '#101010', opacity: 0.5 }}>Aucune bonne pratique pour ces filtres.</p>
               ) : (
                 filtered.map((bp, index) => (
                   <BpCard key={bp.id} bp={bp} onOpen={() => setSelectedIndex(index)} />
