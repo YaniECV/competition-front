@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-/* ── Variables (DA BetterOff Studio) ────────────────────────────────────── */
+/* ── Variables (Dark mode) ───────────────────────────────────────────────── */
 :root {
-  --bg:      #f9f9f9;
-  --bg2:     #f1f1f1;
-  --bg3:     #e8e8e8;
-  --border:  #e0e0e0;
-  --border2: #c2c1c1;
-  --text:    #0a0a0a;
-  --muted:   #5d5857;
+  --bg:      #101010;
+  --bg2:     #1c1c1c;
+  --bg3:     #282828;
+  --border:  #2e2e2e;
+  --border2: #484848;
+  --text:    #EEE9F3;
+  --muted:   #9491a1;
   --accent:  #d98d91;
   --font:     var(--font-atkinson), 'Atkinson Hyperlegible Next', system-ui, sans-serif;
   --font-title: var(--font-regensburg), 'Regensburg', serif;
@@ -88,7 +88,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
   padding: 64px 0 48px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 56px;
-  background: #fff;
+  background: var(--bg2);
 }
 
 /* ── Tag / label ────────────────────────────────────────────────────────── */
@@ -121,7 +121,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 
 .btn-primary {
   background: var(--text);
-  color: #fff;
+  color: var(--bg);
   border: 1px solid var(--text);
 }
 .btn-primary:hover { background: var(--muted); border-color: var(--muted); text-decoration: none; }
@@ -131,11 +131,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
   color: var(--text);
   border: 1px solid var(--border2);
 }
-.btn-outline:hover { background: var(--text); color: #fff; border-color: var(--text); text-decoration: none; }
+.btn-outline:hover { background: var(--text); color: var(--bg); border-color: var(--text); text-decoration: none; }
 
 /* ── Cards ──────────────────────────────────────────────────────────────── */
 .card {
-  background: #fff;
+  background: var(--bg2);
   border: 1px solid var(--border);
   padding: 24px;
   transition: border-color 0.2s;

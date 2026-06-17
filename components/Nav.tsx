@@ -102,7 +102,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
       style={{ position: 'fixed', inset: 0, background: 'rgba(10,10,10,0.7)', zIndex: 999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 80 }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div style={{ background: '#fff', width: '100%', maxWidth: 620, margin: '0 20px', border: '1px solid var(--border)' }}>
+      <div style={{ background: '#1c1c1c', width: '100%', maxWidth: 620, margin: '0 20px', border: '1px solid rgba(238,233,243,0.12)' }}>
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 20px', borderBottom: '1px solid var(--border)' }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
@@ -112,7 +112,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Rechercher une bonne pratique, un handicap…"
-            style={{ flex: 1, border: 'none', outline: 'none', padding: '18px 14px', fontSize: 15, fontFamily: 'var(--font)', background: 'transparent', color: 'var(--text)' }}
+            style={{ flex: 1, border: 'none', outline: 'none', padding: '18px 14px', fontSize: 15, fontFamily: 'var(--font)', background: 'transparent', color: '#EEE9F3' }}
           />
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 20, lineHeight: 1, padding: 4 }}>✕</button>
         </div>
@@ -130,14 +130,14 @@ function SearchModal({ onClose }: { onClose: () => void }) {
               key={i}
               href={r.href}
               onClick={onClose}
-              style={{ display: 'flex', gap: 14, padding: '12px 20px', borderBottom: '1px solid var(--bg2)', textDecoration: 'none', alignItems: 'center', background: 'transparent', transition: 'background 0.1s' }}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
+              style={{ display: 'flex', gap: 14, padding: '12px 20px', borderBottom: '1px solid rgba(238,233,243,0.06)', textDecoration: 'none', alignItems: 'center', background: 'transparent', transition: 'background 0.1s' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'rgba(238,233,243,0.06)')}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
             >
-              <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', border: '1px solid var(--border)', padding: '3px 7px', color: 'var(--muted)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', border: '1px solid rgba(238,233,243,0.2)', padding: '3px 7px', color: 'rgba(238,233,243,0.5)', whiteSpace: 'nowrap', flexShrink: 0 }}>
                 {r.tag}
               </span>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', margin: 0 }}>{r.label}</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color: '#EEE9F3', margin: 0 }}>{r.label}</p>
             </Link>
           ))}
         </div>
@@ -229,25 +229,11 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const pathname = usePathname() ?? '';
 
-  const isHomepage = pathname === '/';
-
-  useEffect(() => {
-    if (!isHomepage) { setScrolledPastHero(false); return; }
-    const onScroll = () => {
-      setScrolledPastHero(window.scrollY > window.innerHeight - 72);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [isHomepage]);
-
-  const isDark = isHomepage && !scrolledPastHero;
-  const navBg = isDark ? '#101010' : '#fff';
-  const navText = isDark ? '#EEE9F3' : 'var(--text)';
-  const navMuted = isDark ? 'rgba(238,233,243,0.55)' : 'var(--muted)';
+  const navBg = '#101010';
+  const navText = '#EEE9F3';
+  const navMuted = 'rgba(238,233,243,0.55)';
 
   useEffect(() => { setSearchOpen(false); setMobileOpen(false) }, [pathname])
 
@@ -267,7 +253,7 @@ export default function Nav() {
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            <MetalAxsLogo dark={isDark} />
+            <MetalAxsLogo dark={true} />
           </Link>
 
 
@@ -302,7 +288,7 @@ export default function Nav() {
                         color,
                         textDecoration: 'none',
                         whiteSpace: 'nowrap',
-                        borderBottom: !isDark && isActive ? '2px solid var(--text)' : '2px solid transparent',
+                        borderBottom: isActive ? '2px solid rgba(238,233,243,0.4)' : '2px solid transparent',
                       }}
                     >
                       {item.label}
@@ -321,7 +307,7 @@ export default function Nav() {
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                       userSelect: 'none' as const,
-                      borderBottom: !isDark && isActive ? '2px solid var(--text)' : '2px solid transparent',
+                      borderBottom: isActive ? '2px solid rgba(238,233,243,0.4)' : '2px solid transparent',
                     }}>
                       {item.label}
                       {item.subs && <ChevronDown color={color} />}
@@ -421,7 +407,7 @@ export default function Nav() {
           {/* Burger mobile */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            style={{ display: 'none', background: 'none', border: `1px solid ${isDark ? 'rgba(238,233,243,0.3)' : 'var(--border)'}`, color: navText, fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
+            style={{ display: 'none', background: 'none', border: '1px solid rgba(238,233,243,0.3)', color: navText, fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
             className="nav-burger"
             aria-label="Menu"
           >
@@ -431,7 +417,7 @@ export default function Nav() {
 
         {/* Menu mobile */}
         {mobileOpen && (
-          <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ background: '#101010', borderTop: '1px solid rgba(238,233,243,0.1)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
             <button
               onClick={() => { setMobileOpen(false); setSearchOpen(true) }}
               style={{ background: 'none', border: '1px solid var(--border)', padding: '10px 14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, color: 'var(--muted)', fontSize: 13, fontFamily: 'var(--font)', marginBottom: 8 }}
