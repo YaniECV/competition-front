@@ -21,6 +21,33 @@ const atkinsonHyperlegible = localFont({
   display: "swap",
 });
 
+const regensburg = localFont({
+  src: [
+    {
+      path: "./fonts/Regensburg.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Regensburg-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "./fonts/RegensburgGrunged.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/RegensburgGrunged-Italic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-regensburg",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "FEST_ACCESS — Rendre les festivals de metal accessibles à tous",
   description:
@@ -31,7 +58,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={atkinsonHyperlegible.variable}>
+    <html lang="fr" className={`${atkinsonHyperlegible.variable} ${regensburg.variable}`}>
       <body>
         <Nav />
         <main style={{ flexGrow: 1 }}>{children}</main>
