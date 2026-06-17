@@ -284,7 +284,7 @@ export default function Nav() {
                         gap: 6,
                         padding: '0 16px',
                         height: 72,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: 600,
                         color,
                         textDecoration: 'none',
@@ -302,7 +302,7 @@ export default function Nav() {
                       gap: 6,
                       padding: '0 16px',
                       height: 72,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: 600,
                       color,
                       cursor: 'pointer',
@@ -320,33 +320,57 @@ export default function Nav() {
                       position: 'absolute',
                       top: '100%',
                       left: 0,
-                      background: '#fff',
-                      border: '1px solid var(--border)',
-                      minWidth: 210,
+                      background: '#101010',
+                      border: '1px solid rgba(238,233,243,0.12)',
+                      borderTop: 'none',
+                      minWidth: 240,
                       zIndex: 200,
-                      boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
                     }}>
-                      {item.subs.map(sub => (
-                        <Link
-                          key={sub.to}
-                          href={sub.to}
-                          onClick={() => setHovered(null)}
-                          style={{
-                            display: 'block',
-                            padding: '10px 16px',
-                            fontSize: 14,
-                            color: pathname === sub.to ? 'var(--text)' : 'var(--muted)',
-                            fontWeight: pathname === sub.to ? 600 : 400,
-                            borderBottom: '1px solid var(--bg2)',
-                            textDecoration: 'none',
-                            background: 'transparent',
-                          }}
-                          onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
-                          onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
+                      {/* Label catégorie */}
+                      <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid rgba(238,233,243,0.08)' }}>
+                        <span style={{
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: 10,
+                          fontWeight: 500,
+                          letterSpacing: '0.12em',
+                          textTransform: 'uppercase' as const,
+                          color: 'rgba(238,233,243,0.35)',
+                        }}>
+                          {item.label}
+                        </span>
+                      </div>
+                      {/* Liens */}
+                      <div style={{ padding: '6px 0 10px' }}>
+                        {item.subs.map(sub => {
+                          const isSubActive = pathname === sub.to;
+                          return (
+                            <Link
+                              key={sub.to}
+                              href={sub.to}
+                              onClick={() => setHovered(null)}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 10,
+                                padding: '10px 20px',
+                                fontSize: 14,
+                                fontWeight: isSubActive ? 600 : 400,
+                                color: isSubActive ? '#EEE9F3' : 'rgba(238,233,243,0.55)',
+                                textDecoration: 'none',
+                                fontFamily: 'var(--font)',
+                                transition: 'color 0.15s',
+                              }}
+                              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = '#EEE9F3' }}
+                              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = isSubActive ? '#EEE9F3' : 'rgba(238,233,243,0.55)' }}
+                            >
+                              {isSubActive && (
+                                <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#A122E2', flexShrink: 0, display: 'inline-block' }} />
+                              )}
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
