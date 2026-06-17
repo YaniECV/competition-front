@@ -44,7 +44,6 @@ h1 {
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.03em;
-  text-transform: uppercase;
   color: var(--text);
 }
 
@@ -54,7 +53,6 @@ h2 {
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.02em;
-  text-transform: uppercase;
   color: var(--text);
 }
 
