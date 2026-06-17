@@ -45,7 +45,7 @@ const searchIndex = [
     href: `/s-informer/bonnes-pratiques/${bp.slug}`,
     tag: 'Bonne pratique',
   })),
-  { label: 'Faire mon diagnostic', desc: 'Évaluez votre festival et obtenez un plan d'action.', href: '/accessible/diagnostic', tag: 'Outil' },
+  { label: 'Faire mon diagnostic', desc: "Évaluez votre festival et obtenez un plan d'action.", href: '/accessible/diagnostic', tag: 'Outil' },
   { label: 'Les lois', desc: 'Loi de 2005, ERP/IOP, arrêté de 2007.', href: '/s-informer/les-lois', tag: 'Lois' },
   { label: 'Signalétiques à télécharger', desc: 'Packs pictogrammes haut contraste.', href: '/les-ressources', tag: 'Ressource' },
 ]
