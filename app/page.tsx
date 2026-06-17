@@ -4,18 +4,83 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section style={{ padding: '96px 0 80px', borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <span className="tag">FMM × Accessibilité festivals</span>
-          <h1 style={{ maxWidth: 680, marginBottom: 24 }}>
-            Votre festival de metal,<br />accessible à tous.
-          </h1>
-          <p style={{ fontSize: 17, maxWidth: 520, marginBottom: 40, lineHeight: 1.8 }}>
-            12 millions de Français vivent avec un handicap. Beaucoup sont fans de metal et ne peuvent pas accéder à vos événements. Ce site vous donne les outils pour changer ça — gratuitement, étape par étape.
-          </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link href="/accessible/diagnostic" className="btn btn-primary" style={{ background: '#87ceeb', borderColor: '#87ceeb', color: '#0a0a0a' }}>Faire mon diagnostic</Link>
+      <section style={{ position: 'relative', background: '#101010', minHeight: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+
+        {/* Barrier gauche */}
+        <div style={{ position: 'absolute', left: -53, top: '58%', width: 480, height: 394, pointerEvents: 'none' }}>
+          <div style={{ width: 448, height: 352, overflow: 'hidden', position: 'relative', transform: 'scaleY(-1) rotate(174.39deg)' }}>
+            <img src="/hero-barrier.png" alt="" style={{ position: 'absolute', width: '153.41%', height: '194.95%', left: '-26.7%', top: '-47.47%', maxWidth: 'none' }} />
           </div>
+        </div>
+
+        {/* Barrier droite */}
+        <div style={{ position: 'absolute', right: -105, top: '18%', width: 482, height: 400, pointerEvents: 'none' }}>
+          <div style={{ width: 442, height: 348, overflow: 'hidden', position: 'relative', transform: 'scaleY(-1) rotate(172.87deg)' }}>
+            <img src="/hero-barrier.png" alt="" style={{ position: 'absolute', width: '153.41%', height: '194.95%', left: '-26.7%', top: '-47.47%', maxWidth: 'none' }} />
+          </div>
+        </div>
+
+        {/* Contenu central */}
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+          {/* Titre + icône centrale */}
+          <div style={{ position: 'relative' }}>
+            <h1 style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 'clamp(80px, 17.2vw, 260px)',
+              fontWeight: 400,
+              color: '#EEE9F3',
+              textAlign: 'center',
+              lineHeight: 1,
+              textTransform: 'uppercase',
+              letterSpacing: 0,
+            }}>
+              Access<br />to the pit
+            </h1>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 'clamp(60px, 15vw, 227px)',
+              height: 'clamp(60px, 15vw, 227px)',
+              pointerEvents: 'none',
+            }}>
+              <img src="/hero-icon.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          </div>
+
+          {/* Bouton CTA */}
+          <div style={{ position: 'relative', marginTop: 32 }}>
+            <Link href="/accessible/diagnostic" style={{
+              display: 'inline-block',
+              background: '#A122E2',
+              padding: '8px 12px',
+              color: '#EEE9F3',
+              fontSize: 18,
+              fontWeight: 600,
+              fontFamily: 'var(--font)',
+              textAlign: 'center',
+              lineHeight: 1.3,
+              textDecoration: 'none',
+              position: 'relative',
+            }}>
+              Faire le diagnostique<br />de mon festival
+              {/* Coin bas-gauche */}
+              <span style={{ position: 'absolute', bottom: -1, left: -0.5, width: 22, height: 13, transform: 'rotate(180deg)', display: 'flex' }}>
+                <img src="/hero-btn-corner1.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
+              </span>
+              {/* Coin bas-droit */}
+              <span style={{ position: 'absolute', bottom: -1, right: -0.5, width: 22, height: 13, transform: 'rotate(180deg)', display: 'flex' }}>
+                <img src="/hero-btn-corner1.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
+              </span>
+              {/* Coin haut (droite) */}
+              <span style={{ position: 'absolute', top: 0, left: 178.5, width: 22, height: 13, transform: 'scaleY(-1)', display: 'flex' }}>
+                <img src="/hero-btn-corner2.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
+              </span>
+            </Link>
+          </div>
+
         </div>
       </section>
 
