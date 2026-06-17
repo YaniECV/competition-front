@@ -71,6 +71,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
       {/* Carré visuel gauche */}
       <div style={{
         border: '1px solid #2e2e2e',
+        borderRadius: 8,
         width: 147,
         height: 141,
         flexShrink: 0,
@@ -90,6 +91,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
       {/* Panneau contenu */}
       <div style={{
         border: '1px solid #2e2e2e',
+        borderRadius: 8,
         flex: 1,
         display: 'flex',
         alignItems: 'center',
@@ -131,6 +133,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
           onClick={onOpen}
           style={{
             border: '1px solid #484848',
+            borderRadius: 8,
             padding: 16,
             display: 'flex',
             alignItems: 'center',
