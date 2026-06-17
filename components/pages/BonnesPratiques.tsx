@@ -188,8 +188,8 @@ function BpModal({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 50,
-        padding: '0 24px',
+        zIndex: 1000,
+        padding: '24px',
       }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
@@ -200,7 +200,7 @@ function BpModal({
         overflow: 'hidden',
         width: '100%',
         maxWidth: 1128,
-        maxHeight: '90vh',
+        height: '85vh',
       }}>
 
         {/* Volet gauche */}
@@ -209,12 +209,10 @@ function BpModal({
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          gap: 42,
-          padding: 24,
           overflowY: 'auto',
           minWidth: 0,
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: 24, flex: 1 }}>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <h2 style={{ fontSize: 32, fontWeight: 400, lineHeight: 1.2, color: '#EEE9F3', letterSpacing: 0 }}>
@@ -290,7 +288,18 @@ function BpModal({
 
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
+          {/* Barre nav sticky */}
+          <div style={{
+            position: 'sticky',
+            bottom: 0,
+            background: '#1c1c1c',
+            borderTop: '1px solid #2e2e2e',
+            padding: '16px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+          }}>
             <button
               onClick={onPrev}
               disabled={!hasPrev}
