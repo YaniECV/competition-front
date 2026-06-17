@@ -865,7 +865,7 @@ export function AccessibleDiagnostic() {
   )
 
   return (
-    <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
       <style>{`
         @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -973,7 +973,7 @@ export function AccessibleDiagnostic() {
           </div>
 
           {/* 3D Stage */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '0 24px' }}>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', padding: '0 24px 100px' }}>
 
             {/* Current question */}
             <div
@@ -1080,8 +1080,8 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* Footer nav */}
-          <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+          {/* Footer nav — fixed en bas, toujours visible */}
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '14px 40px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,247,247,0.92)', backdropFilter: 'blur(12px)', zIndex: 50 }}>
             <button
               onClick={goBack}
               disabled={qIndex === 0}
