@@ -356,55 +356,24 @@ export function BonnesPratiquesIndex() {
       <div style={{ background: '#101010', padding: '56px 40px 80px' }}>
         <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-          {/* Pour qui ? */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 27 }}>
-            <p style={{ fontSize: 20, color: '#EEE9F3', lineHeight: 1 }}>Pour qui ?</p>
-            <div style={{ display: 'flex', gap: 17, flexWrap: 'wrap' }}>
-              {handicapOptions.map(o => (
-                <button
-                  key={o.key}
-                  onClick={() => setActiveHandicap(o.key)}
-                  style={{
-                    height: 42,
-                    padding: '0 16px',
-                    borderRadius: 999,
-                    border: activeHandicap === o.key ? '1px solid #A122E2' : '1px solid #484848',
-                    background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : '#1c1c1c',
-                    fontSize: 14,
-                    color: activeHandicap === o.key ? '#EEE9F3' : '#9491a1',
-                    lineHeight: 1,
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  {o.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Filtres unifiés */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, border: '1px solid #2e2e2e', borderRadius: 8, overflow: 'hidden' }}>
 
-          {/* Où ? + Cards */}
-          <div style={{ display: 'flex', gap: 95, alignItems: 'flex-start' }}>
-
-            {/* Sidebar zones */}
-            <div style={{ width: 130, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <p style={{ fontSize: 20, color: '#EEE9F3', lineHeight: 1 }}>Où ?</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                {zoneOptions.map(o => (
+            {/* Pour qui */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9491a1', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap', minWidth: 52 }}>Pour qui</span>
+              <div style={{ width: 1, height: 16, background: '#2e2e2e', flexShrink: 0 }} />
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {handicapOptions.map(o => (
                   <button
                     key={o.key}
-                    onClick={() => setActiveZone(o.key)}
+                    onClick={() => setActiveHandicap(o.key)}
                     style={{
-                      textAlign: 'left',
-                      fontSize: activeZone === o.key ? 16 : 14,
-                      fontWeight: activeZone === o.key ? 700 : 400,
-                      color: activeZone === o.key ? '#EEE9F3' : '#9491a1',
-                      lineHeight: 1,
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                      fontFamily: 'inherit',
-                      width: '100%',
+                      height: 34, padding: '0 14px', borderRadius: 999,
+                      border: activeHandicap === o.key ? '1px solid #A122E2' : '1px solid #484848',
+                      background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
+                      fontSize: 13, color: activeHandicap === o.key ? '#EEE9F3' : '#9491a1',
+                      cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
                     }}
                   >
                     {o.label}
@@ -413,17 +382,42 @@ export function BonnesPratiquesIndex() {
               </div>
             </div>
 
-            {/* Liste de cards */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
-              {filtered.length === 0 ? (
-                <p style={{ fontSize: 14, color: '#9491a1' }}>Aucune bonne pratique pour ces filtres.</p>
-              ) : (
-                filtered.map((bp, index) => (
-                  <BpCard key={bp.id} bp={bp} onOpen={() => setSelectedIndex(index)} />
-                ))
-              )}
+            <div style={{ height: 1, background: '#2e2e2e' }} />
+
+            {/* Où */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9491a1', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap', minWidth: 52 }}>Où</span>
+              <div style={{ width: 1, height: 16, background: '#2e2e2e', flexShrink: 0 }} />
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {zoneOptions.map(o => (
+                  <button
+                    key={o.key}
+                    onClick={() => setActiveZone(o.key)}
+                    style={{
+                      height: 34, padding: '0 14px', borderRadius: 999,
+                      border: activeZone === o.key ? '1px solid #A122E2' : '1px solid #484848',
+                      background: activeZone === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
+                      fontSize: 13, color: activeZone === o.key ? '#EEE9F3' : '#9491a1',
+                      cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {o.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
+          </div>
+
+          {/* Liste de cards — pleine largeur */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {filtered.length === 0 ? (
+              <p style={{ fontSize: 14, color: '#9491a1' }}>Aucune bonne pratique pour ces filtres.</p>
+            ) : (
+              filtered.map((bp, index) => (
+                <BpCard key={bp.id} bp={bp} onOpen={() => setSelectedIndex(index)} />
+              ))
+            )}
           </div>
         </div>
       </div>
