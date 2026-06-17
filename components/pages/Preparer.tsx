@@ -972,42 +972,56 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* 3D Stage */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', padding: '0 24px 100px' }}>
+          {/* Stage — layout gauche comme Figma */}
+          <div style={{ flex: 1, position: 'relative', padding: '32px 48px 100px', maxWidth: 860, width: '100%' }}>
 
-            {/* Current question */}
+            {/* Question précédente en blur — visible derrière */}
+            {prevQIndex !== null && (
+              <p
+                key={`blur-${pushKey}`}
+                style={{
+                  fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
+                  fontWeight: 400,
+                  color: '#5b5b5b',
+                  lineHeight: 1.25,
+                  letterSpacing: '-0.02em',
+                  filter: 'blur(7px)',
+                  opacity: 0.5,
+                  pointerEvents: 'none',
+                  marginBottom: 48,
+                  animation: 'intro-in 0.3s ease forwards',
+                }}
+              >
+                {QUESTIONS[prevQIndex].text}
+              </p>
+            )}
+
+            {/* Question courante — typewriter */}
             <div
               key={`enter-${enterKey}`}
               style={{
-                width: '100%',
-                maxWidth: 560,
-                textAlign: 'center',
-                position: 'relative',
-                zIndex: 1,
-                animation: enterKey > 0 ? 'pull-forward 0.65s cubic-bezier(0.22,1,0.36,1) forwards' : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
+                animation: enterKey > 0
+                  ? 'pull-forward 0.65s cubic-bezier(0.22,1,0.36,1) forwards'
+                  : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              {/* Question — typewriter */}
-              <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 8, letterSpacing: '-0.025em' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
               {'hint' in q && q.hint && (
-                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
+                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
               )}
 
-              {/* Options — toujours dans le DOM (pas de layout shift), visibles après typewriter */}
+              {/* Options */}
               <div
                 className="diag-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
                   gap: 10,
-                  marginTop: 36,
-                  maxWidth: q.type === 'multi' ? 520 : 380,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
+                  maxWidth: q.type === 'multi' ? 540 : 420,
                   pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
@@ -1016,60 +1030,40 @@ export function AccessibleDiagnostic() {
                   const isSelected = isMulti
                     ? (selected as string[]).includes(opt.val)
                     : selected === opt.val
-
                   return (
-                    <div
-                      key={opt.val}
-                      style={{
-                        opacity: qFullyTyped ? 1 : 0,
-                        transform: qFullyTyped ? 'translateY(0)' : 'translateY(16px)',
-                        transition: `opacity 0.45s ease ${0.1 + idx * 0.08}s, transform 0.45s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.08}s`,
-                      }}
-                    >
+                    <div key={opt.val} style={{
+                      opacity: qFullyTyped ? 1 : 0,
+                      transform: qFullyTyped ? 'translateY(0)' : 'translateY(16px)',
+                      transition: `opacity 0.45s ease ${0.1 + idx * 0.08}s, transform 0.45s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.08}s`,
+                    }}>
                       <button
                         className="diag-opt"
                         onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
                         style={{
-                          width: '100%',
-                          textAlign: 'left',
+                          width: '100%', textAlign: 'left',
                           background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
                           border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e8e8e8',
-                          borderRadius: 14,
-                          padding: '15px 18px',
-                          fontSize: 15,
-                          color: '#000',
-                          cursor: 'pointer',
-                          fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 12,
+                          borderRadius: 14, padding: '15px 18px', fontSize: 15, color: '#000',
+                          cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                          display: 'flex', alignItems: 'center', gap: 12,
                           boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
                         }}
                       >
                         <span style={{
-                          width: 20, height: 20,
-                          borderRadius: isMulti ? 5 : '50%',
+                          width: 20, height: 20, borderRadius: isMulti ? 5 : '50%',
                           border: isSelected ? '2px solid #a122e2' : '2px solid #ddd',
                           background: isSelected ? '#a122e2' : 'transparent',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           flexShrink: 0, transition: 'all 0.18s',
                         }}>
-                          {isSelected && (
-                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                              <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          )}
+                          {isSelected && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                         </span>
                         {opt.label}
                       </button>
-
                       {opt.val === 'other' && isSelected && (
-                        <input
-                          autoFocus
-                          value={otherText}
-                          onChange={e => setOtherText(e.target.value)}
-                          placeholder="Précise ton budget…"
-                          style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box' as const, marginTop: 8 }}
+                        <input autoFocus value={otherText} onChange={e => setOtherText(e.target.value)}
+                          placeholder="Precise ton budget..."
+                          style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box', marginTop: 8 }}
                           onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
                         />
                       )}
@@ -1080,43 +1074,42 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* Footer nav — fixed en bas, toujours visible */}
-          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '14px 40px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,247,247,0.92)', backdropFilter: 'blur(12px)', zIndex: 50 }}>
+          {/* Footer nav — fixed, style Figma exact */}
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,247,247,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
+
+            {/* Precedent — cercle pointilles + icone retour */}
             <button
               onClick={goBack}
               disabled={qIndex === 0}
               style={{
-                display: 'flex', alignItems: 'center', gap: 10,
+                display: 'flex', alignItems: 'center', gap: 14,
                 background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
                 opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
-                fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                fontFamily: 'var(--font-atkinson), system-ui, sans-serif', padding: 0,
               }}
             >
-              <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.5px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              <div style={{ width: 55, height: 55, borderRadius: '50%', border: '1.5px dashed #929292', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+                </svg>
               </div>
-              <span style={{ fontSize: 15, color: '#bbb' }}>Précédent</span>
+              <span style={{ fontSize: 20, color: '#929292' }}>Precedent</span>
             </button>
 
+            {/* Suivant — pill noir */}
             <button
               onClick={advance}
               style={{
-                background: '#000',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 999,
-                padding: '14px 36px',
-                fontSize: 16,
-                cursor: 'pointer',
-                fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                letterSpacing: '-0.01em',
+                background: '#000', color: '#fff', border: 'none',
+                borderRadius: 999, padding: '14px 32px', fontSize: 20,
+                cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
                 opacity: canAdvance ? 1 : 0,
                 pointerEvents: canAdvance ? 'auto' : 'none',
-                transform: canAdvance ? 'translateY(0)' : 'translateY(8px)',
+                transform: canAdvance ? 'translateY(0)' : 'translateY(6px)',
                 transition: 'opacity 0.3s ease, transform 0.3s ease',
               }}
             >
-              {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
+              {qIndex === total - 1 ? 'Voir mon plan' : 'Suivant'}
             </button>
           </div>
         </>
