@@ -1100,19 +1100,20 @@ export function AccessibleDiagnostic() {
 
             <button
               onClick={advance}
-              disabled={!canAdvance}
               style={{
-                background: canAdvance ? '#000' : '#e8e8e8',
-                color: canAdvance ? '#fff' : '#ccc',
+                background: '#000',
+                color: '#fff',
                 border: 'none',
                 borderRadius: 999,
                 padding: '14px 36px',
                 fontSize: 16,
-                cursor: canAdvance ? 'pointer' : 'default',
+                cursor: 'pointer',
                 fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                transition: 'all 0.28s cubic-bezier(0.22,1,0.36,1)',
-                transform: canAdvance ? 'scale(1)' : 'scale(0.96)',
                 letterSpacing: '-0.01em',
+                opacity: canAdvance ? 1 : 0,
+                pointerEvents: canAdvance ? 'auto' : 'none',
+                transform: canAdvance ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
               }}
             >
               {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
