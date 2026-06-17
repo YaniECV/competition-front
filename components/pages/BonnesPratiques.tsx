@@ -174,6 +174,10 @@ function BpModal({
 
   const zoneLabel = zoneOptions.find(z => z.key === bp.zone)?.label ?? bp.zone
   const handicapLabels = getHandicapLabels(bp)
+  const handicapsLies = handicaps.filter(h => h.bonnesPratiquesIds.includes(bp.id))
+  const loisLiees = (bp.loisLiees ?? [])
+    .map(s => lois.find(l => l.slug === s))
+    .filter((l): l is NonNullable<typeof l> => Boolean(l))
 
   return (
     <div
@@ -191,7 +195,7 @@ function BpModal({
     >
       <div style={{
         border: '1px solid rgba(238,233,243,0.12)',
-        borderRadius: 32,
+        borderRadius: 8,
         display: 'flex',
         overflow: 'hidden',
         width: '100%',
@@ -290,13 +294,11 @@ function BpModal({
           flex: 1,
           position: 'relative',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '50px 7px',
+          flexDirection: 'column',
+          gap: 28,
+          padding: '64px 28px 28px',
+          overflowY: 'auto',
         }}>
-          <p style={{ fontSize: 24, color: '#EEE9F3', textAlign: 'center' }}>
-            {handicapLabels.join(' · ')}
-          </p>
           <button
             onClick={onClose}
             style={{
@@ -316,6 +318,69 @@ function BpModal({
           >
             <XIcon />
           </button>
+
+          {handicapsLies.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <p style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9491a1', fontFamily: 'var(--font-mono)', marginBottom: 4 }}>
+                Publics concernés
+              </p>
+              {handicapsLies.map(h => (
+                <Link key={h.slug} href={`/handicaps/${h.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    border: '1px solid #484848',
+                    borderRadius: 8,
+                    padding: '14px 18px',
+                    background: '#1c1c1c',
+                    cursor: 'pointer',
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      <p style={{ fontSize: 10, color: '#9491a1', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Handicap</p>
+                      <p style={{ fontSize: 16, color: '#EEE9F3', lineHeight: 1 }}>{h.nom}</p>
+                    </div>
+                    <span style={{ color: '#9491a1', fontSize: 16 }}>→</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {loisLiees.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <p style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9491a1', fontFamily: 'var(--font-mono)', marginBottom: 4 }}>
+                Cadre légal
+              </p>
+              {loisLiees.map(l => (
+                <Link key={l.slug} href={`/s-informer/les-lois#${l.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    border: '1px solid #484848',
+                    borderRadius: 8,
+                    padding: '14px 18px',
+                    background: '#1c1c1c',
+                    cursor: 'pointer',
+                    gap: 12,
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+                      <p style={{ fontSize: 10, color: '#9491a1', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Loi</p>
+                      <p style={{ fontSize: 15, color: '#EEE9F3', lineHeight: 1.3 }}>{l.titre}</p>
+                    </div>
+                    <span style={{ color: '#9491a1', fontSize: 16, flexShrink: 0 }}>→</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {handicapsLies.length === 0 && loisLiees.length === 0 && (
+            <p style={{ fontSize: 20, color: '#9491a1', margin: 'auto', textAlign: 'center' }}>
+              {handicapLabels.join(' · ')}
+            </p>
+          )}
         </div>
 
       </div>
