@@ -729,8 +729,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 // ── Main diagnostic ───────────────────────────────────────────────────────────
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
-const INTRO_SPEED = 38   // ms par caractère — intro
-const Q_SPEED     = 28   // ms par caractère — questions
+const INTRO_SPEED = 55   // ms par caractère — intro (lent, soothing)
+const Q_SPEED     = 36   // ms par caractère — questions
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
@@ -766,8 +766,9 @@ export function AccessibleDiagnostic() {
       setTypedChars(i)
       if (i >= INTRO_TEXT.length) {
         clearInterval(iv)
-        setTimeout(() => setIntroFading(true), 2500)
-        setTimeout(() => setPhase('questions'), 3200)
+        // 10s total depuis le début : typing ~4s + attente ~4.5s + fade 1.5s + question ~1s
+        setTimeout(() => setIntroFading(true), 4500)
+        setTimeout(() => setPhase('questions'), 6000)
       }
     }, INTRO_SPEED)
     return () => clearInterval(iv)
@@ -863,12 +864,12 @@ export function AccessibleDiagnostic() {
         @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
         @keyframes intro-in {
-          from { opacity: 0; transform: translateY(18px); }
-          to   { opacity: 1; transform: translateY(0); }
+          from { opacity: 0; }
+          to   { opacity: 1; }
         }
         @keyframes intro-out {
-          from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-          to   { opacity: 0; transform: translateY(-24px) scale(0.97); filter: blur(6px); }
+          0%   { opacity: 1; filter: blur(0px); }
+          100% { opacity: 0; filter: blur(8px); }
         }
 
         @keyframes push-back {
@@ -899,8 +900,8 @@ export function AccessibleDiagnostic() {
             maxWidth: 540,
             textAlign: 'center',
             animation: introFading
-              ? 'intro-out 0.6s cubic-bezier(0.4,0,1,1) forwards'
-              : 'intro-in 0.7s cubic-bezier(0.22,1,0.36,1) forwards',
+              ? 'intro-out 1.8s ease forwards'
+              : 'intro-in 1.2s ease forwards',
           }}>
             <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 400, color: '#000', lineHeight: 1.25, letterSpacing: '-0.025em', margin: 0 }}>
               {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
