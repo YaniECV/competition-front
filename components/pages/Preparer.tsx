@@ -757,6 +757,13 @@ export function AccessibleDiagnostic() {
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
 
+  const [showButton, setShowButton] = useState(false)
+
+  const startQuestions = () => {
+    setIntroFading(true)
+    setTimeout(() => setPhase('questions'), 900)
+  }
+
   // ── Typewriter intro ───────────────────────────────────────────────────────
   useEffect(() => {
     if (phase !== 'intro') return
@@ -766,9 +773,8 @@ export function AccessibleDiagnostic() {
       setTypedChars(i)
       if (i >= INTRO_TEXT.length) {
         clearInterval(iv)
-        // 10s total depuis le début : typing ~4s + attente ~4.5s + fade 1.5s + question ~1s
-        setTimeout(() => setIntroFading(true), 4500)
-        setTimeout(() => setPhase('questions'), 6000)
+        // Bouton apparaît 600ms après la fin du typewriter
+        setTimeout(() => setShowButton(true), 600)
       }
     }, INTRO_SPEED)
     return () => clearInterval(iv)
@@ -885,6 +891,12 @@ export function AccessibleDiagnostic() {
           from { opacity: 0; transform: translateY(22px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+        @keyframes btn-in {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .start-btn:hover { background: #222 !important; transform: translateY(-1px); }
+        .start-btn:active { transform: translateY(0); }
 
         .diag-opt { transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s; }
         .diag-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
@@ -899,16 +911,44 @@ export function AccessibleDiagnostic() {
           <div style={{
             maxWidth: 540,
             textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 48,
             animation: introFading
-              ? 'intro-out 1.8s ease forwards'
+              ? 'intro-out 0.9s ease forwards'
               : 'intro-in 1.2s ease forwards',
           }}>
             <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 400, color: '#000', lineHeight: 1.25, letterSpacing: '-0.025em', margin: 0 }}>
               {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
-              <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+              {!showButton && (
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+              )}
             </p>
+
+            {showButton && (
+              <button
+                className="start-btn"
+                onClick={startQuestions}
+                style={{
+                  background: '#000',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 999,
+                  padding: '16px 44px',
+                  fontSize: 17,
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                  letterSpacing: '-0.01em',
+                  transition: 'background 0.2s, transform 0.15s',
+                  animation: 'btn-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
+                }}
+              >
+                Commencer
+              </button>
+            )}
           </div>
         </div>
       )}
