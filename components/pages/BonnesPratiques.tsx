@@ -133,7 +133,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
           onClick={onOpen}
           style={{
             border: '1px solid #484848',
-            borderRadius: 8,
+            borderRadius: 999,
             padding: 16,
             display: 'flex',
             alignItems: 'center',
