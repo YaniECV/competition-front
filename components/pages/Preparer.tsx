@@ -959,25 +959,58 @@ export function AccessibleDiagnostic() {
             </p>
 
             {showButton && (
-              <button
-                className="start-btn"
-                onClick={startQuestions}
-                style={{
-                  background: '#EEE9F3',
-                  color: '#101010',
-                  border: 'none',
-                  borderRadius: 999,
-                  padding: '16px 44px',
-                  fontSize: 17,
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font)',
-                  letterSpacing: '-0.01em',
-                  transition: 'background 0.2s, transform 0.15s',
-                  animation: 'btn-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
-                }}
-              >
-                Commencer
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24, animation: 'btn-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards' }}>
+                {/* Ce qu'on obtient */}
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  {[
+                    {
+                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+                      label: 'Recommandations',
+                      sub: 'adaptées à ton festival',
+                    },
+                    {
+                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+                      label: 'Budget estimé',
+                      sub: '+ aides disponibles',
+                    },
+                    {
+                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>,
+                      label: 'Cadre légal',
+                      sub: 'lois applicables',
+                    },
+                  ].map(item => (
+                    <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#1c1c1c', border: '1px solid #2e2e2e', borderRadius: 8, padding: '10px 14px', textAlign: 'left' }}>
+                      <div style={{ flexShrink: 0 }}>{item.icon}</div>
+                      <div>
+                        <p style={{ fontSize: 12, fontWeight: 600, color: '#EEE9F3', margin: 0, fontFamily: 'var(--font)' }}>{item.label}</p>
+                        <p style={{ fontSize: 11, color: '#9491a1', margin: 0, fontFamily: 'var(--font)' }}>{item.sub}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                  <button
+                    className="start-btn"
+                    onClick={startQuestions}
+                    style={{
+                      background: '#EEE9F3',
+                      color: '#101010',
+                      border: 'none',
+                      borderRadius: 999,
+                      padding: '14px 44px',
+                      fontSize: 17,
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font)',
+                      letterSpacing: '-0.01em',
+                      transition: 'background 0.2s, transform 0.15s',
+                    }}
+                  >
+                    Commencer
+                  </button>
+                  <p style={{ fontSize: 12, color: '#9491a1', margin: 0, fontFamily: 'var(--font-mono)' }}>5 questions · ~2 min · gratuit</p>
+                </div>
+              </div>
             )}
           </div>
         </div>
