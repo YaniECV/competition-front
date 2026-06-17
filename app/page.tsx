@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section style={{ position: 'relative', background: '#101010', minHeight: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, marginTop: -72, paddingTop: 140 }}>
+      <section style={{ position: 'relative', background: '#101010', minHeight: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, marginTop: -72, paddingTop: 140, paddingBottom: 120 }}>
 
         {/* Barrier gauche */}
         <div style={{ position: 'absolute', left: -53, top: '58%', width: 480, height: 394, pointerEvents: 'none' }}>
