@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Restes Vite — projet en Next.js, ces fichiers n'ont aucun rôle (ne jamais committer)
+/vite.config.ts
+/index.html
+/tsconfig.app.json
+/tsconfig.node.json
+/eslint.config.js
+/src/
+/dist/
