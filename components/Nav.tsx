@@ -49,6 +49,15 @@ const searchIndex = [
   { label: 'Signalétiques à télécharger', desc: 'Packs pictogrammes haut contraste.', href: '/les-ressources', tag: 'Ressource' },
 ]
 
+function MetalAxsLogo({ color }: { color: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, gap: 1 }}>
+      <span style={{ fontFamily: 'var(--font)', fontSize: 10, fontWeight: 800, letterSpacing: '0.18em', color, textTransform: 'uppercase' as const }}>Metal</span>
+      <span style={{ fontFamily: 'var(--font)', fontSize: 22, fontWeight: 900, letterSpacing: '-0.02em', color, lineHeight: 1 }}>AXS</span>
+    </div>
+  )
+}
+
 function ChevronDown({ color }: { color: string }) {
   return (
     <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
@@ -228,9 +237,9 @@ export default function Nav() {
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
 
       <nav style={{
-        background: isDark ? 'transparent' : '#fff',
-        borderBottom: isDark ? 'none' : '1px solid var(--border)',
-        position: isDark ? 'absolute' : 'sticky',
+        background: isDark ? '#101010' : '#fff',
+        borderBottom: isDark ? '1px solid rgba(238,233,243,0.1)' : '1px solid var(--border)',
+        position: 'sticky',
         top: 0,
         zIndex: 100,
         width: '100%',
@@ -239,13 +248,7 @@ export default function Nav() {
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            {isDark ? (
-              <img src="/nav-logo.svg" alt="FEST_ACCESS" style={{ height: 23, width: 'auto' }} />
-            ) : (
-              <span style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
-                FEST_ACCESS
-              </span>
-            )}
+            <MetalAxsLogo color={navText} />
           </Link>
 
           {/* Search — uniquement sur fond clair */}
