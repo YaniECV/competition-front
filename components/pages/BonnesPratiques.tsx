@@ -341,10 +341,7 @@ export function BonnesPratiquesIndex() {
       <div style={{ background: '#fff', padding: '48px 40px 0' }}>
         <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
           <div>
-            <p style={{ fontSize: 12, color: '#101010', lineHeight: 1.1, marginBottom: 4 }}>
-              Accueil / Les bonnes pratiques
-            </p>
-            <h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
+<h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
               Parcourez nos bonnes pratiques
             </h1>
           </div>
