@@ -1,8 +1,13 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith('/accessible')) return null;
+
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: '#fff', marginTop: 'auto' }}>
+    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg)', marginTop: 'auto' }}>
       <div className="container" style={{ padding: '40px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32 }}>
         <div>
           <p style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 14, color: 'var(--text)', marginBottom: 10 }}>FEST_ACCESS</p>
@@ -19,7 +24,7 @@ export default function Footer() {
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>
             {col.links.map(l => (
               <div key={l.to} style={{ marginBottom: 8 }}>
-                <Link href={l.to} style={{ fontSize: 13 }}>{l.l}</Link>
+                <Link href={l.to} style={{ fontSize: 13, color: 'var(--muted)' }}>{l.l}</Link>
               </div>
             ))}
           </div>

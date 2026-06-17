@@ -991,13 +991,13 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, fontFamily: 'var(--font-title)' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, fontFamily: 'var(--font-title)', textAlign: 'center' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
               {'hint' in q && q.hint && (
-                <p style={{ fontSize: 13, color: '#9491a1', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
+                <p style={{ fontSize: 13, color: '#9491a1', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease', textAlign: 'center' }}>{q.hint}</p>
               )}
 
               {/* Options */}
@@ -1008,6 +1008,7 @@ export function AccessibleDiagnostic() {
                   gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
                   gap: 10,
                   maxWidth: q.type === 'multi' ? 540 : 420,
+                  margin: '0 auto',
                   pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
