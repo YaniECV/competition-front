@@ -342,11 +342,9 @@ export function BonnesPratiquesIndex() {
               Parcourez nos bonnes pratiques
             </h1>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#101010', maxWidth: 420 }}>
-              Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
-            </p>
-          </div>
+          <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#101010', maxWidth: 420 }}>
+            Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
+          </p>
         </div>
       </div>
 
