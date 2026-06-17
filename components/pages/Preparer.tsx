@@ -729,7 +729,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 // ── Main diagnostic ───────────────────────────────────────────────────────────
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
-const INTRO_SPEED = 38 // ms par caractère
+const INTRO_SPEED = 38   // ms par caractère — intro
+const Q_SPEED     = 28   // ms par caractère — questions
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
@@ -744,6 +745,10 @@ export function AccessibleDiagnostic() {
   const [otherText, setOtherText] = useState('')
   const [showResult, setShowResult] = useState(false)
 
+  // ── Typewriter par question ────────────────────────────────────────────────
+  const [qTypedChars, setQTypedChars] = useState(0)   // nb de chars écrits dans la question
+  const [qFullyTyped, setQFullyTyped] = useState(false) // options visibles seulement quand true
+
   // ── 3D Animation ──────────────────────────────────────────────────────────
   const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
   const [enterKey, setEnterKey] = useState(0)
@@ -752,7 +757,7 @@ export function AccessibleDiagnostic() {
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
 
-  // Typewriter intro
+  // ── Typewriter intro ───────────────────────────────────────────────────────
   useEffect(() => {
     if (phase !== 'intro') return
     let i = 0
@@ -761,13 +766,31 @@ export function AccessibleDiagnostic() {
       setTypedChars(i)
       if (i >= INTRO_TEXT.length) {
         clearInterval(iv)
-        // Attend 5 secondes puis fade out → questions
-        setTimeout(() => setIntroFading(true), 3500)
-        setTimeout(() => setPhase('questions'), 5000)
+        setTimeout(() => setIntroFading(true), 2500)
+        setTimeout(() => setPhase('questions'), 3200)
       }
     }, INTRO_SPEED)
     return () => clearInterval(iv)
   }, [phase])
+
+  // ── Typewriter par question — redémarre à chaque changement de question ────
+  useEffect(() => {
+    if (phase !== 'questions') return
+    setQTypedChars(0)
+    setQFullyTyped(false)
+    const text = QUESTIONS[qIndex].text
+    let i = 0
+    const iv = setInterval(() => {
+      i++
+      setQTypedChars(i)
+      if (i >= text.length) {
+        clearInterval(iv)
+        // Options apparaissent 200ms après que la question soit entièrement écrite
+        setTimeout(() => setQFullyTyped(true), 200)
+      }
+    }, Q_SPEED)
+    return () => clearInterval(iv)
+  }, [qIndex, phase])
 
   // Sync selection on back navigation
   useEffect(() => {
@@ -943,18 +966,18 @@ export function AccessibleDiagnostic() {
                 animation: enterKey > 0 ? 'pull-forward 0.65s cubic-bezier(0.22,1,0.36,1) forwards' : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              {/* Question */}
+              {/* Question — typewriter */}
               <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 8, letterSpacing: '-0.025em' }}>
-                {q.text}
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 1s step-end infinite' }} />
+                {q.text.slice(0, qTypedChars)}
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
-              {'hint' in q && q.hint && (
-                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0' }}>{q.hint}</p>
+              {'hint' in q && q.hint && qFullyTyped && (
+                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0', animation: 'opt-in 0.4s ease forwards' }}>{q.hint}</p>
               )}
 
-              {/* Options — stagger */}
-              <div
+              {/* Options — apparaissent SEULEMENT quand la question est entièrement écrite */}
+              {qFullyTyped && <div
                 className="diag-grid"
                 style={{
                   display: 'grid',
@@ -1027,7 +1050,7 @@ export function AccessibleDiagnostic() {
                     </div>
                   )
                 })}
-              </div>
+              </div>}
             </div>
           </div>
 
