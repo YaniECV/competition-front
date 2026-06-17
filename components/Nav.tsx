@@ -31,7 +31,6 @@ const navItems = [
   { label: 'La fédération', href: '/la-federation' },
 ];
 
-// ── Index de recherche ────────────────────────────────────────────────────────
 const searchIndex = [
   ...handicaps.map(h => ({
     label: h.nom,
@@ -50,6 +49,14 @@ const searchIndex = [
   { label: 'Signalétiques à télécharger', desc: 'Packs pictogrammes haut contraste.', href: '/les-ressources', tag: 'Ressource' },
 ]
 
+function ChevronDown({ color }: { color: string }) {
+  return (
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M1 1L5 5L9 1" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function SearchModal({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -66,7 +73,6 @@ function SearchModal({ onClose }: { onClose: () => void }) {
     item.label.toLowerCase().includes(q.toLowerCase()) ||
     item.desc.toLowerCase().includes(q.toLowerCase())
   )
-
   const suggestions = [
     { label: 'Handicap moteur', href: '/handicaps/moteur', tag: 'Handicap' },
     { label: 'Boucle magnétique', href: '/s-informer/bonnes-pratiques/boucle-magnetique', tag: 'Bonne pratique' },
@@ -74,7 +80,6 @@ function SearchModal({ onClose }: { onClose: () => void }) {
     { label: 'Faire mon diagnostic', href: '/accessible/diagnostic', tag: 'Outil' },
     { label: 'Signalétiques', href: '/les-ressources', tag: 'Ressource' },
   ]
-
   const items = q.length === 0 ? suggestions : results
 
   return (
@@ -83,10 +88,9 @@ function SearchModal({ onClose }: { onClose: () => void }) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div style={{ background: '#fff', width: '100%', maxWidth: 620, margin: '0 20px', border: '1px solid var(--border)' }}>
-        {/* Input */}
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 20px', borderBottom: '1px solid var(--border)' }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
           <input
             ref={inputRef}
@@ -97,8 +101,6 @@ function SearchModal({ onClose }: { onClose: () => void }) {
           />
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 20, lineHeight: 1, padding: 4 }}>✕</button>
         </div>
-
-        {/* Suggestions ou résultats */}
         <div style={{ maxHeight: 420, overflowY: 'auto' }}>
           {q.length === 0 && (
             <p style={{ padding: '12px 20px 8px', fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
@@ -124,7 +126,6 @@ function SearchModal({ onClose }: { onClose: () => void }) {
             </Link>
           ))}
         </div>
-
         <p style={{ padding: '10px 20px', fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', borderTop: '1px solid var(--border)' }}>
           {q.length > 0 ? `${results.length} résultat${results.length > 1 ? 's' : ''}` : `${searchIndex.length} éléments indexés`} — Échap pour fermer
         </p>
@@ -133,7 +134,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
   )
 }
 
-function InlineSearch() {
+function InlineSearch({ dark }: { dark: boolean }) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -150,7 +151,6 @@ function InlineSearch() {
     item.desc.toLowerCase().includes(q.toLowerCase())
   ).slice(0, 8)
 
-  // Fermer au clic extérieur
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false)
@@ -165,24 +165,28 @@ function InlineSearch() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  const borderColor = dark ? 'rgba(238,233,243,0.3)' : 'var(--border2)';
+  const inputBg = dark ? 'rgba(255,255,255,0.08)' : '#fff';
+  const inputColor = dark ? '#EEE9F3' : 'var(--text)';
+  const iconColor = dark ? 'rgba(238,233,243,0.5)' : 'var(--muted)';
+
   return (
     <div ref={wrapRef} style={{ position: 'relative', width: 240 }}>
-      <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid var(--border2)', background: '#fff', padding: '0 10px', gap: 8, height: 34 }}>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" style={{ flexShrink: 0 }}>
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      <div style={{ display: 'flex', alignItems: 'center', border: `1.5px solid ${borderColor}`, background: inputBg, padding: '0 10px', gap: 8, height: 34, borderRadius: 6 }}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
         </svg>
         <input
           value={query}
           onChange={e => { setQuery(e.target.value); setOpen(true) }}
           onFocus={() => setOpen(true)}
           placeholder="Rechercher…"
-          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 12, fontFamily: 'var(--font)', color: 'var(--text)' }}
+          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 12, fontFamily: 'var(--font)', color: inputColor }}
         />
         {query && (
-          <button onClick={() => { setQuery(''); setOpen(false) }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 14, padding: 0, lineHeight: 1 }}>✕</button>
+          <button onClick={() => { setQuery(''); setOpen(false) }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: iconColor, fontSize: 14, padding: 0, lineHeight: 1 }}>✕</button>
         )}
       </div>
-
       {open && (
         <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: '#fff', border: '1px solid var(--border)', zIndex: 300, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
           {q.length === 0 && <p style={{ padding: '8px 14px 4px', fontSize: 10, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Suggestions</p>}
@@ -212,97 +216,172 @@ export default function Nav() {
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname() ?? '';
 
-  // Fermer la search au changement de page
-  useEffect(() => { setSearchOpen(false) }, [pathname])
+  const isDark = pathname === '/';
+
+  const navText = isDark ? '#EEE9F3' : 'var(--text)';
+  const navMuted = isDark ? 'rgba(238,233,243,0.55)' : 'var(--muted)';
+
+  useEffect(() => { setSearchOpen(false); setMobileOpen(false) }, [pathname])
 
   return (
     <>
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
 
-      <nav style={{ borderBottom: '1px solid var(--border)', background: '#fff', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 24, height: 56 }}>
-          <Link href="/" style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)', flexShrink: 0 }}>
-            FEST_ACCESS
+      <nav style={{
+        background: isDark ? 'transparent' : '#fff',
+        borderBottom: isDark ? 'none' : '1px solid var(--border)',
+        position: isDark ? 'absolute' : 'sticky',
+        top: 0,
+        zIndex: 100,
+        width: '100%',
+      }}>
+        <div style={{ maxWidth: 1512, margin: '0 auto', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
+
+          {/* Logo */}
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+            {isDark ? (
+              <img src="/nav-logo.svg" alt="FEST_ACCESS" style={{ height: 23, width: 'auto' }} />
+            ) : (
+              <span style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
+                FEST_ACCESS
+              </span>
+            )}
           </Link>
 
-          {/* Search bar — toujours visible */}
-          <div className="nav-search">
-            <InlineSearch />
-          </div>
+          {/* Search — uniquement sur fond clair */}
+          {!isDark && (
+            <div className="nav-search" style={{ flex: 1, maxWidth: 240, margin: '0 32px' }}>
+              <InlineSearch dark={false} />
+            </div>
+          )}
 
-          <div style={{ display: 'flex', gap: 24, alignItems: 'center', marginLeft: 'auto' }} className="nav-links">
-            {navItems.map(item => (
-              <div
-                key={item.label}
-                style={{ position: 'relative' }}
-                onMouseEnter={() => setHovered(item.label)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                {item.href ? (
-                  <Link
-                    href={item.href}
-                    style={{
-                      fontSize: 13,
-                      fontWeight: pathname.startsWith(item.prefix ?? item.href) ? 700 : 400,
-                      color: pathname.startsWith(item.prefix ?? item.href) ? 'var(--text)' : 'var(--muted)',
-                      borderBottom: pathname.startsWith(item.prefix ?? item.href) ? '2px solid var(--text)' : '2px solid transparent',
-                      display: 'block',
-                      padding: '18px 0',
-                      textDecoration: 'none',
+          {/* Liens nav */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 0 }} className="nav-links">
+            {navItems.map(item => {
+              const isActive = item.prefix
+                ? pathname.startsWith(item.prefix)
+                : item.href
+                  ? pathname.startsWith(item.href)
+                  : false;
+              const color = isActive ? navText : navMuted;
+
+              return (
+                <div
+                  key={item.label}
+                  style={{ position: 'relative' }}
+                  onMouseEnter={() => setHovered(item.label)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '0 16px',
+                        height: 72,
+                        fontSize: 18,
+                        fontWeight: 600,
+                        color,
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                        borderBottom: !isDark && isActive ? '2px solid var(--text)' : '2px solid transparent',
+                      }}
+                    >
+                      {item.label}
+                      {item.subs && <ChevronDown color={color} />}
+                    </Link>
+                  ) : (
+                    <span style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      padding: '0 16px',
+                      height: 72,
+                      fontSize: 18,
+                      fontWeight: 600,
+                      color,
+                      cursor: 'pointer',
                       whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {item.label}{item.subs && <span style={{ fontSize: 10, opacity: 0.5, marginLeft: 4 }}>▾</span>}
-                  </Link>
-                ) : (
-                  <span style={{
-                    fontSize: 13,
-                    fontWeight: item.prefix && pathname.startsWith(item.prefix) ? 700 : 400,
-                    color: item.prefix && pathname.startsWith(item.prefix) ? 'var(--text)' : 'var(--muted)',
-                    borderBottom: item.prefix && pathname.startsWith(item.prefix) ? '2px solid var(--text)' : '2px solid transparent',
-                    cursor: 'pointer',
-                    display: 'block',
-                    padding: '18px 0',
-                    userSelect: 'none' as const,
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {item.label} <span style={{ fontSize: 10, opacity: 0.5 }}>▾</span>
-                  </span>
-                )}
+                      userSelect: 'none' as const,
+                      borderBottom: !isDark && isActive ? '2px solid var(--text)' : '2px solid transparent',
+                    }}>
+                      {item.label}
+                      {item.subs && <ChevronDown color={color} />}
+                    </span>
+                  )}
 
-                {item.subs && hovered === item.label && (
-                  <div style={{ position: 'absolute', top: '100%', left: 0, background: '#fff', border: '1px solid var(--border)', minWidth: 210, zIndex: 200 }}>
-                    {item.subs.map(sub => (
-                      <Link
-                        key={sub.to}
-                        href={sub.to}
-                        onClick={() => setHovered(null)}
-                        style={{ display: 'block', padding: '10px 16px', fontSize: 13, color: pathname === sub.to ? 'var(--text)' : 'var(--muted)', fontWeight: pathname === sub.to ? 600 : 400, borderBottom: '1px solid var(--bg2)', textDecoration: 'none', background: 'transparent', transition: 'background 0.1s' }}
-                        onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
-                        onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
-                      >
-                        {sub.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                  {item.subs && hovered === item.label && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      background: '#fff',
+                      border: '1px solid var(--border)',
+                      minWidth: 210,
+                      zIndex: 200,
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                    }}>
+                      {item.subs.map(sub => (
+                        <Link
+                          key={sub.to}
+                          href={sub.to}
+                          onClick={() => setHovered(null)}
+                          style={{
+                            display: 'block',
+                            padding: '10px 16px',
+                            fontSize: 14,
+                            color: pathname === sub.to ? 'var(--text)' : 'var(--muted)',
+                            fontWeight: pathname === sub.to ? 600 : 400,
+                            borderBottom: '1px solid var(--bg2)',
+                            textDecoration: 'none',
+                            background: 'transparent',
+                          }}
+                          onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--bg2)')}
+                          onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
 
+            {/* Bouton audit */}
             <button
               type="button"
               disabled
               aria-disabled="true"
               title="Bientôt disponible"
-              style={{ fontSize: 11, fontFamily: 'var(--font-mono)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--muted)', background: 'var(--bg2)', border: '1px solid var(--border)', padding: '8px 16px', whiteSpace: 'nowrap', cursor: 'not-allowed' }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: '#A122E2',
+                color: '#fff',
+                fontSize: 16,
+                fontWeight: 600,
+                fontFamily: 'var(--font)',
+                padding: '0 20px',
+                height: 42,
+                borderRadius: 999,
+                border: 'none',
+                whiteSpace: 'nowrap',
+                marginLeft: 16,
+                opacity: 0.45,
+                cursor: 'not-allowed',
+              }}
             >
               Faire un audit · Bientôt disponible
             </button>
           </div>
 
+          {/* Burger mobile */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            style={{ display: 'none', background: 'none', border: '1px solid var(--border)', color: 'var(--text)', fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
+            style={{ display: 'none', background: 'none', border: `1px solid ${isDark ? 'rgba(238,233,243,0.3)' : 'var(--border)'}`, color: navText, fontSize: 16, cursor: 'pointer', padding: '4px 10px', fontFamily: 'var(--font)' }}
             className="nav-burger"
             aria-label="Menu"
           >
@@ -310,6 +389,7 @@ export default function Nav() {
           </button>
         </div>
 
+        {/* Menu mobile */}
         {mobileOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 8 }}>
             <button
@@ -317,7 +397,7 @@ export default function Nav() {
               style={{ background: 'none', border: '1px solid var(--border)', padding: '10px 14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, color: 'var(--muted)', fontSize: 13, fontFamily: 'var(--font)', marginBottom: 8 }}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
               </svg>
               Rechercher…
             </button>
@@ -341,20 +421,17 @@ export default function Nav() {
                 )}
               </div>
             ))}
-            <button type="button" disabled aria-disabled="true" title="Bientôt disponible" style={{ fontSize: 13, fontWeight: 700, color: 'var(--muted)', background: 'none', border: 'none', textAlign: 'left', padding: '10px 0 6px', cursor: 'not-allowed' }}>
+            <button type="button" disabled aria-disabled="true" style={{ fontSize: 13, fontWeight: 600, color: '#A122E2', background: 'none', border: 'none', textAlign: 'left', padding: '10px 0 6px', cursor: 'not-allowed', opacity: 0.5, fontFamily: 'var(--font)' }}>
               Faire un audit · Bientôt disponible
             </button>
           </div>
         )}
 
         <style>{`
-          @media (max-width: 768px) {
+          @media (max-width: 900px) {
             .nav-links { display: none !important; }
             .nav-burger { display: block !important; }
-            .nav-search { display: none; }
-          }
-          @media (min-width: 769px) {
-            .nav-search { display: block; }
+            .nav-search { display: none !important; }
           }
         `}</style>
       </nav>

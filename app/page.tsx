@@ -51,35 +51,23 @@ export default function Home() {
           </div>
 
           {/* Bouton CTA */}
-          <div style={{ position: 'relative', marginTop: 32 }}>
-            <Link href="/accessible/diagnostic" style={{
-              display: 'inline-block',
-              background: '#A122E2',
-              padding: '8px 12px',
-              color: '#EEE9F3',
-              fontSize: 18,
-              fontWeight: 600,
-              fontFamily: 'var(--font)',
-              textAlign: 'center',
-              lineHeight: 1.3,
-              textDecoration: 'none',
-              position: 'relative',
-            }}>
-              Faire le diagnostique<br />de mon festival
-              {/* Coin bas-gauche */}
-              <span style={{ position: 'absolute', bottom: -1, left: -0.5, width: 22, height: 13, transform: 'rotate(180deg)', display: 'flex' }}>
-                <img src="/hero-btn-corner1.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
-              </span>
-              {/* Coin bas-droit */}
-              <span style={{ position: 'absolute', bottom: -1, right: -0.5, width: 22, height: 13, transform: 'rotate(180deg)', display: 'flex' }}>
-                <img src="/hero-btn-corner1.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
-              </span>
-              {/* Coin haut (droite) */}
-              <span style={{ position: 'absolute', top: 0, left: 178.5, width: 22, height: 13, transform: 'scaleY(-1)', display: 'flex' }}>
-                <img src="/hero-btn-corner2.png" alt="" style={{ width: 22, height: 13, display: 'block' }} />
-              </span>
-            </Link>
-          </div>
+          <Link href="/accessible/diagnostic" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: '#A122E2',
+            padding: '0 32px',
+            height: 48,
+            borderRadius: 999,
+            color: '#EEE9F3',
+            fontSize: 18,
+            fontWeight: 600,
+            fontFamily: 'var(--font)',
+            textDecoration: 'none',
+            marginTop: 32,
+            whiteSpace: 'nowrap',
+          }}>
+            Faire le diagnostique de mon festival
+          </Link>
 
         </div>
       </section>
