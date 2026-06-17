@@ -49,12 +49,18 @@ const searchIndex = [
   { label: 'Signalétiques à télécharger', desc: 'Packs pictogrammes haut contraste.', href: '/les-ressources', tag: 'Ressource' },
 ]
 
-function MetalAxsLogo({ color }: { color: string }) {
+function MetalAxsLogo({ dark }: { dark: boolean }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: 1, gap: 1 }}>
-      <span style={{ fontFamily: 'var(--font)', fontSize: 10, fontWeight: 800, letterSpacing: '0.18em', color, textTransform: 'uppercase' as const }}>Metal</span>
-      <span style={{ fontFamily: 'var(--font)', fontSize: 22, fontWeight: 900, letterSpacing: '-0.02em', color, lineHeight: 1 }}>AXS</span>
-    </div>
+    <img
+      src="/logo.svg"
+      alt="Metal AXS"
+      style={{
+        height: 28,
+        width: 'auto',
+        filter: dark ? 'brightness(0) invert(1)' : 'brightness(0)',
+        display: 'block',
+      }}
+    />
   )
 }
 
@@ -223,10 +229,23 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const pathname = usePathname() ?? '';
 
-  const isDark = pathname === '/';
+  const isHomepage = pathname === '/';
 
+  useEffect(() => {
+    if (!isHomepage) { setScrolledPastHero(false); return; }
+    const onScroll = () => {
+      setScrolledPastHero(window.scrollY > window.innerHeight - 72);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isHomepage]);
+
+  const isDark = isHomepage && !scrolledPastHero;
+  const navBg = isDark ? '#101010' : '#fff';
   const navText = isDark ? '#EEE9F3' : 'var(--text)';
   const navMuted = isDark ? 'rgba(238,233,243,0.55)' : 'var(--muted)';
 
@@ -237,25 +256,20 @@ export default function Nav() {
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
 
       <nav style={{
-        background: 'transparent',
+        background: navBg,
         position: 'sticky',
         top: 0,
         zIndex: 100,
         width: '100%',
+        transition: 'background 0.25s',
       }}>
         <div style={{ maxWidth: 1512, margin: '0 auto', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            <MetalAxsLogo color={navText} />
+            <MetalAxsLogo dark={isDark} />
           </Link>
 
-          {/* Search — uniquement sur fond clair */}
-          {!isDark && (
-            <div className="nav-search" style={{ flex: 1, maxWidth: 240, margin: '0 32px' }}>
-              <InlineSearch dark={false} />
-            </div>
-          )}
 
           {/* Liens nav */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 0 }} className="nav-links">
