@@ -935,27 +935,7 @@ export function AccessibleDiagnostic() {
           {/* 3D Stage */}
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '0 24px' }}>
 
-            {/* Previous question — pushed to back */}
-            {prevQIndex !== null && (
-              <div
-                key={`push-${pushKey}`}
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  maxWidth: 560,
-                  animation: 'push-back 0.45s cubic-bezier(0.4,0,0.6,1) forwards',
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                  textAlign: 'center',
-                }}
-              >
-                <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, letterSpacing: '-0.025em', margin: 0 }}>
-                  {QUESTIONS[prevQIndex].text}
-                </h1>
-              </div>
-            )}
-
-            {/* Current question — comes to front */}
+            {/* Current question */}
             <div
               key={`enter-${enterKey}`}
               style={{
