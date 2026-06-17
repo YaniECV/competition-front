@@ -730,7 +730,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
 const INTRO_SPEED = 55   // ms par caractère — intro (lent, soothing)
-const Q_SPEED     = 36   // ms par caractère — questions
+const Q_SPEED     = 80   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
@@ -973,12 +973,12 @@ export function AccessibleDiagnostic() {
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
-              {'hint' in q && q.hint && qFullyTyped && (
-                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0', animation: 'opt-in 0.4s ease forwards' }}>{q.hint}</p>
+              {'hint' in q && q.hint && (
+                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
               )}
 
-              {/* Options — apparaissent SEULEMENT quand la question est entièrement écrite */}
-              {qFullyTyped && <div
+              {/* Options — toujours dans le DOM (pas de layout shift), visibles après typewriter */}
+              <div
                 className="diag-grid"
                 style={{
                   display: 'grid',
@@ -988,6 +988,7 @@ export function AccessibleDiagnostic() {
                   maxWidth: q.type === 'multi' ? 520 : 380,
                   marginLeft: 'auto',
                   marginRight: 'auto',
+                  pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
                 {q.options.map((opt, idx) => {
@@ -999,7 +1000,11 @@ export function AccessibleDiagnostic() {
                   return (
                     <div
                       key={opt.val}
-                      style={{ animation: `opt-in 0.5s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.065}s both` }}
+                      style={{
+                        opacity: qFullyTyped ? 1 : 0,
+                        transform: qFullyTyped ? 'translateY(0)' : 'translateY(16px)',
+                        transition: `opacity 0.45s ease ${0.1 + idx * 0.08}s, transform 0.45s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.08}s`,
+                      }}
                     >
                       <button
                         className="diag-opt"
@@ -1051,7 +1056,7 @@ export function AccessibleDiagnostic() {
                     </div>
                   )
                 })}
-              </div>}
+              </div>
             </div>
           </div>
 
