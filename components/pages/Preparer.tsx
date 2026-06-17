@@ -9,47 +9,60 @@ import type { Article } from '../data/articles'
 const QUESTIONS = [
   {
     id: 'jauge',
-    text: 'Est-ce que tu as une idée de combien de personnes tu accueilleras au festival ?',
+    text: 'Ton festival fait combien de personnes ?',
     type: 'single' as const,
     options: [
-      { val: 'petit',  label: 'Moins de 500 personnes' },
-      { val: 'moyen',  label: '500 à 2 000 personnes' },
-      { val: 'grand',  label: 'Plus de 2 000 personnes' },
+      { val: 'micro',  label: 'Moins de 300' },
+      { val: 'petit',  label: '300 à 1 500' },
+      { val: 'moyen',  label: '1 500 à 5 000' },
+      { val: 'grand',  label: 'Plus de 5 000' },
     ],
   },
   {
     id: 'terrain',
-    text: 'Sur quel type de terrain se déroule ton festival ?',
+    text: 'Ton terrain c\'est quoi ?',
     type: 'single' as const,
     options: [
-      { val: 'dur',    label: 'Surface dure — asphalte, béton, bois' },
-      { val: 'herbe',  label: 'Herbe ou terrain meuble' },
-      { val: 'mixte',  label: 'Les deux — terrain mixte' },
+      { val: 'herbe',  label: 'Herbe / terre' },
+      { val: 'bitume', label: 'Bitume' },
+      { val: 'mixte',  label: 'Mixte' },
+      { val: 'salle',  label: 'En salle' },
+    ],
+  },
+  {
+    id: 'duree',
+    text: 'Ton festival dure combien de jours ?',
+    type: 'single' as const,
+    options: [
+      { val: '1j',     label: '1 jour' },
+      { val: '2-3j',   label: '2-3 jours' },
+      { val: '3j+',    label: 'Plus de 3 jours' },
+    ],
+  },
+  {
+    id: 'espaces',
+    text: 'Ton festival c\'est quoi comme espaces ?',
+    type: 'multi' as const,
+    hint: 'Sélectionne tout ce qui s\'applique',
+    options: [
+      { val: 'scene',    label: 'Scène' },
+      { val: 'buvettes', label: 'Buvettes / bars' },
+      { val: 'parking',  label: 'Parking' },
+      { val: 'toilettes',label: 'Toilettes' },
+      { val: 'camping',  label: 'Camping' },
+      { val: 'repos',    label: 'Espace repos' },
     ],
   },
   {
     id: 'budget',
-    text: 'Quel budget peux-tu mobiliser pour l\'accessibilité ?',
-    type: 'single' as const,
+    text: 'T\'as un budget accessibilité ?',
+    type: 'single-other' as const,
     options: [
-      { val: 'zero',   label: 'Aucun — uniquement organisationnel' },
-      { val: 'petit',  label: 'Moins de 500 €' },
-      { val: 'moyen',  label: '500 € à 2 000 €' },
-      { val: 'grand',  label: 'Plus de 2 000 €' },
-    ],
-  },
-  {
-    id: 'handicaps',
-    text: 'Quels publics veux-tu prioriser ?',
-    type: 'multi' as const,
-    hint: 'Sélectionne un ou plusieurs',
-    options: [
-      { val: 'moteur',   label: 'Handicap moteur' },
-      { val: 'visuel',   label: 'Handicap visuel' },
-      { val: 'auditif',  label: 'Handicap auditif' },
-      { val: 'autisme',  label: 'Autisme & TSA' },
-      { val: 'psy',      label: 'Troubles psychiques' },
-      { val: 'invisible',label: 'Handicaps invisibles' },
+      { val: 'zero',   label: 'Pas encore' },
+      { val: 'petit',  label: 'Moins de 1 000 €' },
+      { val: 'moyen',  label: '1 000 € à 5 000 €' },
+      { val: 'grand',  label: 'Plus de 5 000 €' },
+      { val: 'other',  label: 'Autre' },
     ],
   },
 ] as const
@@ -199,6 +212,7 @@ export function AccessibleDiagnostic() {
   const [qIndex, setQIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [selected, setSelected] = useState<string | string[]>('')
+  const [otherText, setOtherText] = useState('')
   const [animKey, setAnimKey] = useState(0)
   const [prevText, setPrevText] = useState<string | null>(null)
   const [showResult, setShowResult] = useState(false)
@@ -216,16 +230,20 @@ export function AccessibleDiagnostic() {
     } else {
       setSelected(q.type === 'multi' ? [] : '')
     }
+    setOtherText('')
   }, [qIndex, answers, q.type])
 
   const canAdvance = q.type === 'multi'
     ? (selected as string[]).length > 0
+    : q.type === 'single-other'
+    ? (selected as string) !== '' && ((selected as string) !== 'other' || otherText.trim() !== '')
     : (selected as string) !== ''
 
   const advance = useCallback(() => {
     if (!canAdvance) return
 
-    const newAnswers = { ...answers, [q.id]: selected }
+    const finalVal = q.type === 'single-other' && selected === 'other' ? otherText.trim() : selected
+    const newAnswers = { ...answers, [q.id]: finalVal }
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
@@ -373,47 +391,75 @@ export function AccessibleDiagnostic() {
             }}
           >
             {q.options.map(opt => {
-              const isSelected = q.type === 'multi'
+              const isMulti = q.type === 'multi'
+              const isSelected = isMulti
                 ? (selected as string[]).includes(opt.val)
                 : selected === opt.val
+              const isOther = opt.val === 'other'
+
               return (
-                <button
-                  key={opt.val}
-                  className="diag-option"
-                  onClick={() => {
-                    if (q.type === 'multi') {
-                      toggleMulti(opt.val)
-                    } else {
-                      setSelected(opt.val)
-                    }
-                  }}
-                  style={{
-                    textAlign: 'left',
-                    background: isSelected ? 'rgba(161,34,226,0.08)' : '#fff',
-                    border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e5e5e5',
-                    borderRadius: 12,
-                    padding: '16px 20px',
-                    fontSize: 16,
-                    color: '#000',
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                    transition: 'all 0.15s',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  <span style={{
-                    width: 20, height: 20, borderRadius: q.type === 'multi' ? 4 : '50%',
-                    border: isSelected ? '2px solid #a122e2' : '2px solid #d1d1d1',
-                    background: isSelected ? '#a122e2' : 'transparent',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0, transition: 'all 0.15s',
-                  }}>
-                    {isSelected && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  </span>
-                  {opt.label}
-                </button>
+                <div key={opt.val} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <button
+                    className="diag-option"
+                    onClick={() => {
+                      if (isMulti) {
+                        toggleMulti(opt.val)
+                      } else {
+                        setSelected(opt.val)
+                      }
+                    }}
+                    style={{
+                      textAlign: 'left',
+                      background: isSelected ? 'rgba(161,34,226,0.08)' : '#fff',
+                      border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e5e5e5',
+                      borderRadius: 12,
+                      padding: '16px 20px',
+                      fontSize: 16,
+                      color: '#000',
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                      transition: 'all 0.15s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      width: '100%',
+                    }}
+                  >
+                    <span style={{
+                      width: 20, height: 20, borderRadius: isMulti ? 4 : '50%',
+                      border: isSelected ? '2px solid #a122e2' : '2px solid #d1d1d1',
+                      background: isSelected ? '#a122e2' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0, transition: 'all 0.15s',
+                    }}>
+                      {isSelected && <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                    </span>
+                    {opt.label}
+                  </button>
+
+                  {/* Champ libre pour "Autre" */}
+                  {isOther && isSelected && (
+                    <input
+                      autoFocus
+                      value={otherText}
+                      onChange={e => setOtherText(e.target.value)}
+                      placeholder="Précise ton budget…"
+                      style={{
+                        border: '1.5px solid #a122e2',
+                        borderRadius: 12,
+                        padding: '14px 18px',
+                        fontSize: 16,
+                        fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                        outline: 'none',
+                        background: '#fff',
+                        color: '#000',
+                        width: '100%',
+                        boxSizing: 'border-box',
+                      }}
+                      onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
+                    />
+                  )}
+                </div>
               )
             })}
           </div>
