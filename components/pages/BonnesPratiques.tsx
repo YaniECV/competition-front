@@ -211,7 +211,7 @@ function BpModal({
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h2 style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
+              <h2 style={{ fontSize: 32, fontWeight: 400, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
                 {bp.titre}
               </h2>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -285,13 +285,12 @@ function BpModal({
         {/* Volet droit */}
         <div style={{
           background: '#ededed',
-          width: 350,
-          flexShrink: 0,
+          flex: 1,
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 48,
+          padding: '50px 7px',
         }}>
           <p style={{ fontSize: 24, color: '#101010', textAlign: 'center' }}>
             {handicapLabels.join(' · ')}
