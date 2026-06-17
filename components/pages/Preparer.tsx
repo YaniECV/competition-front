@@ -725,30 +725,54 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
   )
 }
 
+
 // ── Main diagnostic ───────────────────────────────────────────────────────────
 
+const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
+const INTRO_SPEED = 38 // ms par caractère
+
 export function AccessibleDiagnostic() {
+  // ── Phase ─────────────────────────────────────────────────────────────────
+  const [phase, setPhase] = useState<'intro' | 'questions'>('intro')
+  const [typedChars, setTypedChars] = useState(0)
+  const [introFading, setIntroFading] = useState(false)
+
+  // ── Question ──────────────────────────────────────────────────────────────
   const [qIndex, setQIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [selected, setSelected] = useState<string | string[]>('')
   const [otherText, setOtherText] = useState('')
-  const [animKey, setAnimKey] = useState(0)
-  const [prevText, setPrevText] = useState<string | null>(null)
   const [showResult, setShowResult] = useState(false)
-  const [exiting, setExiting] = useState(false)
+
+  // ── 3D Animation ──────────────────────────────────────────────────────────
+  const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
+  const [enterKey, setEnterKey] = useState(0)
+  const [pushKey, setPushKey] = useState(0)
 
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
-  const progress = ((qIndex) / total) * 100
 
-  // Sync selected with already-given answer when going back
+  // Typewriter intro
+  useEffect(() => {
+    if (phase !== 'intro') return
+    let i = 0
+    const iv = setInterval(() => {
+      i++
+      setTypedChars(i)
+      if (i >= INTRO_TEXT.length) {
+        clearInterval(iv)
+        // Attend 5 secondes puis fade out → questions
+        setTimeout(() => setIntroFading(true), 3500)
+        setTimeout(() => setPhase('questions'), 5000)
+      }
+    }, INTRO_SPEED)
+    return () => clearInterval(iv)
+  }, [phase])
+
+  // Sync selection on back navigation
   useEffect(() => {
     const existing = answers[QUESTIONS[qIndex].id]
-    if (existing !== undefined) {
-      setSelected(existing)
-    } else {
-      setSelected(q.type === 'multi' ? [] : '')
-    }
+    setSelected(existing ?? (q.type === 'multi' ? [] : ''))
     setOtherText('')
   }, [qIndex, answers, q.type])
 
@@ -760,278 +784,293 @@ export function AccessibleDiagnostic() {
 
   const advance = useCallback(() => {
     if (!canAdvance) return
-
     const finalVal = q.type === 'single-other' && selected === 'other' ? otherText.trim() : selected
     const newAnswers = { ...answers, [q.id]: finalVal }
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
-      setExiting(true)
-      setTimeout(() => { setShowResult(true) }, 350)
+      setPrevQIndex(qIndex)
+      setPushKey(k => k + 1)
+      setTimeout(() => setShowResult(true), 480)
       return
     }
 
-    // Transition
-    setPrevText(q.text)
-    setExiting(true)
+    // 3D transition: push current to back, pull next to front
+    setPrevQIndex(qIndex)
+    setPushKey(k => k + 1)
     setTimeout(() => {
       setQIndex(i => i + 1)
-      setAnimKey(k => k + 1)
-      setExiting(false)
-      setPrevText(null)
-    }, 300)
-  }, [canAdvance, answers, q.id, q.text, selected, qIndex, total])
+      setEnterKey(k => k + 1)
+      setTimeout(() => setPrevQIndex(null), 700)
+    }, 380)
+  }, [canAdvance, q, answers, qIndex, total, selected, otherText])
 
   const goBack = useCallback(() => {
     if (qIndex === 0) return
-    setPrevText(null)
-    setExiting(true)
-    setTimeout(() => {
-      setQIndex(i => i - 1)
-      setAnimKey(k => k + 1)
-      setExiting(false)
-    }, 250)
+    setPrevQIndex(null)
+    setQIndex(i => i - 1)
+    setEnterKey(k => k + 1)
   }, [qIndex])
 
-  // Keyboard: Enter = advance
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && canAdvance) advance()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [advance, canAdvance])
+    const h = (e: KeyboardEvent) => { if (e.key === 'Enter' && canAdvance && phase === 'questions') advance() }
+    window.addEventListener('keydown', h)
+    return () => window.removeEventListener('keydown', h)
+  }, [advance, canAdvance, phase])
 
   const toggleMulti = (val: string) => {
     const arr = (selected as string[]) || []
     setSelected(arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val])
   }
 
-  if (showResult) return <ResultPage answers={answers} onReset={() => { setShowResult(false); setQIndex(0); setAnswers({}); setSelected(''); setAnimKey(0); setPrevText(null); setExiting(false) }} />
+  if (showResult) return (
+    <ResultPage
+      answers={answers}
+      onReset={() => {
+        setShowResult(false); setPhase('intro'); setTypedChars(0); setIntroFading(false)
+        setQIndex(0); setAnswers({}); setSelected(''); setEnterKey(0)
+        setPrevQIndex(null); setPushKey(0)
+      }}
+    />
+  )
 
   return (
     <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', overflow: 'hidden' }}>
       <style>{`
-        @keyframes loco-enter {
-          0%   { opacity: 0; transform: translateY(52px); filter: blur(6px); }
-          100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+        @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        @keyframes intro-in {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes loco-exit {
-          0%   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
-          100% { opacity: 0; transform: translateY(-36px); filter: blur(10px); }
+        @keyframes intro-out {
+          from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+          to   { opacity: 0; transform: translateY(-24px) scale(0.97); filter: blur(6px); }
         }
-        @keyframes loco-option {
-          0%   { opacity: 0; transform: translateY(28px); }
-          100% { opacity: 1; transform: translateY(0); }
+
+        @keyframes push-back {
+          0%   { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px);  opacity: 1; }
+          100% { transform: perspective(1000px) translateZ(-240px) scale(0.8) rotateX(10deg); filter: blur(12px); opacity: 0.18; }
         }
-        @keyframes cursorBlink {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
+        @keyframes pull-forward {
+          0%   { transform: perspective(1000px) translateZ(80px) scale(1.06); filter: blur(7px); opacity: 0; }
+          100% { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px); opacity: 1; }
         }
-        @keyframes ghostIn {
-          0%   { opacity: 0; filter: blur(12px); transform: translateY(10px); }
-          100% { opacity: 0.28; filter: blur(9px); transform: translateY(0); }
+
+        @keyframes opt-in {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        .diag-option { transition: background 0.15s, border-color 0.15s, transform 0.1s; }
-        .diag-option:hover {
-          background: rgba(161,34,226,0.07) !important;
-          border-color: #a122e2 !important;
-          transform: translateY(-1px);
-        }
-        .diag-option:active { transform: translateY(0); }
-        @media (max-width: 640px) {
-          .diag-options { grid-template-columns: 1fr !important; }
-        }
+
+        .diag-opt { transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s; }
+        .diag-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+        .diag-opt:active { transform: translateY(0); }
+
+        @media (max-width: 600px) { .diag-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
-      {/* ── Header ── */}
-      <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#888', textDecoration: 'none', letterSpacing: '-0.01em' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            Retour
-          </Link>
-          <span style={{ fontSize: 12, color: '#aaa', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
-            {qIndex + 1} / {total}
-          </span>
-        </div>
-        {/* Progress bar */}
-        <div style={{ height: 3, background: '#e5e7eb', borderRadius: 99 }}>
+      {/* ─── INTRO PHASE ─── */}
+      {phase === 'intro' && (
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 32px' }}>
           <div style={{
-            height: '100%',
-            width: `${((qIndex + 1) / total) * 100}%`,
-            background: 'linear-gradient(90deg, #a122e2, #ce9de7)',
-            borderRadius: 99,
-            transition: 'width 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-          }} />
-        </div>
-      </div>
-
-      {/* ── Content — fully centered ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '0 24px' }}>
-
-        {/* Ghost — previous question blurred above */}
-        {prevText && (
-          <p style={{
-            position: 'absolute',
-            top: '12%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '100%',
-            maxWidth: 580,
-            fontSize: 'clamp(1.3rem, 2.6vw, 2.1rem)',
-            color: '#333',
-            lineHeight: 1.25,
-            fontWeight: 400,
-            pointerEvents: 'none',
+            maxWidth: 540,
             textAlign: 'center',
-            animation: 'ghostIn 0.3s ease forwards',
+            animation: introFading
+              ? 'intro-out 0.6s cubic-bezier(0.4,0,1,1) forwards'
+              : 'intro-in 0.7s cubic-bezier(0.22,1,0.36,1) forwards',
           }}>
-            {prevText}
-          </p>
-        )}
-
-        {/* Current question — centered */}
-        <div
-          key={animKey}
-          style={{
-            width: '100%',
-            maxWidth: 580,
-            textAlign: 'center',
-            animation: exiting
-              ? 'loco-exit 0.32s cubic-bezier(0.4, 0, 1, 1) forwards'
-              : `loco-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards`,
-          }}
-        >
-          {/* Question text */}
-          <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 8, letterSpacing: '-0.02em' }}>
-            {q.text}
-            <span style={{ display: 'inline-block', width: 2, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'cursorBlink 1s step-end infinite' }} />
-          </h1>
-
-          {'hint' in q && q.hint && (
-            <p style={{ fontSize: 13, color: '#aaa', marginBottom: 0, marginTop: 10 }}>{q.hint}</p>
-          )}
-
-          {/* Options — stagger animé, centré */}
-          <div
-            className="diag-options"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
-              gap: 10,
-              marginTop: 36,
-              width: '100%',
-              maxWidth: q.type === 'multi' ? 560 : 400,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          >
-            {q.options.map((opt, idx) => {
-              const isMulti = q.type === 'multi'
-              const isSelected = isMulti
-                ? (selected as string[]).includes(opt.val)
-                : selected === opt.val
-              const isOther = opt.val === 'other'
-
-              return (
-                <div key={opt.val} style={{ display: 'flex', flexDirection: 'column', gap: 8,
-                  animation: `loco-option 0.5s cubic-bezier(0.22,1,0.36,1) ${0.12 + idx * 0.06}s both`,
-                }}>
-                  <button
-                    className="diag-option"
-                    onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
-                    style={{
-                      textAlign: 'left',
-                      background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
-                      border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e5e5e5',
-                      borderRadius: 14,
-                      padding: '15px 18px',
-                      fontSize: 15,
-                      color: '#000',
-                      cursor: 'pointer',
-                      fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 12,
-                      width: '100%',
-                      boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
-                    }}
-                  >
-                    <span style={{
-                      width: 20, height: 20, borderRadius: isMulti ? 5 : '50%',
-                      border: isSelected ? '2px solid #a122e2' : '2px solid #d1d1d1',
-                      background: isSelected ? '#a122e2' : 'transparent',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0, transition: 'all 0.18s',
-                    }}>
-                      {isSelected && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                    </span>
-                    {opt.label}
-                  </button>
-                  {isOther && isSelected && (
-                    <input
-                      autoFocus
-                      value={otherText}
-                      onChange={e => setOtherText(e.target.value)}
-                      placeholder="Précise ton budget…"
-                      style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box' }}
-                      onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
-                    />
-                  )}
-                </div>
-              )
-            })}
+            <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 400, color: '#000', lineHeight: 1.25, letterSpacing: '-0.025em', margin: 0 }}>
+              {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
+                <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
+              ))}
+              <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+            </p>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* ── Footer nav ── */}
-      <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        {/* Précèdent */}
-        <button
-          onClick={goBack}
-          disabled={qIndex === 0}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
-            opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
-          }}
-        >
-          <div style={{
-            width: 48, height: 48, borderRadius: '50%',
-            border: '1.5px dashed #bbb',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0, transition: 'border-color 0.2s',
-          }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2">
-              <path d="M19 12H5M12 5l-7 7 7 7"/>
-            </svg>
+      {/* ─── QUESTIONS PHASE ─── */}
+      {phase === 'questions' && (
+        <>
+          {/* Header */}
+          <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#999', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Retour
+              </a>
+              <span style={{ fontSize: 11, color: '#bbb', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+                {qIndex + 1} / {total}
+              </span>
+            </div>
+            <div style={{ height: 2.5, background: '#ebebeb', borderRadius: 99 }}>
+              <div style={{ height: '100%', width: `${((qIndex + 1) / total) * 100}%`, background: 'linear-gradient(90deg, #a122e2, #ce9de7)', borderRadius: 99, transition: 'width 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
+            </div>
           </div>
-          <span style={{ fontSize: 16, color: '#aaa', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>Précédent</span>
-        </button>
 
-        {/* Suivant */}
-        <button
-          onClick={advance}
-          disabled={!canAdvance}
-          style={{
-            background: canAdvance ? '#000' : '#e0e0e0',
-            color: canAdvance ? '#fff' : '#bbb',
-            border: 'none',
-            borderRadius: 999,
-            padding: '14px 36px',
-            fontSize: 17,
-            cursor: canAdvance ? 'pointer' : 'default',
-            fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-            transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
-            transform: canAdvance ? 'scale(1)' : 'scale(0.97)',
-            letterSpacing: '-0.01em',
-          }}
-        >
-          {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
-        </button>
-      </div>
+          {/* 3D Stage */}
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '0 24px' }}>
+
+            {/* Previous question — pushed to back */}
+            {prevQIndex !== null && (
+              <div
+                key={`push-${pushKey}`}
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  maxWidth: 560,
+                  animation: 'push-back 0.45s cubic-bezier(0.4,0,0.6,1) forwards',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                  textAlign: 'center',
+                }}
+              >
+                <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, letterSpacing: '-0.025em', margin: 0 }}>
+                  {QUESTIONS[prevQIndex].text}
+                </h1>
+              </div>
+            )}
+
+            {/* Current question — comes to front */}
+            <div
+              key={`enter-${enterKey}`}
+              style={{
+                width: '100%',
+                maxWidth: 560,
+                textAlign: 'center',
+                position: 'relative',
+                zIndex: 1,
+                animation: enterKey > 0 ? 'pull-forward 0.65s cubic-bezier(0.22,1,0.36,1) forwards' : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
+              }}
+            >
+              {/* Question */}
+              <h1 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 8, letterSpacing: '-0.025em' }}>
+                {q.text}
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 1s step-end infinite' }} />
+              </h1>
+
+              {'hint' in q && q.hint && (
+                <p style={{ fontSize: 13, color: '#bbb', margin: '10px 0 0' }}>{q.hint}</p>
+              )}
+
+              {/* Options — stagger */}
+              <div
+                className="diag-grid"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
+                  gap: 10,
+                  marginTop: 36,
+                  maxWidth: q.type === 'multi' ? 520 : 380,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+              >
+                {q.options.map((opt, idx) => {
+                  const isMulti = q.type === 'multi'
+                  const isSelected = isMulti
+                    ? (selected as string[]).includes(opt.val)
+                    : selected === opt.val
+
+                  return (
+                    <div
+                      key={opt.val}
+                      style={{ animation: `opt-in 0.5s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.065}s both` }}
+                    >
+                      <button
+                        className="diag-opt"
+                        onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
+                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e8e8e8',
+                          borderRadius: 14,
+                          padding: '15px 18px',
+                          fontSize: 15,
+                          color: '#000',
+                          cursor: 'pointer',
+                          fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 12,
+                          boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
+                        }}
+                      >
+                        <span style={{
+                          width: 20, height: 20,
+                          borderRadius: isMulti ? 5 : '50%',
+                          border: isSelected ? '2px solid #a122e2' : '2px solid #ddd',
+                          background: isSelected ? '#a122e2' : 'transparent',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          flexShrink: 0, transition: 'all 0.18s',
+                        }}>
+                          {isSelected && (
+                            <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                              <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </span>
+                        {opt.label}
+                      </button>
+
+                      {opt.val === 'other' && isSelected && (
+                        <input
+                          autoFocus
+                          value={otherText}
+                          onChange={e => setOtherText(e.target.value)}
+                          placeholder="Précise ton budget…"
+                          style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box' as const, marginTop: 8 }}
+                          onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
+                        />
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer nav */}
+          <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+            <button
+              onClick={goBack}
+              disabled={qIndex === 0}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
+                opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
+                fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+              }}
+            >
+              <div style={{ width: 46, height: 46, borderRadius: '50%', border: '1.5px dashed #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              </div>
+              <span style={{ fontSize: 15, color: '#bbb' }}>Précédent</span>
+            </button>
+
+            <button
+              onClick={advance}
+              disabled={!canAdvance}
+              style={{
+                background: canAdvance ? '#000' : '#e8e8e8',
+                color: canAdvance ? '#fff' : '#ccc',
+                border: 'none',
+                borderRadius: 999,
+                padding: '14px 36px',
+                fontSize: 16,
+                cursor: canAdvance ? 'pointer' : 'default',
+                fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                transition: 'all 0.28s cubic-bezier(0.22,1,0.36,1)',
+                transform: canAdvance ? 'scale(1)' : 'scale(0.96)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {qIndex === total - 1 ? 'Voir mon plan →' : 'Suivant'}
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
