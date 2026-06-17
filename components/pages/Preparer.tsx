@@ -986,8 +986,8 @@ export function AccessibleDiagnostic() {
         </div>
       </div>
 
-      {/* ── Footer nav — centré ── */}
-      <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexShrink: 0 }}>
+      {/* ── Footer nav ── */}
+      <div style={{ padding: '16px 40px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         {/* Précèdent */}
         <button
           onClick={goBack}
