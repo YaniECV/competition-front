@@ -69,6 +69,44 @@ type Answers = Record<string, string | string[]>
 
 // ── Recommendation database ───────────────────────────────────────────────────
 
+// Mapping reco id → slug de la page bonne pratique correspondante
+const RECO_BP_SLUG: Record<string, string> = {
+  'parking-pmr-places':       'parking-pmr',
+  'parking-cheminement':      'cheminement-accessible',
+  'parking-navette':          'navette-adaptee',
+  'parking-depose-minute':    'navette-adaptee',
+  'signaletique-plans':       'plans-tactiles',
+  'signaletique-podotactiles':'balises-sonores',
+  'signaletique-falc':        'info-accessibilite-site',
+  'accueil-comptoir':         'point-accueil-file',
+  'accueil-file-pmr':         'point-accueil-file',
+  'accueil-referent':         'formation-benevoles',
+  'accueil-bim':              'bim-portative',
+  'accueil-papier-crayon':    'communication-ecrite-accueil',
+  'scene-plateforme-pmr':     'plateforme-pmr',
+  'scene-bim':                'bim-portative',
+  'scene-lsf':                'audiodescription-lsf',
+  'scene-audiodescription':   'audiodescription-lsf',
+  'scene-vibrante':           'gilet-vibrant',
+  'toilettes-pmr':            'sanitaires-pmr',
+  'toilettes-alarme-visuelle':'alarme-visuelle',
+  'toilettes-signaletique':   'plans-tactiles',
+  'buvettes-comptoir':        'point-accueil-file',
+  'buvettes-aide-humaine':    'brigade-accompagnement',
+  'buvettes-menus-falc':      'info-accessibilite-site',
+  'camping-cheminements':     'cheminement-accessible',
+  'camping-emplacements-pmr': 'camping-adapte',
+  'repos-zone-sensorielle':   'espace-repos-calme',
+}
+
+// Mapping titre loi → slug ancre sur /s-informer/les-lois
+const LOI_SLUG: Record<string, string> = {
+  'Loi 11/02/2005':       'loi-2005',
+  'IOP – Arrêté 15/01/2007': 'arrete-2007',
+  'Registre de sécurité': 'loi-2005',
+  'RGAA – Site web':      'rgaa',
+}
+
 interface Reco {
   id: string
   titre: string
@@ -461,9 +499,11 @@ function PrioritePill({ priorite }: { priorite: 'obligatoire' | 'recommandé' })
 }
 
 function RecoCard({ reco }: { reco: Reco }) {
+  const slug = RECO_BP_SLUG[reco.id]
+  const href = slug ? `/s-informer/bonnes-pratiques/${slug}` : '/s-informer/bonnes-pratiques'
   return (
     <Link
-      href="/s-informer/bonnes-pratiques"
+      href={href}
       style={{ display: 'block', textDecoration: 'none', marginBottom: 10 }}
     >
       <div style={{
@@ -616,21 +656,25 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             {/* Lois accordion */}
             <AccordionSection title="Cadre légal applicable" count={report.lois.length}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {report.lois.map(l => (
-                  <Link key={l.titre} href="/s-informer/les-lois" style={{ display: 'block', textDecoration: 'none' }}>
-                    <div style={{ background: '#282828', borderRadius: 8, padding: '14px 16px', border: '1px solid #2e2e2e', transition: 'border-color 0.15s' }}
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
-                      onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-                        <span style={{ fontSize: 14, fontWeight: 700, color: '#EEE9F3' }}>{l.titre}</span>
-                        <LoiStatusPill statut={l.statut} />
+                {report.lois.map(l => {
+                  const loiSlug = LOI_SLUG[l.titre]
+                  const loiHref = loiSlug ? `/s-informer/les-lois#${loiSlug}` : '/s-informer/les-lois'
+                  return (
+                    <Link key={l.titre} href={loiHref} style={{ display: 'block', textDecoration: 'none' }}>
+                      <div style={{ background: '#282828', borderRadius: 8, padding: '14px 16px', border: '1px solid #2e2e2e', transition: 'border-color 0.15s' }}
+                        onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
+                        onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#EEE9F3' }}>{l.titre}</span>
+                          <LoiStatusPill statut={l.statut} />
+                        </div>
+                        <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.6, margin: '0 0 8px' }}>{l.description}</p>
+                        <span style={{ fontSize: 11, color: '#a122e2' }}>Voir la loi →</span>
                       </div>
-                      <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.6, margin: '0 0 8px' }}>{l.description}</p>
-                      <span style={{ fontSize: 11, color: '#a122e2' }}>Voir la loi →</span>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  )
+                })}
               </div>
               <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: '#9491a1', textDecoration: 'underline', display: 'inline-block', marginTop: 14 }}>
                 Consulter le cadre légal complet →
