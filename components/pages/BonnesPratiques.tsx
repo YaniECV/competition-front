@@ -28,7 +28,7 @@ const handicapOptions: { key: 'tous' | Handicap; label: string }[] = [
 function PlusIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M10 3V17M3 10H17" stroke="#101010" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M10 3V17M3 10H17" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }
@@ -36,7 +36,7 @@ function PlusIcon() {
 function XIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M4 4L16 16M16 4L4 16" stroke="#101010" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 4L16 16M16 4L4 16" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }
@@ -44,7 +44,7 @@ function XIcon() {
 function ArrowLeftIcon() {
   return (
     <svg width="18" height="15" viewBox="0 0 18 15" fill="none" aria-hidden="true">
-      <path d="M17 7.5H1M7.5 1L1 7.5L7.5 14" stroke="#101010" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 7.5H1M7.5 1L1 7.5L7.5 14" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -52,7 +52,7 @@ function ArrowLeftIcon() {
 function ArrowRightIcon() {
   return (
     <svg width="18" height="15" viewBox="0 0 18 15" fill="none" aria-hidden="true">
-      <path d="M1 7.5H17M10.5 1L17 7.5L10.5 14" stroke="#101010" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M1 7.5H17M10.5 1L17 7.5L10.5 14" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -70,7 +70,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
     <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
       {/* Carré visuel gauche */}
       <div style={{
-        border: '1px solid #dcdcdc',
+        border: '1px solid #2e2e2e',
         borderRadius: 20,
         width: 147,
         height: 141,
@@ -80,16 +80,17 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
         justifyContent: 'center',
         padding: 16,
         overflow: 'hidden',
+        background: '#1c1c1c',
       }}>
         <img
           src="/card-visual.png"
           alt=""
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'invert(1) brightness(0.8)' }}
         />
       </div>
       {/* Panneau contenu */}
       <div style={{
-        border: '1px solid #dcdcdc',
+        border: '1px solid #2e2e2e',
         borderRadius: 20,
         flex: 1,
         display: 'flex',
@@ -97,16 +98,17 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
         justifyContent: 'space-between',
         padding: 32,
         minWidth: 0,
+        background: '#1c1c1c',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 0 }}>
-          <p style={{ fontSize: 24, color: '#101010', lineHeight: 1, fontWeight: 400 }}>{bp.titre}</p>
+          <p style={{ fontSize: 24, color: '#EEE9F3', lineHeight: 1, fontWeight: 400 }}>{bp.titre}</p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <span style={{
-              border: '1px solid #d3d3d3',
+              border: '1px solid #484848',
               borderRadius: 32,
               padding: '10px 14px',
               fontSize: 14,
-              color: '#101010',
+              color: '#9491a1',
               lineHeight: 1,
               whiteSpace: 'nowrap',
             }}>
@@ -114,11 +116,11 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
             </span>
             {handicapLabels.map(label => (
               <span key={label} style={{
-                border: '1px solid #d3d3d3',
+                border: '1px solid #484848',
                 borderRadius: 32,
                 padding: '10px 14px',
                 fontSize: 14,
-                color: '#101010',
+                color: '#9491a1',
                 lineHeight: 1,
                 whiteSpace: 'nowrap',
               }}>
@@ -130,7 +132,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
         <button
           onClick={onOpen}
           style={{
-            border: '1px solid #dcdcdc',
+            border: '1px solid #484848',
             borderRadius: 32,
             padding: 16,
             display: 'flex',
@@ -138,7 +140,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
             justifyContent: 'center',
             flexShrink: 0,
             cursor: 'pointer',
-            background: 'transparent',
+            background: '#282828',
           }}
           aria-label={`Voir la fiche : ${bp.titre}`}
         >
@@ -178,7 +180,7 @@ function BpModal({
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(77,77,77,0.24)',
+        background: 'rgba(0,0,0,0.7)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -188,7 +190,7 @@ function BpModal({
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div style={{
-        border: '1px solid #dcdcdc',
+        border: '1px solid rgba(238,233,243,0.12)',
         borderRadius: 32,
         display: 'flex',
         overflow: 'hidden',
@@ -199,7 +201,7 @@ function BpModal({
 
         {/* Volet gauche */}
         <div style={{
-          background: '#fff',
+          background: '#1c1c1c',
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
@@ -211,27 +213,27 @@ function BpModal({
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h2 style={{ fontSize: 32, fontWeight: 400, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
+              <h2 style={{ fontSize: 32, fontWeight: 400, lineHeight: 1.2, color: '#EEE9F3', letterSpacing: 0 }}>
                 {bp.titre}
               </h2>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <span style={{ border: '1px solid #d3d3d3', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <span style={{ border: '1px solid #484848', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#9491a1', lineHeight: 1, whiteSpace: 'nowrap' }}>
                   {zoneLabel}
                 </span>
                 {handicapLabels.map(label => (
-                  <span key={label} style={{ border: '1px solid #d3d3d3', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                  <span key={label} style={{ border: '1px solid #484848', borderRadius: 32, padding: '10px 14px', fontSize: 14, color: '#9491a1', lineHeight: 1, whiteSpace: 'nowrap' }}>
                     {label}
                   </span>
                 ))}
               </div>
-              <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#101010', maxWidth: 408 }}>{bp.resume}</p>
+              <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#9491a1', maxWidth: 408 }}>{bp.resume}</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
-              <p style={{ fontSize: 15, fontWeight: 600, textTransform: 'uppercase', color: '#101010' }}>Comment faire</p>
+              <p style={{ fontSize: 15, fontWeight: 600, textTransform: 'uppercase', color: '#EEE9F3' }}>Comment faire</p>
               <ul style={{ listStyle: 'disc', paddingLeft: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {bp.commentFaire.map((step, i) => (
-                  <li key={i} style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#101010' }}>{step}</li>
+                  <li key={i} style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.3, color: '#9491a1' }}>{step}</li>
                 ))}
               </ul>
             </div>
@@ -243,17 +245,17 @@ function BpModal({
               onClick={onPrev}
               disabled={!hasPrev}
               style={{
-                border: '1px solid #dcdcdc',
-                background: '#fff',
+                border: '1px solid #484848',
+                background: '#282828',
                 borderRadius: 999,
                 padding: 16,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
                 fontSize: 14,
-                color: '#101010',
+                color: '#EEE9F3',
                 cursor: hasPrev ? 'pointer' : 'default',
-                opacity: hasPrev ? 1 : 0.4,
+                opacity: hasPrev ? 1 : 0.35,
               }}
             >
               <ArrowLeftIcon />
@@ -263,17 +265,17 @@ function BpModal({
               onClick={onNext}
               disabled={!hasNext}
               style={{
-                border: '1px solid #dcdcdc',
-                background: '#fff',
+                border: '1px solid #484848',
+                background: '#282828',
                 borderRadius: 999,
                 padding: 16,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
                 fontSize: 14,
-                color: '#101010',
+                color: '#EEE9F3',
                 cursor: hasNext ? 'pointer' : 'default',
-                opacity: hasNext ? 1 : 0.4,
+                opacity: hasNext ? 1 : 0.35,
               }}
             >
               Suivant
@@ -284,7 +286,7 @@ function BpModal({
 
         {/* Volet droit */}
         <div style={{
-          background: '#ededed',
+          background: '#282828',
           flex: 1,
           position: 'relative',
           display: 'flex',
@@ -292,7 +294,7 @@ function BpModal({
           justifyContent: 'center',
           padding: '50px 7px',
         }}>
-          <p style={{ fontSize: 24, color: '#101010', textAlign: 'center' }}>
+          <p style={{ fontSize: 24, color: '#EEE9F3', textAlign: 'center' }}>
             {handicapLabels.join(' · ')}
           </p>
           <button
@@ -301,8 +303,8 @@ function BpModal({
               position: 'absolute',
               top: 20,
               right: 20,
-              background: '#fff',
-              border: '1px solid #dcdcdc',
+              background: '#1c1c1c',
+              border: '1px solid #484848',
               borderRadius: 999,
               padding: 16,
               display: 'flex',
@@ -337,26 +339,26 @@ export function BonnesPratiquesIndex() {
   return (
     <>
       {/* Hero */}
-      <div style={{ background: '#fff', padding: '48px 40px 0' }}>
+      <div style={{ background: '#101010', padding: '48px 40px 0' }}>
         <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
           <div>
-<h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#101010', letterSpacing: 0 }}>
+            <h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#EEE9F3', letterSpacing: 0 }}>
               Parcourez nos bonnes pratiques
             </h1>
           </div>
-          <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#101010', maxWidth: 420 }}>
+          <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#9491a1', maxWidth: 420 }}>
             Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
           </p>
         </div>
       </div>
 
       {/* Filtres + Liste */}
-      <div style={{ background: '#fff', padding: '56px 40px 80px' }}>
+      <div style={{ background: '#101010', padding: '56px 40px 80px' }}>
         <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
 
           {/* Pour qui ? */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 27 }}>
-            <p style={{ fontSize: 20, color: '#101010', lineHeight: 1 }}>Pour qui ?</p>
+            <p style={{ fontSize: 20, color: '#EEE9F3', lineHeight: 1 }}>Pour qui ?</p>
             <div style={{ display: 'flex', gap: 17, flexWrap: 'wrap' }}>
               {handicapOptions.map(o => (
                 <button
@@ -366,10 +368,10 @@ export function BonnesPratiquesIndex() {
                     height: 42,
                     padding: '0 16px',
                     borderRadius: 999,
-                    border: 'none',
-                    background: activeHandicap === o.key ? '#eee9f3' : '#ededed',
+                    border: activeHandicap === o.key ? '1px solid #A122E2' : '1px solid #484848',
+                    background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : '#1c1c1c',
                     fontSize: 14,
-                    color: '#101010',
+                    color: activeHandicap === o.key ? '#EEE9F3' : '#9491a1',
                     lineHeight: 1,
                     cursor: 'pointer',
                     fontFamily: 'inherit',
@@ -386,7 +388,7 @@ export function BonnesPratiquesIndex() {
 
             {/* Sidebar zones */}
             <div style={{ width: 130, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <p style={{ fontSize: 20, color: '#101010', lineHeight: 1 }}>Où ?</p>
+              <p style={{ fontSize: 20, color: '#EEE9F3', lineHeight: 1 }}>Où ?</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {zoneOptions.map(o => (
                   <button
@@ -396,7 +398,7 @@ export function BonnesPratiquesIndex() {
                       textAlign: 'left',
                       fontSize: activeZone === o.key ? 16 : 14,
                       fontWeight: activeZone === o.key ? 700 : 400,
-                      color: '#101010',
+                      color: activeZone === o.key ? '#EEE9F3' : '#9491a1',
                       lineHeight: 1,
                       cursor: 'pointer',
                       background: 'none',
@@ -414,7 +416,7 @@ export function BonnesPratiquesIndex() {
             {/* Liste de cards */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 24, minWidth: 0 }}>
               {filtered.length === 0 ? (
-                <p style={{ fontSize: 14, color: '#101010', opacity: 0.5 }}>Aucune bonne pratique pour ces filtres.</p>
+                <p style={{ fontSize: 14, color: '#9491a1' }}>Aucune bonne pratique pour ces filtres.</p>
               ) : (
                 filtered.map((bp, index) => (
                   <BpCard key={bp.id} bp={bp} onOpen={() => setSelectedIndex(index)} />
