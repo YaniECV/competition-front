@@ -68,7 +68,7 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
 
   return (
     <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-      {/* Carré visuel gauche — l'image sera placée ici */}
+      {/* Carré visuel gauche */}
       <div style={{
         border: '1px solid #dcdcdc',
         borderRadius: 20,
@@ -78,9 +78,15 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 32,
+        padding: 16,
         overflow: 'hidden',
-      }} />
+      }}>
+        <img
+          src="/card-visual.png"
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
+      </div>
       {/* Panneau contenu */}
       <div style={{
         border: '1px solid #dcdcdc',
