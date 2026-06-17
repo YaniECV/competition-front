@@ -740,7 +740,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 // ── Main diagnostic ───────────────────────────────────────────────────────────
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
-const INTRO_SPEED = 55
+const INTRO_SPEED = 18
 const Q_SPEED     = 18
 
 export function AccessibleDiagnostic() {
@@ -905,7 +905,7 @@ export function AccessibleDiagnostic() {
               ? 'intro-out 0.9s ease forwards'
               : 'intro-in 1.2s ease forwards',
           }}>
-            <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.25, margin: 0, fontFamily: 'var(--font-title)' }}>
+            <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 600, color: '#EEE9F3', lineHeight: 1.25, margin: 0, fontFamily: 'var(--font)' }}>
               {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
