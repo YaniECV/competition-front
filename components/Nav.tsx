@@ -237,8 +237,7 @@ export default function Nav() {
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
 
       <nav style={{
-        background: isDark ? '#101010' : '#fff',
-        borderBottom: isDark ? '1px solid rgba(238,233,243,0.1)' : '1px solid var(--border)',
+        background: 'transparent',
         position: 'sticky',
         top: 0,
         zIndex: 100,
