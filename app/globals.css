@@ -120,11 +120,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 }
 
 .btn-primary {
-  background: var(--text);
-  color: var(--bg);
-  border: 1px solid var(--text);
+  background: #A122E2;
+  color: #fff;
+  border: 1px solid #A122E2;
 }
-.btn-primary:hover { background: var(--muted); border-color: var(--muted); text-decoration: none; }
+.btn-primary:hover { background: #8c1ac0; border-color: #8c1ac0; text-decoration: none; }
 
 .btn-outline {
   background: transparent;
@@ -137,10 +137,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 .card {
   background: var(--bg2);
   border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 24px;
   transition: border-color 0.2s;
 }
-.card:hover { border-color: var(--text); }
+.card:hover { border-color: var(--border2); }
 
 /* ── Grid ───────────────────────────────────────────────────────────────── */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }

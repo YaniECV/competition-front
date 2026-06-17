@@ -28,7 +28,7 @@ export function LesLois() {
           ⚠ Ces informations sont à titre indicatif. À faire vérifier par un professionnel du droit ou votre DRAC avant mise en application.
         </div>
 
-        <div style={{ marginTop: 24, padding: 24, border: '1px solid var(--border)', background: '#fff' }}>
+        <div style={{ marginTop: 24, padding: 24, border: '1px solid var(--border)', borderRadius: 8, background: 'var(--bg2)' }}>
           <h3 style={{ marginBottom: 12 }}>Des questions sur vos obligations ?</h3>
           <p style={{ fontSize: 14, lineHeight: 1.7, marginBottom: 16 }}>
             La DRAC de votre région peut vous orienter et, dans certains cas, co-financer vos aménagements.

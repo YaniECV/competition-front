@@ -42,8 +42,8 @@ export function LaFederation() {
               Notre mission est d'accompagner les petits festivals qui n'ont pas toujours les ressources pour engager une démarche d'accessibilité seuls.
             </p>
 
-            <div style={{ padding: '20px 24px', border: '1px solid var(--border2)', marginBottom: 24 }}>
-              <p style={{ fontSize: 10, fontFamily: 'var(--font)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 8 }}>
+            <div style={{ padding: '20px 24px', border: '1px solid var(--border)', borderRadius: 8, background: 'var(--bg2)', marginBottom: 24 }}>
+              <p style={{ fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 8 }}>
                 Reconnaissance Sacem
               </p>
               <p style={{ fontSize: 14, lineHeight: 1.7 }}>
@@ -51,8 +51,8 @@ export function LaFederation() {
               </p>
             </div>
 
-            <div style={{ padding: '20px 24px', border: '1px solid var(--border2)' }}>
-              <p style={{ fontSize: 10, fontFamily: 'var(--font)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 8 }}>
+            <div style={{ padding: '20px 24px', border: '1px solid var(--border)', borderRadius: 8, background: 'var(--bg2)' }}>
+              <p style={{ fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 8 }}>
                 Les Foudres — Bataclan
               </p>
               <p style={{ fontSize: 14, lineHeight: 1.7 }}>
@@ -102,7 +102,7 @@ export function LaFederation() {
           <h2 style={{ marginBottom: 24 }}>Glossaire</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {glossaire.map(g => (
-              <div key={g.terme} style={{ display: 'flex', gap: 24, padding: '16px 20px', background: '#fff', border: '1px solid var(--border)' }}>
+              <div key={g.terme} style={{ display: 'flex', gap: 24, padding: '16px 20px', background: 'var(--bg2)', border: '1px solid var(--border)' }}>
                 <span style={{ fontSize: 13, fontFamily: 'var(--font)', fontWeight: 700, minWidth: 56, color: 'var(--text)' }}>{g.terme}</span>
                 <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--muted)' }}>{g.def}</p>
               </div>
@@ -110,7 +110,7 @@ export function LaFederation() {
           </div>
         </div>
 
-        <div style={{ marginTop: 40, padding: 32, background: '#fff', border: '1px solid var(--border)', textAlign: 'center' }}>
+        <div style={{ marginTop: 40, padding: 32, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, textAlign: 'center' }}>
           <h2 style={{ marginBottom: 12 }}>Rejoindre le réseau FMM</h2>
           <p style={{ fontSize: 14, marginBottom: 24 }}>Vous organisez un festival de metal ? Bénéficiez d'un accompagnement personnalisé.</p>
           <a href="mailto:contact@fmm.fr" className="btn btn-primary">Nous contacter →</a>
