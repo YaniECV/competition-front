@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 
 const handicaps = [
   { n: '01', label: 'Moteur',         slug: 'moteur',         img: '/briqueee19.png' },
@@ -121,9 +122,7 @@ export default function HomepageHandicaps() {
               <img src={h.img} alt="" aria-hidden className="hc-illus" style={{ width: 200, height: 200, objectFit: 'contain' }} />
             </div>
             <span className="hc-btn" aria-hidden>
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 9H14M14 9L9.5 4.5M14 9L9.5 13.5" stroke="#EEE9F3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ArrowRight size={18} weight="light" color="#EEE9F3" />
             </span>
           </Link>
         ))}
