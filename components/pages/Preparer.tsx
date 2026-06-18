@@ -79,67 +79,94 @@ const QUESTIONS = [
 
 type Answers = Record<string, string | string[]>
 
-const LEVEL_META: Record<string, { label: string; fill: number; gap: boolean; tone: string }> = {
-  pas:   { label: 'Pas du tout',  fill: 0,   gap: true,  tone: '#e5894d' },
-  peu:   { label: 'Un peu',       fill: 34,  gap: true,  tone: '#e5b14d' },
-  moyen: { label: 'Moyen',        fill: 67,  gap: false, tone: '#bfd24d' },
-  bien:  { label: 'Je gère bien', fill: 100, gap: false, tone: '#5ec77a' },
+const LEVEL_META: Record<string, { label: string; fill: number; gap: boolean; color: string }> = {
+  pas:   { label: 'Pas adressé', fill: 0,   gap: true,  color: '#e5894d' },
+  peu:   { label: 'Réfléchi',    fill: 34,  gap: true,  color: '#e5b14d' },
+  moyen: { label: 'En cours',    fill: 67,  gap: false, color: '#bfd24d' },
+  bien:  { label: 'En place',    fill: 100, gap: false, color: '#5ec77a' },
 }
 const RANK: Record<string, number> = { pas: 0, peu: 1, moyen: 2, bien: 3 }
 
-function ResultRow({ h, level, highlight }: { h: typeof handicaps[number]; level: string; highlight?: boolean }) {
+function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string }) {
+  const [hovered, setHovered] = useState(false)
   const m = LEVEL_META[level] ?? LEVEL_META.pas
   return (
-    <Link href={`/handicaps/${h.slug}`} style={{
-      display: 'block', textDecoration: 'none',
-      background: highlight ? 'rgba(161,34,226,0.07)' : '#161616',
-      border: '1px solid ' + (highlight ? 'rgba(161,34,226,0.4)' : '#2a2a2a'),
-      borderRadius: 14, padding: '18px 20px',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
-        <span style={{ fontSize: 18, fontWeight: 700, color: '#EEE9F3' }}>{h.nom}</span>
-        <span style={{ fontSize: 13, fontWeight: 600, color: m.tone, whiteSpace: 'nowrap' }}>{m.label}</span>
+    <Link
+      href={`/handicaps/${h.slug}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 24,
+        paddingTop: 24, paddingBottom: 24,
+        borderBottom: '1px solid #3b3b39',
+        textDecoration: 'none',
+        transition: 'background 0.15s',
+      }}
+    >
+      <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>{h.nom}</span>
+          <span style={{
+            fontFamily: 'var(--font)', fontSize: 13, fontWeight: 500,
+            color: m.color, background: 'rgba(255,255,255,0.06)',
+            border: `1px solid rgba(255,255,255,0.1)`,
+            borderRadius: 8, padding: '4px 10px', lineHeight: 1, whiteSpace: 'nowrap',
+          }}>{m.label}</span>
+        </div>
+        <div style={{ height: 4, background: '#3b3b39', borderRadius: 99, overflow: 'hidden', maxWidth: 200 }}>
+          <div style={{ height: '100%', width: `${m.fill}%`, background: 'linear-gradient(90deg, #A122E2, #ce9de7)', borderRadius: 99 }} />
+        </div>
       </div>
-      <div style={{ height: 6, background: '#2a2a2a', borderRadius: 99, overflow: 'hidden', marginBottom: 12 }}>
-        <div style={{ height: '100%', width: `${m.fill}%`, background: 'linear-gradient(90deg, #a122e2, #ce9de7)', borderRadius: 99 }} />
-      </div>
-      <span style={{ fontSize: 13, color: 'rgba(238,233,243,0.5)' }}>Creuser : le profil + ses bonnes pratiques →</span>
+      <span style={{
+        width: 32, height: 32, borderRadius: 8, flexShrink: 0,
+        background: hovered ? '#A122E2' : 'transparent',
+        border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#3b3b39',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'background 0.2s, border-color 0.2s',
+      }}>
+        <ArrowRight size={16} weight="regular" color="#F1EDF5" />
+      </span>
     </Link>
   )
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 32 }}>
-      <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(238,233,243,0.4)', margin: '0 0 12px' }}>{title}</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>{children}</div>
+    <div style={{ marginBottom: 48 }}>
+      <p style={{ fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500, color: '#9491a1', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{title}</p>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>{children}</div>
     </div>
   )
 }
 
 function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => void }) {
+  const [btnHovered, setBtnHovered] = useState(false)
+  const [resetHovered, setResetHovered] = useState(false)
   const rated = handicaps.map(h => ({ h, level: (answers[h.slug] as string) || 'pas' }))
   rated.sort((a, b) => RANK[a.level] - RANK[b.level])
   const gaps = rated.filter(r => (LEVEL_META[r.level] ?? LEVEL_META.pas).gap)
   const oks = rated.filter(r => !(LEVEL_META[r.level] ?? LEVEL_META.pas).gap)
 
   return (
-    <div style={{ minHeight: '100dvh', background: '#0a0a0a', color: '#EEE9F3', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', padding: '64px 24px 96px' }}>
-      <div style={{ maxWidth: 700, margin: '0 auto' }}>
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a122e2', margin: '0 0 12px' }}>Ton positionnement</p>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.03em', margin: '0 0 14px' }}>Voilà où tu en es.</h1>
-        <p style={{ fontSize: 15, color: 'rgba(238,233,243,0.6)', lineHeight: 1.6, margin: '0 0 8px', maxWidth: 540 }}>
-          {gaps.length === 0
-            ? "Tu sembles déjà bien avancé sur tous les profils. Continue à creuser pour aller plus loin."
-            : `${gaps.length} profil${gaps.length > 1 ? 's' : ''} où tu peux progresser en priorité — clique pour voir comment faire.`}
-        </p>
-        <p style={{ fontSize: 12, color: 'rgba(238,233,243,0.35)', margin: '0 0 40px' }}>
-          Ce n'est pas un audit officiel, juste un point de départ pour avancer.
-        </p>
+    <div style={{ minHeight: '100dvh', background: '#101010', padding: '80px 40px 120px' }}>
+      <div style={{ maxWidth: 760, margin: '0 auto' }}>
 
+        {/* Hero */}
+        <div style={{ marginBottom: 64 }}>
+          <h1 style={{ fontFamily: 'var(--font-title)', fontSize: 80, fontWeight: 400, color: '#EEE9F3', textTransform: 'uppercase', lineHeight: 1, margin: '0 0 24px' }}>
+            Voilà où tu en es.
+          </h1>
+          <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.4, color: '#9491a1', margin: 0, maxWidth: 520 }}>
+            {gaps.length === 0
+              ? "Tu sembles déjà bien avancé sur tous les profils. Continue à creuser pour aller plus loin."
+              : `${gaps.length} profil${gaps.length > 1 ? 's' : ''} à prioriser — clique sur chacun pour voir les bonnes pratiques associées.`}
+          </p>
+        </div>
+
+        {/* Résultats */}
         {gaps.length > 0 && (
-          <Section title="Par où commencer">
-            {gaps.map(r => <ResultRow key={r.h.slug} h={r.h} level={r.level} highlight />)}
+          <Section title="À adresser en priorité">
+            {gaps.map(r => <ResultRow key={r.h.slug} h={r.h} level={r.level} />)}
           </Section>
         )}
         {oks.length > 0 && (
@@ -148,14 +175,46 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
           </Section>
         )}
 
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
-          <Link href="/s-informer/bonnes-pratiques" style={{ display: 'inline-flex', alignItems: 'center', background: '#a122e2', color: '#fff', borderRadius: 999, padding: '13px 26px', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
-            Voir toutes les bonnes pratiques →
+        {/* CTA */}
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 16 }}>
+          <Link
+            href="/s-informer/bonnes-pratiques"
+            onMouseEnter={() => setBtnHovered(true)}
+            onMouseLeave={() => setBtnHovered(false)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 16,
+              background: '#EEE9F3', border: 'none', borderRadius: 12,
+              paddingLeft: 16, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+              textDecoration: 'none', transition: 'background 0.2s ease',
+              fontFamily: 'var(--font)',
+            }}
+          >
+            <span style={{ fontSize: 16, fontWeight: 500, color: '#101010', lineHeight: 1 }}>Voir les bonnes pratiques</span>
+            <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+            </span>
           </Link>
-          <button onClick={onReset} style={{ background: 'none', border: '1px solid #2e2e2e', color: '#EEE9F3', borderRadius: 999, padding: '13px 26px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
-            Refaire
+
+          <button
+            onClick={onReset}
+            onMouseEnter={() => setResetHovered(true)}
+            onMouseLeave={() => setResetHovered(false)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 16,
+              background: resetHovered ? '#A122E2' : 'transparent',
+              border: '1.5px solid', borderColor: resetHovered ? '#A122E2' : '#F1EDF5',
+              borderRadius: 12, paddingLeft: 16, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+              cursor: 'pointer', transition: 'background 0.2s ease, border-color 0.2s ease',
+              fontFamily: 'var(--font)',
+            }}
+          >
+            <span style={{ fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1 }}>Recommencer</span>
+            <span style={{ width: 32, height: 32, borderRadius: 8, background: resetHovered ? '#EEE9F3' : '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s ease' }}>
+              <ArrowRight size={16} weight="regular" color={resetHovered ? '#A122E2' : '#EEE9F3'} />
+            </span>
           </button>
         </div>
+
       </div>
     </div>
   )
