@@ -69,44 +69,6 @@ type Answers = Record<string, string | string[]>
 
 // ── Recommendation database ───────────────────────────────────────────────────
 
-// Mapping reco id → slug de la page bonne pratique correspondante
-const RECO_BP_SLUG: Record<string, string> = {
-  'parking-pmr-places':       'parking-pmr',
-  'parking-cheminement':      'cheminement-accessible',
-  'parking-navette':          'navette-adaptee',
-  'parking-depose-minute':    'navette-adaptee',
-  'signaletique-plans':       'plans-tactiles',
-  'signaletique-podotactiles':'balises-sonores',
-  'signaletique-falc':        'info-accessibilite-site',
-  'accueil-comptoir':         'point-accueil-file',
-  'accueil-file-pmr':         'point-accueil-file',
-  'accueil-referent':         'formation-benevoles',
-  'accueil-bim':              'bim-portative',
-  'accueil-papier-crayon':    'communication-ecrite-accueil',
-  'scene-plateforme-pmr':     'plateforme-pmr',
-  'scene-bim':                'bim-portative',
-  'scene-lsf':                'audiodescription-lsf',
-  'scene-audiodescription':   'audiodescription-lsf',
-  'scene-vibrante':           'gilet-vibrant',
-  'toilettes-pmr':            'sanitaires-pmr',
-  'toilettes-alarme-visuelle':'alarme-visuelle',
-  'toilettes-signaletique':   'plans-tactiles',
-  'buvettes-comptoir':        'point-accueil-file',
-  'buvettes-aide-humaine':    'brigade-accompagnement',
-  'buvettes-menus-falc':      'info-accessibilite-site',
-  'camping-cheminements':     'cheminement-accessible',
-  'camping-emplacements-pmr': 'camping-adapte',
-  'repos-zone-sensorielle':   'espace-repos-calme',
-}
-
-// Mapping titre loi → slug ancre sur /s-informer/les-lois
-const LOI_SLUG: Record<string, string> = {
-  'Loi 11/02/2005':       'loi-2005',
-  'IOP – Arrêté 15/01/2007': 'arrete-2007',
-  'Registre de sécurité': 'loi-2005',
-  'RGAA – Site web':      'rgaa',
-}
-
 interface Reco {
   id: string
   titre: string
@@ -391,10 +353,12 @@ function generateReport(answers: Answers): Report {
   const duree = answers.duree as string
   const espaces = (answers.espaces as string[]) || []
 
+  // Filter recommendations to only relevant espaces
   const recos = RECO_DB.filter(r =>
     r.espaces.some(e => espaces.includes(e))
   )
 
+  // Budget calculation
   let base = 800
   if (espaces.includes('parking'))   base += 600
   if (espaces.includes('scene'))     base += 2200
@@ -410,6 +374,7 @@ function generateReport(answers: Answers): Report {
   const budgetEstime = Math.round(base * terrainMultiplier * jaugeMultiplier * dureeMultiplier / 100) * 100
   const aidesEstimees = Math.round(budgetEstime * 0.42 / 100) * 100
 
+  // Laws
   const jaugeNum = jauge === 'micro' ? 200 : jauge === 'petit' ? 900 : jauge === 'moyen' ? 3000 : 8000
   const isMultiJour = duree !== '1j'
 
@@ -436,6 +401,7 @@ function generateReport(answers: Answers): Report {
     },
   ]
 
+  // Funders
   const financeurs = [
     'DRAC (Direction Régionale des Affaires Culturelles)',
     'CCAH (Comité national Coordination Action Handicap)',
@@ -456,23 +422,23 @@ type HandicapFilter = typeof HANDICAP_FILTERS[number]
 function AccordionSection({ title, count, children, defaultOpen = false }: { title: string; count?: number; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div style={{ background: '#1c1c1c', borderRadius: 8, border: '1px solid #2e2e2e', overflow: 'hidden', marginBottom: 12 }}>
+    <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #dcdcdc', overflow: 'hidden', marginBottom: 12 }}>
       <button
         onClick={() => setOpen(o => !o)}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '18px 20px', background: 'none', border: 'none', cursor: 'pointer',
-          fontFamily: 'var(--font)',
+          fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
         }}
       >
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 16, fontWeight: 700, color: '#EEE9F3' }}>{title}</span>
+          <span style={{ fontSize: 16, fontWeight: 700, color: '#000' }}>{title}</span>
           {count !== undefined && (
-            <span style={{ background: '#282828', borderRadius: 999, padding: '2px 10px', fontSize: 12, color: '#9491a1', fontWeight: 600 }}>{count}</span>
+            <span style={{ background: '#ededed', borderRadius: 999, padding: '2px 10px', fontSize: 12, color: '#555', fontWeight: 600 }}>{count}</span>
           )}
         </span>
         <svg
-          width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9491a1" strokeWidth="2"
+          width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="2"
           style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}
         >
           <path d="M6 9l6 6 6-6"/>
@@ -489,8 +455,8 @@ function PrioritePill({ priorite }: { priorite: 'obligatoire' | 'recommandé' })
     <span style={{
       fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
       padding: '3px 10px', borderRadius: 999,
-      background: isOblig ? 'rgba(206,18,19,0.15)' : 'rgba(1,112,45,0.15)',
-      color: isOblig ? '#f47070' : '#4dab78',
+      background: isOblig ? 'rgba(206,18,19,0.1)' : 'rgba(1,112,45,0.1)',
+      color: isOblig ? '#ce1213' : '#01702d',
       whiteSpace: 'nowrap', flexShrink: 0,
     }}>
       {isOblig ? 'Obligatoire' : 'Recommandé'}
@@ -499,50 +465,39 @@ function PrioritePill({ priorite }: { priorite: 'obligatoire' | 'recommandé' })
 }
 
 function RecoCard({ reco }: { reco: Reco }) {
-  const slug = RECO_BP_SLUG[reco.id]
-  const href = slug ? `/s-informer/bonnes-pratiques/${slug}` : '/s-informer/bonnes-pratiques'
   return (
-    <Link
-      href={href}
-      style={{ display: 'block', textDecoration: 'none', marginBottom: 10 }}
-    >
-      <div style={{
-        border: '1px solid #2e2e2e', borderRadius: 8, padding: '16px 18px',
-        background: '#282828', transition: 'border-color 0.15s',
-      }}
-        onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
-        onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
-      >
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, color: '#EEE9F3', lineHeight: 1.3, margin: 0 }}>{reco.titre}</p>
-          <PrioritePill priorite={reco.priorite} />
-        </div>
-        <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.65, margin: '0 0 12px' }}>{reco.detail}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
-          {reco.espaces.map(e => (
-            <span key={e} style={{ fontSize: 11, background: 'rgba(161,34,226,0.15)', color: '#a122e2', borderRadius: 999, padding: '2px 9px', fontWeight: 600 }}>{e}</span>
-          ))}
-          {reco.handicaps.map(h => (
-            <span key={h} style={{ fontSize: 11, background: '#1c1c1c', color: '#9491a1', borderRadius: 999, padding: '2px 9px' }}>{h}</span>
-          ))}
-          {reco.cout > 0 && (
-            <span style={{ fontSize: 11, color: '#9491a1', marginLeft: 'auto' }}>~{reco.cout.toLocaleString('fr-FR')} €</span>
-          )}
-        </div>
-        {reco.source && (
-          <p style={{ fontSize: 11, color: '#9491a1', marginTop: 8, marginBottom: 0, fontStyle: 'italic' }}>{reco.source}</p>
-        )}
-        <p style={{ fontSize: 11, color: '#a122e2', marginTop: 10, marginBottom: 0 }}>Voir la fiche →</p>
+    <div style={{
+      border: '1px solid #e8e8e8', borderRadius: 14, padding: '16px 18px',
+      background: '#fafafa', marginBottom: 10,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#000', lineHeight: 1.3, margin: 0 }}>{reco.titre}</p>
+        <PrioritePill priorite={reco.priorite} />
       </div>
-    </Link>
+      <p style={{ fontSize: 13, color: '#5b5b5b', lineHeight: 1.65, margin: '0 0 12px' }}>{reco.detail}</p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+        {reco.espaces.map(e => (
+          <span key={e} style={{ fontSize: 11, background: '#f0e8ff', color: '#7b22c4', borderRadius: 999, padding: '2px 9px', fontWeight: 600 }}>{e}</span>
+        ))}
+        {reco.handicaps.map(h => (
+          <span key={h} style={{ fontSize: 11, background: '#ededed', color: '#444', borderRadius: 999, padding: '2px 9px' }}>{h}</span>
+        ))}
+        {reco.cout > 0 && (
+          <span style={{ fontSize: 11, color: '#929292', marginLeft: 'auto' }}>~{reco.cout.toLocaleString('fr-FR')} €</span>
+        )}
+      </div>
+      {reco.source && (
+        <p style={{ fontSize: 11, color: '#a0a0a0', marginTop: 8, marginBottom: 0, fontStyle: 'italic' }}>{reco.source}</p>
+      )}
+    </div>
   )
 }
 
 function LoiStatusPill({ statut }: { statut: 'applicable' | 'partielle' | 'obligatoire' }) {
   const cfg = {
-    applicable:  { bg: 'rgba(1,112,45,0.15)',   color: '#4dab78', label: '✓ Applicable' },
-    partielle:   { bg: 'rgba(205,83,31,0.15)',  color: '#e8875a', label: '⚠ Partielle' },
-    obligatoire: { bg: 'rgba(206,18,19,0.15)', color: '#f47070', label: '✗ Obligatoire' },
+    applicable:  { bg: 'rgba(1,112,45,0.1)',   color: '#01702d', label: '✓ Applicable' },
+    partielle:   { bg: 'rgba(205,83,31,0.1)',  color: '#cd531f', label: '⚠ Partielle' },
+    obligatoire: { bg: 'rgba(206,18,19,0.1)', color: '#ce1213', label: '✗ Obligatoire' },
   }[statut]
   return (
     <span style={{ fontSize: 12, fontWeight: 700, padding: '3px 11px', borderRadius: 999, background: cfg.bg, color: cfg.color }}>
@@ -563,18 +518,18 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
   const espaces = (answers.espaces as string[]) || []
 
   return (
-    <div style={{ minHeight: '100dvh', background: '#101010', fontFamily: 'var(--font)' }}>
+    <div style={{ minHeight: '100dvh', background: '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
       <style>{`
         .result-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
-        .filter-chip:hover { background: #282828 !important; }
+        .filter-chip:hover { background: #d4d4d4 !important; }
         @media (max-width: 900px) {
           .result-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       {/* Sticky header */}
-      <div style={{ position: 'sticky', top: 0, background: 'rgba(16,16,16,0.95)', backdropFilter: 'blur(8px)', zIndex: 20, padding: '16px 48px', borderBottom: '1px solid #2e2e2e' }}>
-        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#EEE9F3', textDecoration: 'none', fontWeight: 500 }}>
+      <div style={{ position: 'sticky', top: 0, background: 'rgba(247,247,247,0.95)', backdropFilter: 'blur(8px)', zIndex: 20, padding: '16px 48px', borderBottom: '1px solid #e8e8e8' }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#000', textDecoration: 'none', fontWeight: 500 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Retour à l'accueil
         </Link>
@@ -583,27 +538,27 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 32px 80px' }}>
         {/* Page heading */}
         <div style={{ marginBottom: 40 }}>
-          <p style={{ fontSize: 13, color: '#9491a1', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8, margin: 0 }}>Ton plan d'action personnalisé</p>
-          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.1, margin: '8px 0 12px', fontFamily: 'var(--font-title)' }}>
+          <p style={{ fontSize: 13, color: '#929292', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8, margin: 0 }}>Ton plan d'action personnalisé</p>
+          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 700, color: '#000', lineHeight: 1.1, margin: '8px 0 12px' }}>
             Voilà vos résultats
           </h1>
-          <p style={{ fontSize: 16, color: '#9491a1', margin: 0 }}>
+          <p style={{ fontSize: 16, color: '#5b5b5b', margin: 0 }}>
             Basé sur le guide Métropole AMP 2024 — {report.recommendations.length} recommandations pour {espaces.length} espace{espaces.length > 1 ? 's' : ''} analysé{espaces.length > 1 ? 's' : ''}
           </p>
         </div>
 
-        {/* Stats row */}
+        {/* Stats row — bonnes pratiques */}
         <div style={{ display: 'flex', gap: 16, marginBottom: 32, flexWrap: 'wrap' }}>
           {[
             { icon: '♿', val: '6', label: 'handicaps analysés' },
             { icon: '✓', val: String(report.recommendations.length), label: 'points vérifiés' },
             { icon: '📋', val: 'Plan', label: 'd\'action généré' },
           ].map(s => (
-            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#1c1c1c', border: '1px solid #2e2e2e', borderRadius: 8, padding: '12px 18px', flexShrink: 0 }}>
-              <span style={{ width: 36, height: 36, background: '#282828', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{s.icon}</span>
+            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: '1px solid #dcdcdc', borderRadius: 14, padding: '12px 18px', flexShrink: 0 }}>
+              <span style={{ width: 36, height: 36, background: '#101010', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{s.icon}</span>
               <div>
-                <p style={{ fontSize: 18, fontWeight: 700, color: '#EEE9F3', margin: 0, lineHeight: 1 }}>{s.val}</p>
-                <p style={{ fontSize: 12, color: '#9491a1', margin: 0 }}>{s.label}</p>
+                <p style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: 0, lineHeight: 1 }}>{s.val}</p>
+                <p style={{ fontSize: 12, color: '#929292', margin: 0 }}>{s.label}</p>
               </div>
             </div>
           ))}
@@ -621,11 +576,11 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
                   className="filter-chip"
                   onClick={() => setActiveFilter(f)}
                   style={{
-                    background: activeFilter === f ? '#EEE9F3' : '#1c1c1c',
-                    color: activeFilter === f ? '#101010' : '#9491a1',
+                    background: activeFilter === f ? '#101010' : '#ededed',
+                    color: activeFilter === f ? '#fff' : '#333',
                     border: 'none', borderRadius: 32, padding: '10px 14px',
                     fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                    fontFamily: 'var(--font)',
+                    fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
                     transition: 'all 0.15s',
                   }}
                 >
@@ -642,12 +597,12 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             {/* Bonnes pratiques accordion */}
             <AccordionSection title="Bonnes pratiques" count={filteredRecos.length} defaultOpen>
               {filteredRecos.length === 0 ? (
-                <p style={{ fontSize: 14, color: '#9491a1', fontStyle: 'italic' }}>Aucune recommandation pour ce filtre.</p>
+                <p style={{ fontSize: 14, color: '#929292', fontStyle: 'italic' }}>Aucune recommandation pour ce filtre.</p>
               ) : (
                 filteredRecos.map(r => <RecoCard key={r.id} reco={r} />)
               )}
               {obligatoiresCount > 0 && (
-                <p style={{ fontSize: 12, color: '#f47070', marginTop: 8, marginBottom: 0, fontWeight: 600 }}>
+                <p style={{ fontSize: 12, color: '#ce1213', marginTop: 8, marginBottom: 0, fontWeight: 600 }}>
                   ⚠ {obligatoiresCount} mesure{obligatoiresCount > 1 ? 's' : ''} obligatoire{obligatoiresCount > 1 ? 's' : ''} dans cette sélection
                 </p>
               )}
@@ -656,27 +611,17 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             {/* Lois accordion */}
             <AccordionSection title="Cadre légal applicable" count={report.lois.length}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {report.lois.map(l => {
-                  const loiSlug = LOI_SLUG[l.titre]
-                  const loiHref = loiSlug ? `/s-informer/les-lois#${loiSlug}` : '/s-informer/les-lois'
-                  return (
-                    <Link key={l.titre} href={loiHref} style={{ display: 'block', textDecoration: 'none' }}>
-                      <div style={{ background: '#282828', borderRadius: 8, padding: '14px 16px', border: '1px solid #2e2e2e', transition: 'border-color 0.15s' }}
-                        onMouseEnter={e => (e.currentTarget.style.borderColor = '#484848')}
-                        onMouseLeave={e => (e.currentTarget.style.borderColor = '#2e2e2e')}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
-                          <span style={{ fontSize: 14, fontWeight: 700, color: '#EEE9F3' }}>{l.titre}</span>
-                          <LoiStatusPill statut={l.statut} />
-                        </div>
-                        <p style={{ fontSize: 13, color: '#9491a1', lineHeight: 1.6, margin: '0 0 8px' }}>{l.description}</p>
-                        <span style={{ fontSize: 11, color: '#a122e2' }}>Voir la loi →</span>
-                      </div>
-                    </Link>
-                  )
-                })}
+                {report.lois.map(l => (
+                  <div key={l.titre} style={{ background: '#fafafa', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8e8e8' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: '#000' }}>{l.titre}</span>
+                      <LoiStatusPill statut={l.statut} />
+                    </div>
+                    <p style={{ fontSize: 13, color: '#5b5b5b', lineHeight: 1.6, margin: 0 }}>{l.description}</p>
+                  </div>
+                ))}
               </div>
-              <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: '#9491a1', textDecoration: 'underline', display: 'inline-block', marginTop: 14 }}>
+              <Link href="/s-informer/les-lois" style={{ fontSize: 13, color: '#929292', textDecoration: 'underline', display: 'inline-block', marginTop: 14 }}>
                 Consulter le cadre légal complet →
               </Link>
             </AccordionSection>
@@ -685,9 +630,9 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             <AccordionSection title="Financeurs & aides disponibles" count={report.financeurs.length}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {report.financeurs.map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#282828', borderRadius: 8, border: '1px solid #2e2e2e' }}>
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#fafafa', borderRadius: 10, border: '1px solid #e8e8e8' }}>
                     <span style={{ color: '#a122e2', fontSize: 14, flexShrink: 0 }}>◆</span>
-                    <span style={{ fontSize: 14, color: '#EEE9F3' }}>{f}</span>
+                    <span style={{ fontSize: 14, color: '#333' }}>{f}</span>
                   </div>
                 ))}
               </div>
@@ -697,31 +642,31 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
           {/* Right sidebar */}
           <div style={{ position: 'sticky', top: 72, display: 'flex', flexDirection: 'column', gap: 16 }}>
             {/* Budget card */}
-            <div style={{ background: '#1c1c1c', borderRadius: 8, border: '1px solid #2e2e2e', padding: 20 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9491a1', margin: '0 0 8px' }}>Budget estimé</p>
-              <p style={{ fontSize: 60, fontWeight: 700, color: '#EEE9F3', lineHeight: 1, margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #dcdcdc', padding: 20 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#929292', margin: '0 0 8px' }}>Budget estimé</p>
+              <p style={{ fontSize: 60, fontWeight: 700, color: '#000', lineHeight: 1, margin: '0 0 4px', letterSpacing: '-0.02em' }}>
                 {report.budgetEstime.toLocaleString('fr-FR')} €
               </p>
-              <p style={{ fontSize: 13, color: '#9491a1', margin: '0 0 16px' }}>Estimation indicative pour votre configuration</p>
-              <div style={{ background: 'rgba(161,34,226,0.1)', borderRadius: 8, padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <p style={{ fontSize: 13, color: '#929292', margin: '0 0 16px' }}>Estimation indicative pour votre configuration</p>
+              <div style={{ background: 'rgba(161,34,226,0.1)', borderRadius: 12, padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <p style={{ fontSize: 11, fontWeight: 700, color: '#a122e2', margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Aides disponibles</p>
                   <p style={{ fontSize: 22, fontWeight: 700, color: '#a122e2', margin: 0 }}>~{report.aidesEstimees.toLocaleString('fr-FR')} €</p>
                 </div>
                 <span style={{ fontSize: 28 }}>💜</span>
               </div>
-              <p style={{ fontSize: 11, color: '#9491a1', margin: '10px 0 0', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 11, color: '#c0c0c0', margin: '10px 0 0', lineHeight: 1.5 }}>
                 Estimations basées sur les dispositifs DRAC, CCAH et collectivités territoriales. Montants non contractuels.
               </p>
             </div>
 
             {/* Lois status card */}
-            <div style={{ background: '#1c1c1c', borderRadius: 8, border: '1px solid #2e2e2e', padding: 20 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9491a1', margin: '0 0 14px' }}>Statut des lois</p>
+            <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #dcdcdc', padding: 20 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#929292', margin: '0 0 14px' }}>Statut des lois</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {report.lois.map(l => (
                   <div key={l.titre} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                    <span style={{ fontSize: 13, color: '#EEE9F3', fontWeight: 500 }}>{l.titre}</span>
+                    <span style={{ fontSize: 13, color: '#333', fontWeight: 500 }}>{l.titre}</span>
                     <LoiStatusPill statut={l.statut} />
                   </div>
                 ))}
@@ -729,8 +674,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             </div>
 
             {/* Quick profile recap */}
-            <div style={{ background: '#1c1c1c', borderRadius: 8, border: '1px solid #2e2e2e', padding: 20 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9491a1', margin: '0 0 12px' }}>Votre configuration</p>
+            <div style={{ background: '#fff', borderRadius: 20, border: '1px solid #dcdcdc', padding: 20 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#929292', margin: '0 0 12px' }}>Votre configuration</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {[
                   { label: 'Jauge', val: answers.jauge as string },
@@ -739,8 +684,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
                   { label: 'Espaces', val: espaces.join(', ') || '—' },
                 ].map(r => (
                   <div key={r.label} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13 }}>
-                    <span style={{ color: '#9491a1' }}>{r.label}</span>
-                    <span style={{ color: '#EEE9F3', fontWeight: 600, textAlign: 'right' }}>{r.val}</span>
+                    <span style={{ color: '#929292' }}>{r.label}</span>
+                    <span style={{ color: '#000', fontWeight: 600, textAlign: 'right' }}>{r.val}</span>
                   </div>
                 ))}
               </div>
@@ -749,14 +694,14 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
         </div>
 
         {/* Bottom actions */}
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginTop: 48, borderTop: '1px solid #2e2e2e', paddingTop: 32 }}>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginTop: 48, borderTop: '1px solid #e8e8e8', paddingTop: 32 }}>
           <button
             onClick={onReset}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              border: '1.5px dashed #484848', borderRadius: 999, padding: '12px 24px',
-              background: 'none', cursor: 'pointer', fontSize: 15, color: '#9491a1',
-              fontFamily: 'var(--font)',
+              border: '1.5px dashed #929292', borderRadius: 999, padding: '12px 24px',
+              background: 'none', cursor: 'pointer', fontSize: 15, color: '#929292',
+              fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
             }}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: 'scaleX(-1)' }}>
@@ -767,9 +712,9 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
           <a
             href="mailto:contact@fmm.fr"
             style={{
-              display: 'inline-block', background: '#EEE9F3', color: '#101010',
+              display: 'inline-block', background: '#000', color: '#fff',
               borderRadius: 999, padding: '14px 28px', fontSize: 15,
-              textDecoration: 'none', fontFamily: 'var(--font)',
+              textDecoration: 'none', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
             }}
           >
             Contacter FMM →
@@ -784,24 +729,30 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 // ── Main diagnostic ───────────────────────────────────────────────────────────
 
 const INTRO_TEXT = "Quelques questions pour construire\nton plan d'accessibilité sur mesure."
-const INTRO_SPEED = 18
-const Q_SPEED     = 18
+const INTRO_SPEED = 55   // ms par caractère — intro (lent, soothing)
+const Q_SPEED     = 80   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
+  // ── Phase ─────────────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<'intro' | 'questions'>('intro')
   const [typedChars, setTypedChars] = useState(0)
   const [introFading, setIntroFading] = useState(false)
 
+  // ── Question ──────────────────────────────────────────────────────────────
   const [qIndex, setQIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [selected, setSelected] = useState<string | string[]>('')
   const [otherText, setOtherText] = useState('')
   const [showResult, setShowResult] = useState(false)
 
-  const [qTypedChars, setQTypedChars] = useState(0)
-  const [qFullyTyped, setQFullyTyped] = useState(false)
+  // ── Typewriter par question ────────────────────────────────────────────────
+  const [qTypedChars, setQTypedChars] = useState(0)   // nb de chars écrits dans la question
+  const [qFullyTyped, setQFullyTyped] = useState(false) // options visibles seulement quand true
 
+  // ── 3D Animation ──────────────────────────────────────────────────────────
+  const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
   const [enterKey, setEnterKey] = useState(0)
+  const [pushKey, setPushKey] = useState(0)
 
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
@@ -813,6 +764,7 @@ export function AccessibleDiagnostic() {
     setTimeout(() => setPhase('questions'), 900)
   }
 
+  // ── Typewriter intro ───────────────────────────────────────────────────────
   useEffect(() => {
     if (phase !== 'intro') return
     let i = 0
@@ -821,12 +773,14 @@ export function AccessibleDiagnostic() {
       setTypedChars(i)
       if (i >= INTRO_TEXT.length) {
         clearInterval(iv)
+        // Bouton apparaît 600ms après la fin du typewriter
         setTimeout(() => setShowButton(true), 600)
       }
     }, INTRO_SPEED)
     return () => clearInterval(iv)
   }, [phase])
 
+  // ── Typewriter par question — redémarre à chaque changement de question ────
   useEffect(() => {
     if (phase !== 'questions') return
     setQTypedChars(0)
@@ -838,12 +792,14 @@ export function AccessibleDiagnostic() {
       setQTypedChars(i)
       if (i >= text.length) {
         clearInterval(iv)
-        setTimeout(() => setQFullyTyped(true), 50)
+        // Options apparaissent 200ms après que la question soit entièrement écrite
+        setTimeout(() => setQFullyTyped(true), 200)
       }
     }, Q_SPEED)
     return () => clearInterval(iv)
   }, [qIndex, phase])
 
+  // Sync selection on back navigation
   useEffect(() => {
     const existing = answers[QUESTIONS[qIndex].id]
     setSelected(existing ?? (q.type === 'multi' ? [] : ''))
@@ -863,16 +819,25 @@ export function AccessibleDiagnostic() {
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
-      setTimeout(() => setShowResult(true), 300)
+      setPrevQIndex(qIndex)
+      setPushKey(k => k + 1)
+      setTimeout(() => setShowResult(true), 480)
       return
     }
 
-    setQIndex(i => i + 1)
-    setEnterKey(k => k + 1)
+    // 3D transition: push current to back, pull next to front
+    setPrevQIndex(qIndex)
+    setPushKey(k => k + 1)
+    setTimeout(() => {
+      setQIndex(i => i + 1)
+      setEnterKey(k => k + 1)
+      setTimeout(() => setPrevQIndex(null), 700)
+    }, 380)
   }, [canAdvance, q, answers, qIndex, total, selected, otherText])
 
   const goBack = useCallback(() => {
     if (qIndex === 0) return
+    setPrevQIndex(null)
     setQIndex(i => i - 1)
     setEnterKey(k => k + 1)
   }, [qIndex])
@@ -894,12 +859,13 @@ export function AccessibleDiagnostic() {
       onReset={() => {
         setShowResult(false); setPhase('intro'); setTypedChars(0); setIntroFading(false)
         setQIndex(0); setAnswers({}); setSelected(''); setEnterKey(0)
+        setPrevQIndex(null); setPushKey(0)
       }}
     />
   )
 
   return (
-    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: '#101010', fontFamily: 'var(--font)' }}>
+    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: phase === 'intro' ? '#0a0a0a' : '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', transition: 'background 0.6s ease' }}>
       <style>{`
         @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -912,6 +878,10 @@ export function AccessibleDiagnostic() {
           100% { opacity: 0; filter: blur(8px); }
         }
 
+        @keyframes push-back {
+          0%   { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px);  opacity: 1; }
+          100% { transform: perspective(1000px) translateZ(-240px) scale(0.8) rotateX(10deg); filter: blur(12px); opacity: 0.18; }
+        }
         @keyframes pull-forward {
           0%   { transform: perspective(1000px) translateZ(80px) scale(1.06); filter: blur(7px); opacity: 0; }
           100% { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px); opacity: 1; }
@@ -925,92 +895,89 @@ export function AccessibleDiagnostic() {
           from { opacity: 0; transform: translateY(12px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .start-btn:hover { background: #c8c2cf !important; transform: translateY(-1px); }
+        .start-btn:hover { background: #f0f0f0 !important; transform: translateY(-1px); }
         .start-btn:active { transform: translateY(0); }
 
         .diag-opt { transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s; }
-        .diag-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+        .diag-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
         .diag-opt:active { transform: translateY(0); }
 
         @media (max-width: 600px) { .diag-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
-      {/* ─── INTRO PHASE ─── */}
+      {/* ─── INTRO PHASE — fond noir comme le design ─── */}
       {phase === 'intro' && (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 32px' }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 32px', background: '#0a0a0a', margin: '-1px' }}>
           <div style={{
-            maxWidth: 540,
+            maxWidth: 680,
             textAlign: 'center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 48,
+            gap: 40,
             animation: introFading
               ? 'intro-out 0.9s ease forwards'
               : 'intro-in 1.2s ease forwards',
           }}>
-            <p style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 600, color: '#EEE9F3', lineHeight: 1.25, margin: 0, fontFamily: 'var(--font)' }}>
+            {/* Sous-titre */}
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em', margin: 0, fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
+              5 questions · ~2 min · gratuit
+            </p>
+
+            {/* Texte typewriter */}
+            <p style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.03em', margin: 0 }}>
               {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
               {!showButton && (
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+                <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#fff', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               )}
             </p>
 
+            {/* Chips features */}
             {showButton && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24, animation: 'btn-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards' }}>
-                {/* Ce qu'on obtient */}
-                <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
-                  {[
-                    {
-                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
-                      label: 'Recommandations',
-                      sub: 'adaptées à ton festival',
-                    },
-                    {
-                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
-                      label: 'Budget estimé',
-                      sub: '+ aides disponibles',
-                    },
-                    {
-                      icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a122e2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>,
-                      label: 'Cadre légal',
-                      sub: 'lois applicables',
-                    },
-                  ].map(item => (
-                    <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#1c1c1c', border: '1px solid #2e2e2e', borderRadius: 8, padding: '10px 14px', textAlign: 'left' }}>
-                      <div style={{ flexShrink: 0 }}>{item.icon}</div>
-                      <div>
-                        <p style={{ fontSize: 12, fontWeight: 600, color: '#EEE9F3', margin: 0, fontFamily: 'var(--font)' }}>{item.label}</p>
-                        <p style={{ fontSize: 11, color: '#9491a1', margin: 0, fontFamily: 'var(--font)' }}>{item.sub}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-                  <button
-                    className="start-btn"
-                    onClick={startQuestions}
-                    style={{
-                      background: '#EEE9F3',
-                      color: '#101010',
-                      border: 'none',
-                      borderRadius: 999,
-                      padding: '14px 44px',
-                      fontSize: 17,
-                      cursor: 'pointer',
-                      fontFamily: 'var(--font)',
-                      letterSpacing: '-0.01em',
-                      transition: 'background 0.2s, transform 0.15s',
-                    }}
-                  >
-                    Commencer
-                  </button>
-                  <p style={{ fontSize: 12, color: '#9491a1', margin: 0, fontFamily: 'var(--font-mono)' }}>5 questions · ~2 min · gratuit</p>
-                </div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', animation: 'btn-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards' }}>
+                {[
+                  { title: 'Recommandations', sub: 'adaptées à ton festival' },
+                  { title: 'Budget estimé', sub: '+ aides disponibles' },
+                  { title: 'Cadre légal', sub: 'lois applicables' },
+                ].map(chip => (
+                  <div key={chip.title} style={{
+                    background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 12,
+                    padding: '12px 18px',
+                    textAlign: 'center',
+                  }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', margin: '0 0 2px' }}>{chip.title}</p>
+                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', margin: 0 }}>{chip.sub}</p>
+                  </div>
+                ))}
               </div>
+            )}
+
+            {/* Bouton Commencer */}
+            {showButton && (
+              <button
+                className="start-btn"
+                onClick={startQuestions}
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: 'none',
+                  borderRadius: 999,
+                  padding: '16px 48px',
+                  fontSize: 17,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                  letterSpacing: '-0.01em',
+                  transition: 'background 0.2s, transform 0.15s',
+                  animation: 'btn-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both',
+                }}
+              >
+                Commencer
+              </button>
             )}
           </div>
         </div>
@@ -1022,21 +989,42 @@ export function AccessibleDiagnostic() {
           {/* Header */}
           <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#9491a1', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#999', textDecoration: 'none', letterSpacing: '-0.01em' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
                 Retour
               </a>
-              <span style={{ fontSize: 11, color: '#9491a1', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+              <span style={{ fontSize: 11, color: '#bbb', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
                 {qIndex + 1} / {total}
               </span>
             </div>
-            <div style={{ height: 2.5, background: '#2e2e2e', borderRadius: 99 }}>
+            <div style={{ height: 2.5, background: '#ebebeb', borderRadius: 99 }}>
               <div style={{ height: '100%', width: `${((qIndex + 1) / total) * 100}%`, background: 'linear-gradient(90deg, #a122e2, #ce9de7)', borderRadius: 99, transition: 'width 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
             </div>
           </div>
 
-          {/* Stage — centré */}
-          <div style={{ flex: 1, position: 'relative', padding: '32px 48px 100px', maxWidth: 860, width: '100%', margin: '0 auto' }}>
+          {/* Stage — layout gauche comme Figma */}
+          <div style={{ flex: 1, position: 'relative', padding: '32px 48px 100px', maxWidth: 860, width: '100%' }}>
+
+            {/* Question précédente en blur — visible derrière */}
+            {prevQIndex !== null && (
+              <p
+                key={`blur-${pushKey}`}
+                style={{
+                  fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
+                  fontWeight: 400,
+                  color: '#5b5b5b',
+                  lineHeight: 1.25,
+                  letterSpacing: '-0.02em',
+                  filter: 'blur(7px)',
+                  opacity: 0.5,
+                  pointerEvents: 'none',
+                  marginBottom: 48,
+                  animation: 'intro-in 0.3s ease forwards',
+                }}
+              >
+                {QUESTIONS[prevQIndex].text}
+              </p>
+            )}
 
             {/* Question courante — typewriter */}
             <div
@@ -1047,13 +1035,13 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 600, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, fontFamily: 'var(--font)', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em' }}>
                 {q.text.slice(0, qTypedChars)}
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
               {'hint' in q && q.hint && (
-                <p style={{ fontSize: 13, color: '#9491a1', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease', textAlign: 'center' }}>{q.hint}</p>
+                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
               )}
 
               {/* Options */}
@@ -1064,7 +1052,6 @@ export function AccessibleDiagnostic() {
                   gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
                   gap: 10,
                   maxWidth: q.type === 'multi' ? 540 : 420,
-                  margin: '0 auto',
                   pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
@@ -1084,17 +1071,17 @@ export function AccessibleDiagnostic() {
                         onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
                         style={{
                           width: '100%', textAlign: 'left',
-                          background: isSelected ? 'rgba(161,34,226,0.12)' : '#1c1c1c',
-                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #484848',
-                          borderRadius: 8, padding: '15px 18px', fontSize: 15, color: '#EEE9F3',
-                          cursor: 'pointer', fontFamily: 'var(--font)',
+                          background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
+                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e8e8e8',
+                          borderRadius: 14, padding: '15px 18px', fontSize: 15, color: '#000',
+                          cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
                           display: 'flex', alignItems: 'center', gap: 12,
                           boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
                         }}
                       >
                         <span style={{
                           width: 20, height: 20, borderRadius: isMulti ? 5 : '50%',
-                          border: isSelected ? '2px solid #a122e2' : '2px solid #484848',
+                          border: isSelected ? '2px solid #a122e2' : '2px solid #ddd',
                           background: isSelected ? '#a122e2' : 'transparent',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           flexShrink: 0, transition: 'all 0.18s',
@@ -1106,7 +1093,7 @@ export function AccessibleDiagnostic() {
                       {opt.val === 'other' && isSelected && (
                         <input autoFocus value={otherText} onChange={e => setOtherText(e.target.value)}
                           placeholder="Precise ton budget..."
-                          style={{ border: '1.5px solid #a122e2', borderRadius: 8, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font)', outline: 'none', background: '#1c1c1c', color: '#EEE9F3', width: '100%', boxSizing: 'border-box', marginTop: 8 }}
+                          style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box', marginTop: 8 }}
                           onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
                         />
                       )}
@@ -1117,9 +1104,10 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* Footer nav */}
-          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(16,16,16,0.92)', backdropFilter: 'blur(16px)', borderTop: '1px solid #2e2e2e', zIndex: 50 }}>
+          {/* Footer nav — fixed, style Figma exact */}
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,247,247,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
 
+            {/* Precedent — cercle pointilles + icone retour */}
             <button
               onClick={goBack}
               disabled={qIndex === 0}
@@ -1127,23 +1115,24 @@ export function AccessibleDiagnostic() {
                 display: 'flex', alignItems: 'center', gap: 14,
                 background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
                 opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
-                fontFamily: 'var(--font)', padding: 0,
+                fontFamily: 'var(--font-atkinson), system-ui, sans-serif', padding: 0,
               }}
             >
-              <div style={{ width: 55, height: 55, borderRadius: '50%', border: '1.5px dashed #484848', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9491a1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <div style={{ width: 55, height: 55, borderRadius: '50%', border: '1.5px dashed #929292', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
                 </svg>
               </div>
-              <span style={{ fontSize: 20, color: '#9491a1' }}>Precedent</span>
+              <span style={{ fontSize: 20, color: '#929292' }}>Precedent</span>
             </button>
 
+            {/* Suivant — pill noir */}
             <button
               onClick={advance}
               style={{
-                background: '#EEE9F3', color: '#101010', border: 'none',
+                background: '#000', color: '#fff', border: 'none',
                 borderRadius: 999, padding: '14px 32px', fontSize: 20,
-                cursor: 'pointer', fontFamily: 'var(--font)',
+                cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
                 opacity: canAdvance ? 1 : 0,
                 pointerEvents: canAdvance ? 'auto' : 'none',
                 transform: canAdvance ? 'translateY(0)' : 'translateY(6px)',
