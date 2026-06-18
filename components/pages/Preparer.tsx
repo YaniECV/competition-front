@@ -941,8 +941,13 @@ export function AccessibleDiagnostic() {
                     background: 'rgba(255,255,255,0.08)',
                     border: '1px solid rgba(255,255,255,0.12)',
                     borderRadius: 12,
-                    padding: '12px 18px',
-                    textAlign: 'center',
+                    width: 148,
+                    height: 56,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
                   }}>
                     <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', margin: '0 0 2px' }}>{chip.title}</p>
                     <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', margin: 0 }}>{chip.sub}</p>
@@ -978,7 +983,7 @@ export function AccessibleDiagnostic() {
             {/* Sous-titre sous le bouton */}
             {showButton && (
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em', margin: 0, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', animation: 'btn-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.2s both' }}>
-                5 questions · ~5 min · gratuit
+                5 questions environ 2 min et gratuit
               </p>
             )}
           </div>
