@@ -125,7 +125,6 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 }
 
 const INTRO_TEXT = "Quelques questions pour voir où en est ton festival avec l'accessibilité."
-const Q_SPEED     = 40   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
@@ -138,10 +137,6 @@ export function AccessibleDiagnostic() {
   const [selected, setSelected] = useState<string | string[]>('')
   const [otherText, setOtherText] = useState('')
   const [showResult, setShowResult] = useState(false)
-
-  // ── Typewriter par question ────────────────────────────────────────────────
-  const [qTypedChars, setQTypedChars] = useState(0)   // nb de chars écrits dans la question
-  const [qFullyTyped, setQFullyTyped] = useState(false) // options visibles seulement quand true
 
   // ── 3D Animation ──────────────────────────────────────────────────────────
   const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
@@ -156,24 +151,6 @@ export function AccessibleDiagnostic() {
     setTimeout(() => setPhase('questions'), 900)
   }
 
-  // ── Typewriter par question — redémarre à chaque changement de question ────
-  useEffect(() => {
-    if (phase !== 'questions') return
-    setQTypedChars(0)
-    setQFullyTyped(false)
-    const text = QUESTIONS[qIndex].text
-    let i = 0
-    const iv = setInterval(() => {
-      i++
-      setQTypedChars(i)
-      if (i >= text.length) {
-        clearInterval(iv)
-        // Options apparaissent 200ms après que la question soit entièrement écrite
-        setTimeout(() => setQFullyTyped(true), 200)
-      }
-    }, Q_SPEED)
-    return () => clearInterval(iv)
-  }, [qIndex, phase])
 
   // Sync selection on back navigation
   useEffect(() => {
@@ -241,8 +218,6 @@ export function AccessibleDiagnostic() {
     <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: '#0a0a0a', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
       <style>{`
         * { text-wrap: balance; }
-
-        @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
         @keyframes intro-in {
           from { opacity: 0; }
@@ -401,12 +376,11 @@ export function AccessibleDiagnostic() {
               }}
             >
               <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
-                {q.text.slice(0, qTypedChars)}
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.75em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+                {q.text}
               </h1>
 
               {(q as { hint?: string }).hint && (
-                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{(q as { hint?: string }).hint}</p>
+                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px' }}>{(q as { hint?: string }).hint}</p>
               )}
 
               {/* Options */}
@@ -419,7 +393,6 @@ export function AccessibleDiagnostic() {
                   maxWidth: q.type === 'multi' ? 540 : 420,
                   marginLeft: 'auto',
                   marginRight: 'auto',
-                  pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
                 {q.options.map((opt, idx) => {
@@ -429,9 +402,7 @@ export function AccessibleDiagnostic() {
                     : selected === opt.val
                   return (
                     <div key={opt.val} style={{
-                      opacity: qFullyTyped ? 1 : 0,
-                      transform: qFullyTyped ? 'translateY(0)' : 'translateY(16px)',
-                      transition: `opacity 0.45s ease ${0.1 + idx * 0.08}s, transform 0.45s cubic-bezier(0.22,1,0.36,1) ${0.1 + idx * 0.08}s`,
+                      animation: `opt-in 0.5s cubic-bezier(0.22,1,0.36,1) ${0.05 + idx * 0.07}s both`,
                     }}>
                       <button
                         className="diag-opt"
