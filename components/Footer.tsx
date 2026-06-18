@@ -39,7 +39,7 @@ export default function Footer() {
   if (pathname.startsWith('/accessible')) return null;
 
   return (
-    <footer style={{ background: '#101010' }}>
+    <footer style={{ background: 'rgba(113,113,113,0.1)', borderTop: '1px solid #3b3b39' }}>
 
       {/* ── Nav bar ── */}
       <div style={{
@@ -61,7 +61,7 @@ export default function Footer() {
         {/* Nav columns */}
         {NAV_COLS.map(col => (
           <div key={col.title} style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
-            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, lineHeight: 1, color: '#F1EDF5', whiteSpace: 'nowrap' }}>
+            <span style={{ fontFamily: 'var(--font-title)', fontSize: 16, fontWeight: 400, lineHeight: 1, color: '#F1EDF5', whiteSpace: 'nowrap', textTransform: 'uppercase' }}>
               {col.title}
             </span>
             {col.links.map(l => (
@@ -82,7 +82,7 @@ export default function Footer() {
 
       {/* Contact */}
       <div style={{ padding: '24px 40px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#F1EDF5', lineHeight: 1 }}>Contact</span>
+        <span style={{ fontFamily: 'var(--font-title)', fontSize: 14, fontWeight: 400, color: '#F1EDF5', lineHeight: 1, textTransform: 'uppercase' }}>Contact</span>
         <a href="mailto:Metal-AXS@mail.com" style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', textDecoration: 'none' }}>
           Metal-AXS@mail.com
         </a>
