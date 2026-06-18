@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import type { Zone, Handicap, BonnePratique } from '../data/bonnesPratiques'
 import { handicaps } from '../data/handicaps'
@@ -66,87 +67,97 @@ function BpCard({ bp, onOpen }: { bp: BonnePratique; onOpen: () => void }) {
   const zoneLabel = zoneOptions.find(z => z.key === bp.zone)?.label ?? bp.zone
   const handicapLabels = getHandicapLabels(bp)
 
+  const tagStyle: React.CSSProperties = {
+    border: '1.5px solid #F1EDF5',
+    borderRadius: 12,
+    padding: '8px 10px',
+    fontFamily: 'var(--font)',
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#F1EDF5',
+    lineHeight: 1,
+    whiteSpace: 'nowrap',
+  }
+
   return (
-    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-      {/* Carré visuel gauche */}
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 24,
+      paddingTop: 24,
+      paddingBottom: 24,
+      borderBottom: '1px solid #3b3b39',
+    }}>
+      {/* Visuel gauche */}
       <div style={{
-        border: '1px solid #2e2e2e',
-        borderRadius: 8,
-        width: 147,
-        height: 141,
-        flexShrink: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 16,
+        width: 119,
+        height: 119,
+        borderRadius: 12,
         overflow: 'hidden',
+        flexShrink: 0,
         background: '#1c1c1c',
       }}>
-        <img
-          src="/card-visual.png"
-          alt=""
-          style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'invert(1) brightness(0.8)' }}
-        />
+        <img src="/card-visual.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
-      {/* Panneau contenu */}
-      <div style={{
-        border: '1px solid #2e2e2e',
-        borderRadius: 8,
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 32,
-        minWidth: 0,
-        background: '#1c1c1c',
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 15, minWidth: 0 }}>
-          <p style={{ fontSize: 24, color: '#EEE9F3', lineHeight: 1, fontWeight: 400 }}>{bp.titre}</p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <span style={{
-              border: '1px solid #484848',
-              borderRadius: 32,
-              padding: '10px 14px',
-              fontSize: 14,
-              color: '#9491a1',
-              lineHeight: 1,
-              whiteSpace: 'nowrap',
-            }}>
-              {zoneLabel}
-            </span>
-            {handicapLabels.map(label => (
-              <span key={label} style={{
-                border: '1px solid #484848',
-                borderRadius: 32,
-                padding: '10px 14px',
-                fontSize: 14,
-                color: '#9491a1',
-                lineHeight: 1,
-                whiteSpace: 'nowrap',
-              }}>
-                {label}
-              </span>
-            ))}
-          </div>
+
+      {/* Titre + tags */}
+      <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}>
+        <p style={{
+          fontFamily: 'var(--font)',
+          fontSize: 24,
+          fontWeight: 500,
+          lineHeight: 1.1,
+          color: '#F1EDF5',
+          margin: 0,
+        }}>
+          {bp.titre}
+        </p>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <span style={tagStyle}>{zoneLabel}</span>
+          {handicapLabels.map(label => (
+            <span key={label} style={tagStyle}>{label}</span>
+          ))}
         </div>
-        <button
-          onClick={onOpen}
-          style={{
-            border: '1px solid #484848',
-            borderRadius: 999,
-            padding: 16,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            cursor: 'pointer',
-            background: '#282828',
-          }}
-          aria-label={`Voir la fiche : ${bp.titre}`}
-        >
-          <ArrowUpRightIcon />
-        </button>
       </div>
+
+      {/* Bouton En savoir plus */}
+      <button
+        onClick={onOpen}
+        style={{
+          background: '#EEE9F3',
+          borderRadius: 12,
+          padding: '4px 4px 4px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          flexShrink: 0,
+          border: 'none',
+          cursor: 'pointer',
+        }}
+        aria-label={`En savoir plus : ${bp.titre}`}
+      >
+        <span style={{
+          fontFamily: 'var(--font)',
+          fontSize: 18,
+          fontWeight: 600,
+          color: '#101010',
+          lineHeight: 1,
+          whiteSpace: 'nowrap',
+        }}>
+          En savoir plus
+        </span>
+        <div style={{
+          width: 32,
+          height: 32,
+          background: '#A122E2',
+          borderRadius: 8,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+        </div>
+      </button>
     </div>
   )
 }
@@ -399,18 +410,45 @@ export function BonnesPratiquesIndex() {
   return (
     <>
       {/* Hero */}
-      <div style={{ background: '#101010', padding: '48px 40px 0' }}>
-        <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
-          <div>
-            <h1 style={{ fontSize: 72, fontWeight: 600, lineHeight: 1.2, color: '#EEE9F3', letterSpacing: 0 }}>
-              Parcourez nos bonnes pratiques
-            </h1>
-          </div>
-          <p style={{ fontSize: 16, fontWeight: 300, lineHeight: 1.1, color: '#9491a1', maxWidth: 420 }}>
-            Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
+      <section style={{
+        background: '#101010',
+        paddingTop: 240,
+        paddingBottom: 120,
+        paddingLeft: 40,
+        paddingRight: 40,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%' }}>
+          <h1 style={{
+            fontFamily: 'var(--font-title)',
+            fontSize: 80,
+            fontWeight: 400,
+            color: '#EEE9F3',
+            textTransform: 'uppercase',
+            lineHeight: 1,
+            letterSpacing: 0,
+            textAlign: 'center',
+            margin: 0,
+            width: '100%',
+          }}>
+            Les bonnes pratiques
+          </h1>
+          <p style={{
+            fontFamily: 'var(--font)',
+            fontSize: 18,
+            fontWeight: 400,
+            lineHeight: 1.1,
+            color: '#EEE9F3',
+            textAlign: 'center',
+            maxWidth: 466,
+            margin: 0,
+          }}>
+            Toutes les actions concrètes pour rendre ton festival accessible, filtrables par zone et type de handicap.
           </p>
         </div>
-      </div>
+      </section>
 
       {/* Filtres + Liste */}
       <div style={{ background: '#101010', padding: '56px 40px 80px' }}>
@@ -526,8 +564,8 @@ export function BonnesPratiquesIndex() {
             )}
           </div>
 
-          {/* Liste de cards — pleine largeur */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Liste de cards */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {filtered.length === 0 ? (
               <p style={{ fontSize: 14, color: '#9491a1' }}>Aucune bonne pratique pour ces filtres.</p>
             ) : (
