@@ -12,11 +12,7 @@ export default function HomepageTagline() {
     const timer = setTimeout(() => {
       observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
-            setVisible(true);
-          } else if (!entry.isIntersecting) {
-            setVisible(false);
-          }
+          setVisible(entry.isIntersecting);
         },
         { threshold: 0.15 }
       );
