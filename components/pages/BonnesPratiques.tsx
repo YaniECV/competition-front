@@ -64,15 +64,8 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
       borderBottom: '1px solid #3b3b39',
     }}>
       {/* Visuel gauche */}
-      <div style={{
-        width: 119,
-        height: 119,
-        borderRadius: 12,
-        overflow: 'hidden',
-        flexShrink: 0,
-        background: '#1c1c1c',
-      }}>
-        <img src={getBpImage(index)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div style={{ width: 119, height: 119, flexShrink: 0 }}>
+        <img src={getBpImage(index)} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
 
       {/* Titre + tags */}
