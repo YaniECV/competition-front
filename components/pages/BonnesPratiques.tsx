@@ -283,7 +283,7 @@ export function BonnesPratiquesIndex() {
                             fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
                             color: selected ? '#F1EDF5' : '#9491a1',
                             background: 'transparent',
-                            border: 'none', borderBottom: i < handicapOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
+                            border: 'none', borderBottom: '1px solid #2e2e2e',
                             cursor: 'pointer',
                           }}>
                             <span style={{
@@ -303,6 +303,28 @@ export function BonnesPratiquesIndex() {
                           </button>
                         )
                       })}
+                      <button onClick={() => { setActiveHandicaps([]); setOpenDropdown(null) }} style={{
+                        display: 'flex', alignItems: 'center', gap: 12,
+                        width: '100%', textAlign: 'left', padding: '12px 16px',
+                        fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                        color: activeHandicaps.length === 0 ? '#F1EDF5' : '#9491a1',
+                        background: activeHandicaps.length === 0 ? 'rgba(161,34,226,0.15)' : 'transparent',
+                        border: 'none', cursor: 'pointer',
+                      }}>
+                        <span style={{
+                          width: 18, height: 18, borderRadius: 4, flexShrink: 0,
+                          border: activeHandicaps.length === 0 ? 'none' : '1.5px solid #3b3b39',
+                          background: activeHandicaps.length === 0 ? '#A122E2' : 'transparent',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          {activeHandicaps.length === 0 && (
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                              <path d="M1 4L3.5 6.5L9 1" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
+                        </span>
+                        Tout public
+                      </button>
                     </div>
                   )}
                 </div>
