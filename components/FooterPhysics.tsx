@@ -122,10 +122,9 @@ export default function FooterPhysics() {
       const sync = () => {
         const scrollY = window.scrollY;
 
-        // Clip overlay so items are only visible near the footer
+        // Hide overlay when footer is far below, show when approaching
         const anchorTop = anchor.getBoundingClientRect().top;
-        const clipTop = Math.max(0, anchorTop - window.innerHeight * 0.8);
-        overlay.style.clipPath = `inset(${clipTop}px 0 0 0)`;
+        overlay.style.visibility = anchorTop > window.innerHeight + 300 ? 'hidden' : 'visible';
 
         bodiesRef.forEach((body, i) => {
           const el = itemEls[i];
