@@ -173,25 +173,18 @@ export function HandicapsIndex() {
   )
 }
 
-// ── BP row (client — hover state) ─────────────────────────────────────────
+// ── BP row ────────────────────────────────────────────────────────────────
 function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>> }) {
-  const [hovered, setHovered] = useState(false)
+  const [btnHovered, setBtnHovered] = useState(false)
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 24,
-        paddingTop: 24,
-        paddingBottom: 24,
-        borderBottom: '1px solid #3b3b39',
-        background: hovered ? 'rgba(113,113,113,0.05)' : 'transparent',
-        transition: 'background 0.15s',
-      }}
-    >
-      {/* Title + description */}
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 24,
+      paddingTop: 24,
+      paddingBottom: 24,
+      borderBottom: '1px solid #3b3b39',
+    }}>
       <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
         <p style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5', margin: 0 }}>
           {bp.titre}
@@ -200,8 +193,39 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
           {bp.resume}
         </p>
       </div>
-      {/* En savoir plus */}
-      <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" labelColor="#F1EDF5" style={{ flexShrink: 0, background: 'transparent', border: '1.5px solid #F1EDF5' }} />
+      <Link
+        href={`/s-informer/bonnes-pratiques/${bp.slug}`}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 16,
+          background: btnHovered ? '#A122E2' : 'transparent',
+          border: btnHovered ? 'none' : '1.5px solid #F1EDF5',
+          borderRadius: 12,
+          paddingLeft: 16,
+          paddingRight: 4,
+          paddingTop: 4,
+          paddingBottom: 4,
+          textDecoration: 'none',
+          flexShrink: 0,
+          transition: 'background 0.2s ease',
+          cursor: 'pointer',
+        }}
+      >
+        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+          En savoir plus
+        </span>
+        <span style={{
+          width: 32, height: 32, borderRadius: 8,
+          background: btnHovered ? '#EEE9F3' : '#A122E2',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, transition: 'background 0.2s ease',
+        }}>
+          <ArrowRight size={16} weight="regular" color={btnHovered ? '#A122E2' : '#EEE9F3'} />
+        </span>
+      </Link>
     </div>
   )
 }
