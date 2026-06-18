@@ -518,7 +518,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
         overflow: 'hidden',
       }}>
         <div style={{ width: '100%', height: '100%', borderRadius: 16, overflow: 'hidden' }}>
-          <img src="/card-visual.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src="/bp-detail-visual.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
 
