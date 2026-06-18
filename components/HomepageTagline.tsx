@@ -2,7 +2,7 @@ function Panneau({
   mask, w, h, rotation, top, left, right, flip,
 }: {
   mask: string; w: number; h: number; rotation: number;
-  top: number; left?: number | string; right?: number | string; flip?: boolean;
+  top: number; left?: number; right?: number; flip?: boolean;
 }) {
   return (
     <div
@@ -12,11 +12,10 @@ function Panneau({
         width: w,
         height: h,
         top,
-        left: left !== undefined ? left : undefined,
-        right: right !== undefined ? right : undefined,
+        ...(left !== undefined ? { left } : {}),
+        ...(right !== undefined ? { right } : {}),
         transform: `rotate(${rotation}deg)${flip ? ' scaleY(-1)' : ''}`,
         pointerEvents: 'none',
-        flexShrink: 0,
       }}
     >
       <div style={{
@@ -51,7 +50,7 @@ export default function HomepageTagline() {
     <section style={{
       position: 'relative',
       background: '#101010',
-      minHeight: 680,
+      minHeight: 856,
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
@@ -61,30 +60,40 @@ export default function HomepageTagline() {
     }}>
 
       {/* Panneaux gauche */}
-      <Panneau mask="/panneau-mask-4.svg" w={163} h={328} rotation={-8.4} top={130} left={90} />
-      <Panneau mask="/panneau-mask-5.svg" w={149} h={255} rotation={7.5}  top={360} left={30} />
+      <Panneau mask="/panneau-mask-4.svg" w={174} h={328} rotation={-8.39} top={164} left={265} />
+      <Panneau mask="/panneau-mask-5.svg" w={149} h={256} rotation={7.54}  top={387} left={215} />
 
       {/* Figure gauche (panena2) */}
-      <img
-        src="/panena2.png"
-        alt=""
+      <div
         aria-hidden
         style={{
           position: 'absolute',
-          width: 300,
-          height: 300,
-          left: 110,
-          top: 360,
-          transform: 'rotate(173.56deg) scaleY(-1)',
+          width: 314,
+          height: 314,
+          left: 241,
+          top: 422,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           pointerEvents: 'none',
-          objectFit: 'contain',
         }}
-      />
+      >
+        <img
+          src="/panena2.png"
+          alt=""
+          style={{
+            width: 284,
+            height: 284,
+            transform: 'rotate(173.56deg) scaleY(-1)',
+            objectFit: 'cover',
+          }}
+        />
+      </div>
 
       {/* Panneaux droite */}
-      <Panneau mask="/panneau-mask-1.svg" w={168} h={325} rotation={6.35}  top={100}  right={220} />
-      <Panneau mask="/panneau-mask-3.svg" w={182} h={360} rotation={-7}    top={280}  right={20}  />
-      <Panneau mask="/panneau-mask-6.svg" w={148} h={305} rotation={2.8}   top={390}  right={230} />
+      <Panneau mask="/panneau-mask-1.svg" w={168} h={330} rotation={6.35}    top={120} right={135} />
+      <Panneau mask="/panneau-mask-3.svg" w={196} h={362} rotation={-7.02}   top={313} right={268} />
+      <Panneau mask="/panneau-mask-6.svg" w={160} h={305} rotation={-177.18} top={417} right={127} flip />
 
       {/* Contenu texte */}
       <div style={{
@@ -118,12 +127,6 @@ export default function HomepageTagline() {
           12 millions de Français vivent avec un handicap. Beaucoup sont fans de metal et ne peuvent pas accéder à vos événements. Ce site vous donne les outils pour changer, gratuitement, étape par étape.
         </p>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .homepage-tagline-panneaux { display: none; }
-        }
-      `}</style>
     </section>
   )
 }
