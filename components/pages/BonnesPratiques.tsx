@@ -43,8 +43,14 @@ function getHandicapLabels(bp: BonnePratique): string[] {
   return bp.handicaps.map(h => handicapOptions.find(o => o.key === h)?.label ?? h)
 }
 
+function getBpImage(n: number): string {
+  if (n === 10) return '/9.png'
+  if (n === 20) return '/19.png'
+  return `/${n}.png`
+}
+
 // ── Card liste ────────────────────────────────────────────────────────────────
-function BpCard({ bp }: { bp: BonnePratique }) {
+function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
   const zoneLabel = zoneOptions.find(z => z.key === bp.zone)?.label ?? bp.zone
   const handicapLabels = getHandicapLabels(bp)
 
@@ -66,7 +72,7 @@ function BpCard({ bp }: { bp: BonnePratique }) {
         flexShrink: 0,
         background: '#1c1c1c',
       }}>
-        <img src="/card-visual.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={getBpImage(index)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
 
       {/* Titre + tags */}
@@ -303,7 +309,7 @@ export function BonnesPratiquesIndex() {
             {filtered.length === 0 ? (
               <p style={{ fontSize: 14, color: '#9491a1' }}>Aucune bonne pratique pour ces filtres.</p>
             ) : (
-              filtered.map((bp) => <BpCard key={bp.id} bp={bp} />)
+              filtered.map((bp) => <BpCard key={bp.id} bp={bp} index={bonnesPratiques.indexOf(bp) + 1} />)
             )}
           </div>
         </div>
