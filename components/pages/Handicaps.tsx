@@ -272,7 +272,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
         gap: 64,
         alignItems: 'center',
       }}>
-        {handicap.sections.map((s, i) => (
+        {handicap.sections.slice(0, 2).map((s, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', width: 950, maxWidth: '100%' }}>
             <div style={{ width: 466, flexShrink: 0, display: 'flex', alignItems: 'center' }}>
               <h2 style={{
