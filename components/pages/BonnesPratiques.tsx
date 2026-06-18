@@ -95,7 +95,7 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
           background: 'transparent',
           border: '1.5px solid #F1EDF5',
           borderRadius: 12,
-          padding: '4px 4px 4px 16px',
+          padding: '4px 4px 4px 24px',
           display: 'flex',
           alignItems: 'center',
           gap: 8,

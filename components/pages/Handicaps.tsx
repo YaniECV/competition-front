@@ -204,7 +204,7 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
           background: btnHovered ? '#A122E2' : 'transparent',
           border: btnHovered ? 'none' : '1.5px solid #F1EDF5',
           borderRadius: 12,
-          paddingLeft: 16,
+          paddingLeft: 24,
           paddingRight: 4,
           paddingTop: 4,
           paddingBottom: 4,
