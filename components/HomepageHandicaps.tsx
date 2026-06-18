@@ -43,8 +43,8 @@ export default function HomepageHandicaps() {
           position: absolute;
           bottom: 20px;
           right: 20px;
-          width: 40px;
-          height: 40px;
+          width: 32px;
+          height: 32px;
           background: #A122E2;
           border-radius: 10px;
           display: flex;
@@ -122,7 +122,7 @@ export default function HomepageHandicaps() {
               <img src={h.img} alt="" aria-hidden className="hc-illus" style={{ width: 200, height: 200, objectFit: 'contain' }} />
             </div>
             <span className="hc-btn" aria-hidden>
-              <ArrowRight size={18} weight="light" color="#EEE9F3" />
+              <ArrowRight size={16} weight="regular" color="#EEE9F3" />
             </span>
           </Link>
         ))}
