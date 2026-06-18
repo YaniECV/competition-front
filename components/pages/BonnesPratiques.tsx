@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ShareNetwork } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft, ShareNetwork } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import type { Zone, Handicap, BonnePratique } from '../data/bonnesPratiques'
 import { handicaps } from '../data/handicaps'
@@ -314,6 +314,7 @@ export function BonnesPratiquesIndex() {
 
 // ── Détail ────────────────────────────────────────────────────────────────────
 export function BonnePratiqueDetail({ slug }: { slug: string }) {
+  const [backHovered, setBackHovered] = useState(false)
   const bp = bonnesPratiques.find((b) => b.slug === slug)
   if (!bp) return null
 
@@ -352,7 +353,45 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', background: '#101010', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', background: '#101010', minHeight: '100vh', position: 'relative' }}>
+
+      {/* Bouton retour */}
+      <Link
+        href="/s-informer/bonnes-pratiques"
+        onMouseEnter={() => setBackHovered(true)}
+        onMouseLeave={() => setBackHovered(false)}
+        style={{
+          position: 'absolute',
+          top: 40,
+          left: 40,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 16,
+          background: backHovered ? '#A122E2' : 'transparent',
+          border: backHovered ? 'none' : '1.5px solid #F1EDF5',
+          borderRadius: 12,
+          paddingLeft: 4,
+          paddingRight: 16,
+          paddingTop: 4,
+          paddingBottom: 4,
+          textDecoration: 'none',
+          transition: 'background 0.2s ease',
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+      >
+        <span style={{
+          width: 32, height: 32, borderRadius: 8,
+          background: backHovered ? '#EEE9F3' : '#A122E2',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, transition: 'background 0.2s ease',
+        }}>
+          <ArrowLeft size={16} weight="regular" color={backHovered ? '#A122E2' : '#EEE9F3'} />
+        </span>
+        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+          Retour
+        </span>
+      </Link>
 
       {/* ── Gauche : contenu ── */}
       <div style={{
