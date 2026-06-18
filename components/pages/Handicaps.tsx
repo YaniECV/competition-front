@@ -203,21 +203,6 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
           {bp.resume}
         </p>
       </div>
-      {/* Status badge */}
-      <span style={{
-        fontFamily: 'var(--font)',
-        fontSize: 18,
-        fontWeight: 600,
-        lineHeight: 1,
-        color: '#F1EDF5',
-        whiteSpace: 'nowrap',
-        border: '1.5px solid #F1EDF5',
-        borderRadius: 12,
-        padding: '8px 12px',
-        flexShrink: 0,
-      }}>
-        {bp.statut === 'obligatoire' ? 'Obligatoire' : 'Recommandé'}
-      </span>
       {/* En savoir plus */}
       <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" style={{ flexShrink: 0 }} />
     </div>
@@ -345,13 +330,6 @@ export function HandicapsDetail({ slug }: { slug: string }) {
             }}>
               Les bonnes pratiques{'\n'}pour ce profil
             </h2>
-            {handicap.signaletiqueSlug && (
-              <BtnPrimary
-                href={`/les-ressources#${handicap.signaletiqueSlug}`}
-                label="Voir le pack signalétique correspondant"
-                style={{ alignSelf: 'flex-start' }}
-              />
-            )}
           </div>
 
           {/* BP list */}
