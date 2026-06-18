@@ -201,7 +201,7 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
         </p>
       </div>
       {/* En savoir plus */}
-      <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" style={{ flexShrink: 0 }} />
+      <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" style={{ flexShrink: 0, background: 'transparent', border: '1.5px solid #F1EDF5' }} />
     </div>
   )
 }
@@ -314,7 +314,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
           {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
             <h2 style={{
               fontFamily: 'var(--font-title)',
               fontSize: 40,
@@ -323,9 +323,10 @@ export function HandicapsDetail({ slug }: { slug: string }) {
               textTransform: 'uppercase',
               lineHeight: 1,
               margin: 0,
-              width: 467,
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
             }}>
-              Les bonnes pratiques{'\n'}pour ce profil
+              Les bonnes pratiques pour ce profil
             </h2>
           </div>
 
