@@ -14,7 +14,8 @@ export default function HomepageTagline() {
         ([entry]) => {
           if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
             setVisible(true);
-            observer.disconnect();
+          } else if (!entry.isIntersecting) {
+            setVisible(false);
           }
         },
         { threshold: 0.15 }
