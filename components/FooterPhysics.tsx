@@ -3,58 +3,51 @@
 import { useEffect, useRef } from 'react';
 
 const ITEMS = [
-  // ps1 × 6
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  { src: '/footer-ps1.png', w: 130, h: 130 },
-  // ps2 × 6
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  { src: '/footer-ps2.png', w: 130, h: 130 },
-  // ps3 × 6
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  { src: '/footer-ps3.png', w: 130, h: 130 },
-  // broique × 6
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  { src: '/footer-broique.png', w: 150, h: 79 },
-  // barriere × 5
-  { src: '/footer-barriere.png', w: 120, h: 95 },
-  { src: '/footer-barriere.png', w: 120, h: 95 },
-  { src: '/footer-barriere.png', w: 120, h: 95 },
-  { src: '/footer-barriere.png', w: 120, h: 95 },
-  { src: '/footer-barriere.png', w: 120, h: 95 },
-  // icono × 5
-  { src: '/footer-icono.png', w: 85, h: 110 },
-  { src: '/footer-icono.png', w: 85, h: 110 },
-  { src: '/footer-icono.png', w: 85, h: 110 },
-  { src: '/footer-icono.png', w: 85, h: 110 },
-  { src: '/footer-icono.png', w: 85, h: 110 },
-  // panneau × 5
-  { src: '/footer-panneau.png', w: 80, h: 128 },
-  { src: '/footer-panneau.png', w: 80, h: 128 },
-  { src: '/footer-panneau.png', w: 80, h: 128 },
-  { src: '/footer-panneau.png', w: 80, h: 128 },
-  { src: '/footer-panneau.png', w: 80, h: 128 },
-  // chaine × 5
-  { src: '/footer-chaine.png', w: 150, h: 40 },
-  { src: '/footer-chaine.png', w: 150, h: 40 },
-  { src: '/footer-chaine.png', w: 150, h: 40 },
-  { src: '/footer-chaine.png', w: 150, h: 40 },
-  { src: '/footer-chaine.png', w: 150, h: 40 },
+  // illus-footer-2 (portrait 0.78:1) × 4
+  { src: '/illus-footer-2.png',   w: 101, h: 130 },
+  { src: '/illus-footer-2.png',   w: 85,  h: 110 },
+  { src: '/illus-footer-2.png',   w: 116, h: 150 },
+  { src: '/illus-footer-2.png',   w: 93,  h: 120 },
+  // illus-footer-3 (square) × 4
+  { src: '/illus-footer-3.png',   w: 120, h: 120 },
+  { src: '/illus-footer-3.png',   w: 140, h: 140 },
+  { src: '/illus-footer-3.png',   w: 100, h: 100 },
+  { src: '/illus-footer-3.png',   w: 130, h: 130 },
+  // illus-footer-4 (landscape 1.27:1) × 4
+  { src: '/illus-footer-4.png',   w: 165, h: 130 },
+  { src: '/illus-footer-4.png',   w: 143, h: 113 },
+  { src: '/illus-footer-4.png',   w: 190, h: 150 },
+  { src: '/illus-footer-4.png',   w: 152, h: 120 },
+  // illus-footer-5 (near square) × 4
+  { src: '/illus-footer-5.png',   w: 130, h: 129 },
+  { src: '/illus-footer-5.png',   w: 110, h: 109 },
+  { src: '/illus-footer-5.png',   w: 150, h: 149 },
+  { src: '/illus-footer-5.png',   w: 120, h: 119 },
+  // illus-footer-6-1 (1.10:1) × 4
+  { src: '/illus-footer-6-1.png', w: 143, h: 130 },
+  { src: '/illus-footer-6-1.png', w: 121, h: 110 },
+  { src: '/illus-footer-6-1.png', w: 165, h: 150 },
+  { src: '/illus-footer-6-1.png', w: 132, h: 120 },
+  // illus-footer-6 (portrait 0.92:1) × 4
+  { src: '/illus-footer-6.png',   w: 120, h: 130 },
+  { src: '/illus-footer-6.png',   w: 101, h: 110 },
+  { src: '/illus-footer-6.png',   w: 138, h: 150 },
+  { src: '/illus-footer-6.png',   w: 111, h: 120 },
+  // illus-footer-7 (1.08:1) × 4
+  { src: '/illus-footer-7.png',   w: 140, h: 130 },
+  { src: '/illus-footer-7.png',   w: 118, h: 109 },
+  { src: '/illus-footer-7.png',   w: 162, h: 150 },
+  { src: '/illus-footer-7.png',   w: 130, h: 120 },
+  // illus-footer-9 (portrait 0.94:1) × 4
+  { src: '/illus-footer-9.png',   w: 122, h: 130 },
+  { src: '/illus-footer-9.png',   w: 103, h: 109 },
+  { src: '/illus-footer-9.png',   w: 141, h: 150 },
+  { src: '/illus-footer-9.png',   w: 113, h: 120 },
+  // illus-footer-10 (square) × 4
+  { src: '/illus-footer-10.png',  w: 130, h: 130 },
+  { src: '/illus-footer-10.png',  w: 110, h: 110 },
+  { src: '/illus-footer-10.png',  w: 150, h: 150 },
+  { src: '/illus-footer-10.png',  w: 120, h: 120 },
 ];
 
 const CONTAINER_HEIGHT = 620;
