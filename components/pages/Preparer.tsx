@@ -115,7 +115,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
   )
 }
 
-const INTRO_TEXT = "Quelques questions\npour voir où en est\nton festival."
+const INTRO_TEXT = "Quelques questions pour voir où en est ton festival avec l'accessibilité."
 const Q_SPEED     = 40   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
@@ -294,6 +294,18 @@ export function AccessibleDiagnostic() {
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
             </h2>
+
+            <p style={{
+              fontFamily: 'var(--font)',
+              fontSize: 18,
+              fontWeight: 400,
+              lineHeight: 1.4,
+              color: '#9491a1',
+              margin: 0,
+              maxWidth: 480,
+            }}>
+              5 minutes suffisent. Tu repars avec une vue claire sur les profils à prioriser et des ressources concrètes pour agir.
+            </p>
 
             <button
               onClick={startQuestions}
