@@ -28,8 +28,24 @@ const navItems = [
       { to: '/s-informer/les-lois', label: 'Les lois' },
     ],
   },
-  { label: 'Les ressources', href: '/les-ressources' },
-  { label: 'La fédération', href: '/la-federation' },
+  {
+    label: 'Les ressources',
+    href: '/les-ressources',
+    prefix: '/les-ressources',
+    subs: [
+      { to: '/les-ressources', label: 'Signalétique' },
+      { to: '/les-ressources/glossaire', label: 'Glossaire' },
+    ],
+  },
+  {
+    label: 'La fédération',
+    href: '/la-federation',
+    prefix: '/la-federation',
+    subs: [
+      { to: '/la-federation', label: 'À propos' },
+      { to: '/la-federation/nous-rejoindre', label: 'Nous rejoindre' },
+    ],
+  },
 ];
 
 const searchIndex = [
@@ -271,7 +287,7 @@ export default function Nav() {
               return (
                 <div
                   key={item.label}
-                  style={{ position: 'relative', paddingBottom: item.subs ? 8 : 0 }}
+                  style={{ position: 'relative' }}
                   onMouseEnter={() => setHovered(item.label)}
                   onMouseLeave={() => setHovered(null)}
                 >
@@ -313,6 +329,9 @@ export default function Nav() {
                     </span>
                   )}
 
+                  {item.subs && hovered === item.label && (
+                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, height: 8, zIndex: 199 }} />
+                  )}
                   {item.subs && hovered === item.label && (
                     <div style={{
                       position: 'absolute',
