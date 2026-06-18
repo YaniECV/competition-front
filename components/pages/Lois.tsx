@@ -44,9 +44,17 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
         <p style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 400, lineHeight: 1.3, color: '#9491a1', margin: 0 }}>
           {loi.contenu}
         </p>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <span style={tagStyle}>{loi.source}</span>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          {loi.handicaps.length === handicapOptions.length
+            ? <span style={tagStyle}>Tout public</span>
+            : loi.handicaps.map(h => (
+                <span key={h} style={tagStyle}>{handicapOptions.find(o => o.key === h)?.label ?? h}</span>
+              ))
+          }
         </div>
+        <p style={{ fontFamily: 'var(--font)', fontSize: 13, fontWeight: 400, color: '#5a5a5a', margin: 0 }}>
+          {loi.source}
+        </p>
       </div>
 
       <div
