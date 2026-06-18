@@ -44,6 +44,7 @@ export default function HomepageHandicaps() {
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         width: '100%',
+        padding: '0 40px',
       }}>
         {handicaps.map((h, i) => (
           <Link
