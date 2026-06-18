@@ -9,7 +9,6 @@ export default function HomepageTagline() {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '80px 40px',
-      borderBottom: '1px solid #2e2e2e',
     }}>
 
       {/* Illustration gauche */}
