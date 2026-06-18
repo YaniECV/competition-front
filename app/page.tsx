@@ -1,9 +1,9 @@
-import Link from "next/link";
 import HeroParallaxBarriers from "@/components/HeroParallaxBarriers";
 import HomepageTagline from "@/components/HomepageTagline";
 import HomepageHandicaps from "@/components/HomepageHandicaps";
 import HomepageBonnesPratiques from "@/components/HomepageBonnesPratiques";
 import HomepageFederation from "@/components/HomepageFederation";
+import BtnPrimary from "@/components/BtnPrimary";
 
 export default function Home() {
   return (
@@ -44,23 +44,9 @@ export default function Home() {
           </div>
 
           {/* Bouton CTA */}
-          <Link href="/accessible/diagnostic" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            background: '#A122E2',
-            padding: '0 32px',
-            height: 48,
-            borderRadius: 999,
-            color: '#EEE9F3',
-            fontSize: 18,
-            fontWeight: 600,
-            fontFamily: 'var(--font)',
-            textDecoration: 'none',
-            marginTop: 32,
-            whiteSpace: 'nowrap',
-          }}>
-            Faire le diagnostique de mon festival
-          </Link>
+          <div style={{ marginTop: 32 }}>
+            <BtnPrimary href="/accessible/diagnostic" label="Faire le diagnostique de mon festival" />
+          </div>
 
         </div>
       </section>

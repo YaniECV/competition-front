@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import FooterPhysics from './FooterPhysics';
+import BtnPrimary from './BtnPrimary';
 
 const NAV_COLS = [
   {
@@ -73,28 +73,11 @@ export default function Footer() {
         ))}
 
         {/* CTA button */}
-        <Link href="/accessible/diagnostic" style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          background: '#EEE9F3',
-          borderRadius: 12,
-          paddingLeft: 8,
-          paddingRight: 4,
-          paddingTop: 4,
-          paddingBottom: 4,
-          textDecoration: 'none',
-          flexShrink: 0,
-          alignSelf: 'flex-start',
-          marginLeft: 'auto',
-        }}>
-          <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-            Faire un audit
-          </span>
-          <span style={{ width: 32, height: 32, borderRadius: '50%', background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <ArrowRight size={16} weight="light" color="#EEE9F3" />
-          </span>
-        </Link>
+        <BtnPrimary
+          href="/accessible/diagnostic"
+          label="Faire un audit"
+          style={{ marginLeft: 'auto', alignSelf: 'flex-start' }}
+        />
       </div>
 
       {/* Contact */}

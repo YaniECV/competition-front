@@ -1,4 +1,4 @@
-import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr';
+import BtnPrimary from './BtnPrimary';
 
 const stats = [
   {
@@ -74,26 +74,7 @@ export default function HomepageFederation() {
         </div>
 
         {/* Bouton */}
-        <a href="https://www.fetedelamusique.culture.gouv.fr" target="_blank" rel="noreferrer" style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          background: '#EEE9F3',
-          borderRadius: 12,
-          paddingLeft: 8,
-          paddingRight: 4,
-          paddingTop: 4,
-          paddingBottom: 4,
-          textDecoration: 'none',
-          flexShrink: 0,
-        }}>
-          <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-            En savoir plus
-          </span>
-          <span style={{ width: 32, height: 32, borderRadius: '50%', background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <ArrowUpRight size={16} weight="light" color="#EEE9F3" />
-          </span>
-        </a>
+        <BtnPrimary href="https://www.fetedelamusique.culture.gouv.fr" label="En savoir plus" target="_blank" rel="noreferrer" />
       </div>
 
       {/* Stats absolues */}

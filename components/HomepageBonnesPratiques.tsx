@@ -1,30 +1,4 @@
-import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
-
-function BtnEnSavoirPlus({ href }: { href: string }) {
-  return (
-    <Link href={href} style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      border: '1px solid #101010',
-      borderRadius: 12,
-      paddingLeft: 8,
-      paddingRight: 4,
-      paddingTop: 4,
-      paddingBottom: 4,
-      textDecoration: 'none',
-      flexShrink: 0,
-    }}>
-      <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-        En savoir plus
-      </span>
-      <span style={{ width: 32, height: 32, borderRadius: '50%', background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        <ArrowRight size={16} weight="light" color="#EEE9F3" />
-      </span>
-    </Link>
-  );
-}
+import BtnPrimary from './BtnPrimary';
 
 const TITLE = 'Bonnes pratique & cadre légal';
 
@@ -97,7 +71,7 @@ export default function HomepageBonnesPratiques() {
                 <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                   Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible.
                 </p>
-                <BtnEnSavoirPlus href="/s-informer/bonnes-pratiques" />
+                <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" />
               </div>
             </div>
           </div>
@@ -136,7 +110,7 @@ export default function HomepageBonnesPratiques() {
                 <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                   Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
                 </p>
-                <BtnEnSavoirPlus href="/s-informer/les-lois" />
+                <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" />
               </div>
             </div>
           </div>
