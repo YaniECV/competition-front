@@ -245,83 +245,92 @@ export function BonnesPratiquesIndex() {
 
           {/* Filtres */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: 8 }}>
 
-              {/* Dropdown Pour qui */}
-              <div style={{ position: 'relative', zIndex: 11 }}>
-                <button
-                  onClick={() => setOpenDropdown(openDropdown === 'handicap' ? null : 'handicap')}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 12,
-                    padding: '10px 16px',
-                    background: activeHandicap !== 'tous' ? '#A122E2' : 'transparent',
-                    border: activeHandicap !== 'tous' ? 'none' : '1.5px solid #F1EDF5',
-                    borderRadius: 12,
-                    fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
-                    color: '#F1EDF5', cursor: 'pointer', whiteSpace: 'nowrap',
-                    transition: 'background 0.2s ease',
-                  }}
-                >
-                  {activeHandicap !== 'tous' ? handicapOptions.find(o => o.key === activeHandicap)?.label : 'Pour qui'}
-                  <CaretDown size={14} weight="bold" color="#F1EDF5" style={{ transform: openDropdown === 'handicap' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
-                </button>
-                {openDropdown === 'handicap' && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
-                    {handicapOptions.slice(1).map((o, i) => (
-                      <button key={o.key} onClick={() => { setActiveHandicap(o.key); setOpenDropdown(null) }} style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        width: '100%', textAlign: 'left', padding: '12px 16px',
-                        fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
-                        color: activeHandicap === o.key ? '#F1EDF5' : '#9491a1',
-                        background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
-                        border: 'none', borderBottom: i < handicapOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
-                        cursor: 'pointer',
-                      }}>
-                        {o.label}
-                        {activeHandicap === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {/* Dropdown Pour qui */}
+                <div style={{ position: 'relative', zIndex: 11 }}>
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'handicap' ? null : 'handicap')}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 12,
+                      padding: '10px 16px',
+                      background: 'transparent',
+                      border: activeHandicap !== 'tous' ? '1.5px solid #A122E2' : '1.5px solid #F1EDF5',
+                      borderRadius: 12,
+                      fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                      color: activeHandicap !== 'tous' ? '#A122E2' : '#F1EDF5',
+                      cursor: 'pointer', whiteSpace: 'nowrap',
+                      transition: 'border-color 0.2s ease, color 0.2s ease',
+                    }}
+                  >
+                    {activeHandicap !== 'tous' ? handicapOptions.find(o => o.key === activeHandicap)?.label : 'Pour qui'}
+                    <CaretDown size={14} weight="bold" color={activeHandicap !== 'tous' ? '#A122E2' : '#F1EDF5'} style={{ transform: openDropdown === 'handicap' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
+                  </button>
+                  {openDropdown === 'handicap' && (
+                    <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
+                      {handicapOptions.slice(1).map((o, i) => (
+                        <button key={o.key} onClick={() => { setActiveHandicap(o.key); setOpenDropdown(null) }} style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                          width: '100%', textAlign: 'left', padding: '12px 16px',
+                          fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                          color: activeHandicap === o.key ? '#F1EDF5' : '#9491a1',
+                          background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
+                          border: 'none', borderBottom: i < handicapOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
+                          cursor: 'pointer',
+                        }}>
+                          {o.label}
+                          {activeHandicap === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Dropdown Où */}
+                <div style={{ position: 'relative', zIndex: 11 }}>
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'zone' ? null : 'zone')}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 12,
+                      padding: '10px 16px',
+                      background: 'transparent',
+                      border: activeZone !== 'toutes' ? '1.5px solid #A122E2' : '1.5px solid #F1EDF5',
+                      borderRadius: 12,
+                      fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                      color: activeZone !== 'toutes' ? '#A122E2' : '#F1EDF5',
+                      cursor: 'pointer', whiteSpace: 'nowrap',
+                      transition: 'border-color 0.2s ease, color 0.2s ease',
+                    }}
+                  >
+                    {activeZone !== 'toutes' ? zoneOptions.find(o => o.key === activeZone)?.label : 'Où'}
+                    <CaretDown size={14} weight="bold" color={activeZone !== 'toutes' ? '#A122E2' : '#F1EDF5'} style={{ transform: openDropdown === 'zone' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
+                  </button>
+                  {openDropdown === 'zone' && (
+                    <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
+                      {zoneOptions.slice(1).map((o, i) => (
+                        <button key={o.key} onClick={() => { setActiveZone(o.key); setOpenDropdown(null) }} style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                          width: '100%', textAlign: 'left', padding: '12px 16px',
+                          fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                          color: activeZone === o.key ? '#F1EDF5' : '#9491a1',
+                          background: activeZone === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
+                          border: 'none', borderBottom: i < zoneOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
+                          cursor: 'pointer',
+                        }}>
+                          {o.label}
+                          {activeZone === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Dropdown Où */}
-              <div style={{ position: 'relative', zIndex: 11 }}>
-                <button
-                  onClick={() => setOpenDropdown(openDropdown === 'zone' ? null : 'zone')}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 12,
-                    padding: '10px 16px',
-                    background: activeZone !== 'toutes' ? '#A122E2' : 'transparent',
-                    border: activeZone !== 'toutes' ? 'none' : '1.5px solid #F1EDF5',
-                    borderRadius: 12,
-                    fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
-                    color: '#F1EDF5', cursor: 'pointer', whiteSpace: 'nowrap',
-                    transition: 'background 0.2s ease',
-                  }}
-                >
-                  {activeZone !== 'toutes' ? zoneOptions.find(o => o.key === activeZone)?.label : 'Où'}
-                  <CaretDown size={14} weight="bold" color="#F1EDF5" style={{ transform: openDropdown === 'zone' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
-                </button>
-                {openDropdown === 'zone' && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
-                    {zoneOptions.slice(1).map((o, i) => (
-                      <button key={o.key} onClick={() => { setActiveZone(o.key); setOpenDropdown(null) }} style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        width: '100%', textAlign: 'left', padding: '12px 16px',
-                        fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
-                        color: activeZone === o.key ? '#F1EDF5' : '#9491a1',
-                        background: activeZone === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
-                        border: 'none', borderBottom: i < zoneOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
-                        cursor: 'pointer',
-                      }}>
-                        {o.label}
-                        {activeZone === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* Compteur résultats */}
+              <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 400, color: '#9491a1', whiteSpace: 'nowrap' }}>
+                {filtered.length} résultat{filtered.length !== 1 ? 's' : ''}
+              </span>
             </div>
 
             {/* Tags filtres actifs */}
@@ -329,24 +338,26 @@ export function BonnesPratiquesIndex() {
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {activeHandicap !== 'tous' && (
                   <button onClick={() => setActiveHandicap('tous')} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    padding: '4px 10px 4px 12px', borderRadius: 999,
-                    border: '1px solid #A122E2', background: 'rgba(161,34,226,0.12)',
-                    fontSize: 12, color: '#EEE9F3', cursor: 'pointer', fontFamily: 'inherit',
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '6px 10px 6px 12px', borderRadius: 8,
+                    border: 'none', background: '#4a0f68',
+                    fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
+                    color: '#F1EDF5', cursor: 'pointer', lineHeight: 1,
                   }}>
                     {handicapOptions.find(o => o.key === activeHandicap)?.label}
-                    <span style={{ fontSize: 13, color: '#9491a1', lineHeight: 1 }}>✕</span>
+                    <span style={{ fontSize: 14, color: 'rgba(241,237,245,0.6)', lineHeight: 1 }}>✕</span>
                   </button>
                 )}
                 {activeZone !== 'toutes' && (
                   <button onClick={() => setActiveZone('toutes')} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    padding: '4px 10px 4px 12px', borderRadius: 999,
-                    border: '1px solid #A122E2', background: 'rgba(161,34,226,0.12)',
-                    fontSize: 12, color: '#EEE9F3', cursor: 'pointer', fontFamily: 'inherit',
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '6px 10px 6px 12px', borderRadius: 8,
+                    border: 'none', background: '#4a0f68',
+                    fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
+                    color: '#F1EDF5', cursor: 'pointer', lineHeight: 1,
                   }}>
                     {zoneOptions.find(o => o.key === activeZone)?.label}
-                    <span style={{ fontSize: 13, color: '#9491a1', lineHeight: 1 }}>✕</span>
+                    <span style={{ fontSize: 14, color: 'rgba(241,237,245,0.6)', lineHeight: 1 }}>✕</span>
                   </button>
                 )}
               </div>
