@@ -6,19 +6,27 @@ export type HandicapSlug =
   | 'psychologique'
   | 'invisibles'
 
+export interface HandicapSection {
+  titre: string
+  texte: string
+}
+
 export interface Handicap {
   slug: HandicapSlug
   nom: string
+  titreDetail: string
   realite: string
   communication: string[]
   bonnesPratiquesIds: string[]
   signaletiqueSlug?: string
+  sections: HandicapSection[]
 }
 
 export const handicaps: Handicap[] = [
   {
     slug: 'moteur',
     nom: 'Moteur',
+    titreDetail: 'Le handicap moteur / déficience motrice',
     realite:
       'Le handicap moteur recouvre des réalités très différentes : fauteuil roulant (manuel ou électrique), aide à la marche (canne, béquilles, déambulateur), ou simplement une endurance réduite. En festival, les cheminements longs, les terrains instables (herbe, gravier, pentes) et la fatigue qui s\'accumule sur la journée sont les principaux obstacles à anticiper.',
     communication: [
@@ -35,10 +43,25 @@ export const handicaps: Handicap[] = [
       'recharge-fauteuils',
     ],
     signaletiqueSlug: 'pmr-mobilite-reduite',
+    sections: [
+      {
+        titre: 'Avant votre arrivée',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Sur le site',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Confort et autonomie',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
   {
     slug: 'visuel',
     nom: 'Visuel',
+    titreDetail: 'Le handicap visuel / déficience visuelle',
     realite:
       'De la malvoyance à la cécité, les personnes concernées doivent pouvoir se repérer et se déplacer de façon autonome sur le site, et accéder aux informations essentielles (horaires, plan, consignes) sans dépendre uniquement de supports visuels.',
     communication: [
@@ -54,10 +77,25 @@ export const handicaps: Handicap[] = [
       'plans-tactiles',
     ],
     signaletiqueSlug: 'malvoyants-non-voyants',
+    sections: [
+      {
+        titre: 'Avant votre arrivée',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Sur le site',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Avec votre chien guide',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
   {
     slug: 'auditif',
     nom: 'Auditif',
+    titreDetail: 'Le handicap auditif / déficience auditive',
     realite:
       'Les personnes sourdes ou malentendantes doivent pouvoir suivre les annonces et échanges malgré un environnement très bruyant, et être alertées visuellement en cas d\'urgence — la communication orale classique et les alarmes sonores ne suffisent pas.',
     communication: [
@@ -73,10 +111,25 @@ export const handicaps: Handicap[] = [
       'communication-ecrite-accueil',
     ],
     signaletiqueSlug: 'sourds-malentendants',
+    sections: [
+      {
+        titre: 'Avant votre arrivée',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Sur le site',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Vivre le festival',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
   {
     slug: 'autisme',
     nom: 'Autisme',
+    titreDetail: 'Troubles du spectre autistique (TSA)',
     realite:
       'La surcharge sensorielle — bruit, foule, lumières changeantes — et l\'imprévisibilité du déroulement sont les principales difficultés rencontrées par les personnes autistes en festival. Un cadre prévisible et des informations claires sur ce qui va se passer réduisent considérablement l\'anxiété.',
     communication: [
@@ -91,10 +144,25 @@ export const handicaps: Handicap[] = [
       'transparence-offre',
     ],
     signaletiqueSlug: 'espace-repos-calme',
+    sections: [
+      {
+        titre: 'Préparez votre venue',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Sur le site',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Accompagnement',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
   {
     slug: 'psychologique',
     nom: 'Psychologique',
+    titreDetail: 'Le handicap psychologique / troubles psychiques',
     realite:
       'Troubles anxieux, fatigue émotionnelle ou simple besoin de repères : la foule, l\'attente et l\'incertitude peuvent rapidement devenir difficiles à gérer. Savoir où se trouvent les sorties, les postes de secours et des personnes relais identifiables est rassurant pour ce public.',
     communication: [
@@ -108,10 +176,25 @@ export const handicaps: Handicap[] = [
       'brigade-accompagnement',
     ],
     signaletiqueSlug: 'espace-repos-calme',
+    sections: [
+      {
+        titre: 'Repères & orientation',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Espace de décompression',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Accompagnement',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
   {
     slug: 'invisibles',
     nom: 'Invisibles',
+    titreDetail: 'Les handicaps invisibles',
     realite:
       'Maladies chroniques, troubles cognitifs, fatigue invisible : ces besoins ne se voient pas et varient d\'une personne à l\'autre. Certaines personnes ont besoin d\'un accès prioritaire ou d\'aménagements sans avoir à justifier ou démontrer leur situation.',
     communication: [
@@ -124,5 +207,19 @@ export const handicaps: Handicap[] = [
       'espace-repos-calme',
     ],
     signaletiqueSlug: 'accueil-prioritaire',
+    sections: [
+      {
+        titre: 'Accès prioritaire',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Confort & repos',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Accompagnement discret',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
   },
 ]
