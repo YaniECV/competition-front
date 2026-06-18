@@ -75,11 +75,32 @@ export default function Footer() {
         ))}
 
         {/* CTA button */}
-        <BtnPrimary
+        <Link
           href="/accessible/ameliorer"
-          label="Faire un audit"
-          style={{ marginLeft: 'auto', alignSelf: 'flex-start' }}
-        />
+          style={{
+            marginLeft: 'auto',
+            alignSelf: 'flex-start',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            background: 'transparent',
+            border: '1.5px solid #F1EDF5',
+            borderRadius: 12,
+            paddingLeft: 16,
+            paddingRight: 4,
+            paddingTop: 4,
+            paddingBottom: 4,
+            textDecoration: 'none',
+            flexShrink: 0,
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 600, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
+            Améliorer mon accessibilité
+          </span>
+          <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#EEE9F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </div>
+        </Link>
       </div>
 
       {/* Contact */}
