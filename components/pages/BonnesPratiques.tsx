@@ -324,83 +324,126 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
     .map((s) => lois.find((l) => l.slug === s))
     .filter((l): l is NonNullable<typeof l> => Boolean(l))
 
+  const detailTagStyle: React.CSSProperties = {
+    border: '1.5px solid #F1EDF5',
+    borderRadius: 12,
+    padding: '0 8px',
+    height: 40,
+    display: 'inline-flex',
+    alignItems: 'center',
+    fontFamily: 'var(--font)',
+    fontSize: 18,
+    fontWeight: 600,
+    color: '#F1EDF5',
+    lineHeight: 1,
+    whiteSpace: 'nowrap',
+  }
+
+  const outlineBtn: React.CSSProperties = {
+    border: '1.5px solid #F1EDF5',
+    borderRadius: 12,
+    padding: '4px 4px 4px 8px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 0,
+    textDecoration: 'none',
+    background: 'transparent',
+  }
+
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', background: '#101010', minHeight: '100vh' }}>
 
-      {/* ── Gauche : contenu scrollable ── */}
+      {/* ── Gauche : contenu ── */}
       <div style={{
-        flex: 1,
-        minWidth: 0,
-        padding: '120px 80px 120px 160px',
+        width: 853,
+        maxWidth: '58%',
+        flexShrink: 0,
+        padding: '120px 40px',
         display: 'flex',
         flexDirection: 'column',
-        gap: 48,
+        gap: 64,
       }}>
 
-        {/* Retour */}
-        <Link href="/s-informer/bonnes-pratiques" style={{
-          fontFamily: 'var(--font)',
-          fontSize: 14,
-          color: '#9491a1',
-          textDecoration: 'none',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-        }}>
-          ← Toutes les bonnes pratiques
-        </Link>
+        {/* Tags + titre + résumé + btn */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-        {/* Tags */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <span style={tagStyle}>{zoneLabel}</span>
-          {handicapLabels.map(label => (
-            <span key={label} style={tagStyle}>{label}</span>
-          ))}
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <span style={detailTagStyle}>{zoneLabel}</span>
+            {handicapLabels.map(label => (
+              <span key={label} style={detailTagStyle}>{label}</span>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h1 style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 80,
+              fontWeight: 400,
+              color: '#EEE9F3',
+              textTransform: 'uppercase',
+              lineHeight: 1,
+              letterSpacing: 0,
+              margin: 0,
+            }}>
+              {bp.titre}
+            </h1>
+            <p style={{
+              fontFamily: 'var(--font)',
+              fontSize: 18,
+              fontWeight: 500,
+              lineHeight: 1.1,
+              color: '#EEE9F3',
+              margin: 0,
+              maxWidth: 346,
+            }}>
+              {bp.resume}
+            </p>
+          </div>
+
+          {/* Btn partager */}
+          <div style={{
+            background: '#EEE9F3',
+            borderRadius: 12,
+            padding: '4px 4px 4px 8px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            alignSelf: 'flex-start',
+            cursor: 'pointer',
+          }}>
+            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+              Partager l'information
+            </span>
+            <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+            </div>
+          </div>
         </div>
 
-        {/* Titre */}
-        <h1 style={{
-          fontFamily: 'var(--font-title)',
-          fontSize: 'clamp(2.5rem, 4vw, 4.5rem)',
-          fontWeight: 400,
-          color: '#EEE9F3',
-          textTransform: 'uppercase',
-          lineHeight: 1,
-          letterSpacing: 0,
-          margin: 0,
+        {/* Bloc blanc — Comment faire */}
+        <div style={{
+          background: '#EEE9F3',
+          borderRadius: 12,
+          padding: 24,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
         }}>
-          {bp.titre}
-        </h1>
-
-        {/* Résumé */}
-        <p style={{
-          fontFamily: 'var(--font)',
-          fontSize: 18,
-          fontWeight: 400,
-          lineHeight: 1.5,
-          color: '#EEE9F3',
-          margin: 0,
-        }}>
-          {bp.resume}
-        </p>
-
-        {/* Comment faire */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <h2 style={{
             fontFamily: 'var(--font-title)',
-            fontSize: 32,
+            fontSize: 40,
             fontWeight: 400,
-            color: '#F1EDF5',
+            color: '#101010',
             textTransform: 'uppercase',
             lineHeight: 1,
             margin: 0,
           }}>
             Comment faire
           </h2>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <ul style={{ margin: 0, paddingLeft: 24, display: 'flex', flexDirection: 'column' }}>
             {bp.commentFaire.map((step, i) => (
-              <li key={i} style={{ display: 'flex', gap: 16, fontFamily: 'var(--font)', fontSize: 18, lineHeight: 1.5, color: '#EEE9F3' }}>
-                <span style={{ color: '#A122E2', fontWeight: 700, flexShrink: 0 }}>→</span>
+              <li key={i} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010' }}>
                 {step}
               </li>
             ))}
@@ -409,94 +452,74 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
 
         {/* Publics concernés */}
         {handicapsLies.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h2 style={{
-              fontFamily: 'var(--font-title)',
-              fontSize: 32,
-              fontWeight: 400,
-              color: '#F1EDF5',
-              textTransform: 'uppercase',
-              lineHeight: 1,
-              margin: 0,
-            }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, color: '#F1EDF5', margin: '0 0 0 0' }}>
               Publics concernés
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {handicapsLies.map(h => (
-                <Link key={h.slug} href={`/handicaps/${h.slug}`} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    border: '1px solid #3b3b39',
-                    borderRadius: 12,
-                    padding: '16px 20px',
-                    cursor: 'pointer',
-                  }}>
-                    <span style={{ fontFamily: 'var(--font)', fontSize: 18, color: '#F1EDF5', fontWeight: 400 }}>{h.nom}</span>
-                    <ArrowRight size={16} color="#F1EDF5" />
-                  </div>
+            </p>
+            {handicapsLies.map(h => (
+              <div key={h.slug} style={{ paddingTop: 16, paddingBottom: 16 }}>
+                <Link href={`/handicaps/${h.slug}`} style={{
+                  fontFamily: 'var(--font)',
+                  fontSize: 24,
+                  fontWeight: 500,
+                  lineHeight: 1.1,
+                  color: '#F1EDF5',
+                  textDecoration: 'underline',
+                }}>
+                  {h.nom}
                 </Link>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
 
         {/* Cadre légal */}
         {loisLiees.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h2 style={{
-              fontFamily: 'var(--font-title)',
-              fontSize: 32,
-              fontWeight: 400,
-              color: '#F1EDF5',
-              textTransform: 'uppercase',
-              lineHeight: 1,
-              margin: 0,
-            }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, color: '#F1EDF5', margin: 0 }}>
               Cadre légal
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {loisLiees.map(l => (
-                <Link key={l.slug} href={`/s-informer/les-lois#${l.slug}`} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    border: '1px solid #3b3b39',
-                    borderRadius: 12,
-                    padding: '16px 20px',
-                    gap: 16,
-                    cursor: 'pointer',
-                  }}>
-                    <span style={{ fontFamily: 'var(--font)', fontSize: 18, color: '#F1EDF5', fontWeight: 400, lineHeight: 1.4 }}>{l.titre}</span>
-                    <ArrowRight size={16} color="#F1EDF5" style={{ flexShrink: 0 }} />
+            </p>
+            {loisLiees.map(l => (
+              <div key={l.slug} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 24,
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderBottom: '1px solid #3b3b39',
+              }}>
+                <span style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5' }}>
+                  {l.titre}
+                </span>
+                <Link href={`/s-informer/les-lois#${l.slug}`} style={outlineBtn}>
+                  <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                    En savoir plus
+                  </span>
+                  <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <ArrowRight size={16} weight="regular" color="#EEE9F3" />
                   </div>
                 </Link>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         )}
+
       </div>
 
       {/* ── Droite : visuel sticky ── */}
       <div style={{
-        width: '42%',
-        flexShrink: 0,
+        flex: 1,
+        minWidth: 0,
         position: 'sticky',
         top: 0,
         height: '100vh',
-        background: '#181818',
+        padding: '90px 24px 24px',
         overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}>
-        <img
-          src="/card-visual.png"
-          alt=""
-          style={{ width: '70%', height: '70%', objectFit: 'contain' }}
-        />
+        <div style={{ width: '100%', height: '100%', borderRadius: 16, overflow: 'hidden' }}>
+          <img src="/card-visual.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
       </div>
 
     </div>
