@@ -264,7 +264,7 @@ export function BonnesPratiquesIndex() {
                       transition: 'border-color 0.2s ease, color 0.2s ease',
                     }}
                   >
-                    {activeHandicap !== 'tous' ? handicapOptions.find(o => o.key === activeHandicap)?.label : 'Pour qui'}
+                    {activeHandicap !== 'tous' ? handicapOptions.find(o => o.key === activeHandicap)?.label : 'Type de handicap'}
                     <CaretDown size={14} weight="bold" color={activeHandicap !== 'tous' ? '#A122E2' : '#F1EDF5'} style={{ transform: openDropdown === 'handicap' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                   </button>
                   {openDropdown === 'handicap' && (
@@ -303,7 +303,7 @@ export function BonnesPratiquesIndex() {
                       transition: 'border-color 0.2s ease, color 0.2s ease',
                     }}
                   >
-                    {activeZone !== 'toutes' ? zoneOptions.find(o => o.key === activeZone)?.label : 'Où'}
+                    {activeZone !== 'toutes' ? zoneOptions.find(o => o.key === activeZone)?.label : 'Zone de festival'}
                     <CaretDown size={14} weight="bold" color={activeZone !== 'toutes' ? '#A122E2' : '#F1EDF5'} style={{ transform: openDropdown === 'zone' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                   </button>
                   {openDropdown === 'zone' && (
