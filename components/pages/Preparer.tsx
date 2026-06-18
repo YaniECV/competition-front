@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowLeft, ShareNetwork, Check, Envelope } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft, ShareNetwork, Check, DownloadSimple } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
@@ -157,7 +157,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => void }) {
   const [btnHovered, setBtnHovered] = useState(false)
-  const [mailHovered, setMailHovered] = useState(false)
+  const [dlHovered, setDlHovered] = useState(false)
   const [shareHovered, setShareHovered] = useState(false)
   const [copied, setCopied] = useState(false)
 
@@ -224,23 +224,29 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             </span>
           </Link>
 
-          <a
-            href={`mailto:?subject=Mon diagnostic FestAccess&body=${typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : ''}`}
-            onMouseEnter={() => setMailHovered(true)}
-            onMouseLeave={() => setMailHovered(false)}
-            title="Envoyer par mail"
+          <button
+            onClick={() => window.print()}
+            onMouseEnter={() => setDlHovered(true)}
+            onMouseLeave={() => setDlHovered(false)}
             style={{
-              width: 42, height: 42,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: mailHovered ? 'rgba(161,34,226,0.07)' : 'transparent',
-              border: '1.5px solid', borderColor: mailHovered ? '#A122E2' : '#F1EDF5',
-              borderRadius: 12, cursor: 'pointer',
-              transition: 'background 0.2s ease, border-color 0.2s ease',
-              flexShrink: 0, textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: 16,
+              background: dlHovered ? '#A122E2' : 'transparent',
+              border: '1.5px solid', borderColor: dlHovered ? '#A122E2' : '#F1EDF5',
+              borderRadius: 12, paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+              cursor: 'pointer', transition: 'background 0.2s ease, border-color 0.2s ease',
+              fontFamily: 'var(--font)',
             }}
           >
-            <Envelope size={18} weight="regular" color="#F1EDF5" />
-          </a>
+            <span style={{ fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1 }}>Télécharger</span>
+            <span style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: dlHovered ? '#EEE9F3' : '#A122E2',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, transition: 'background 0.2s ease',
+            }}>
+              <DownloadSimple size={16} weight="bold" color={dlHovered ? '#A122E2' : '#EEE9F3'} />
+            </span>
+          </button>
 
           <button
             onClick={handleShare}
