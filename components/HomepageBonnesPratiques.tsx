@@ -71,7 +71,7 @@ export default function HomepageBonnesPratiques() {
                 <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                   Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible.
                 </p>
-                <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" />
+                <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function HomepageBonnesPratiques() {
                 <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                   Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
                 </p>
-                <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" />
+                <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
               </div>
             </div>
           </div>
