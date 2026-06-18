@@ -4,50 +4,50 @@ import { useEffect, useRef } from 'react';
 
 const ITEMS = [
   // illus-footer-2 (portrait 0.78:1) × 4
-  { src: '/illus-footer-2.png',   w: 90,  h: 115 },
-  { src: '/illus-footer-2.png',   w: 71,  h: 92  },
-  { src: '/illus-footer-2.png',   w: 107, h: 138 },
-  { src: '/illus-footer-2.png',   w: 81,  h: 104 },
+  { src: '/illus-footer-2.png',   w: 99,  h: 127 },
+  { src: '/illus-footer-2.png',   w: 78,  h: 101 },
+  { src: '/illus-footer-2.png',   w: 118, h: 152 },
+  { src: '/illus-footer-2.png',   w: 89,  h: 114 },
   // illus-footer-3 (square) × 4
-  { src: '/illus-footer-3.png',   w: 104, h: 104 },
+  { src: '/illus-footer-3.png',   w: 114, h: 114 },
+  { src: '/illus-footer-3.png',   w: 140, h: 140 },
+  { src: '/illus-footer-3.png',   w: 95,  h: 95  },
   { src: '/illus-footer-3.png',   w: 127, h: 127 },
-  { src: '/illus-footer-3.png',   w: 86,  h: 86  },
-  { src: '/illus-footer-3.png',   w: 115, h: 115 },
   // illus-footer-4 (landscape 1.27:1) × 4
-  { src: '/illus-footer-4.png',   w: 146, h: 115 },
-  { src: '/illus-footer-4.png',   w: 117, h: 92  },
-  { src: '/illus-footer-4.png',   w: 175, h: 138 },
-  { src: '/illus-footer-4.png',   w: 131, h: 104 },
+  { src: '/illus-footer-4.png',   w: 161, h: 127 },
+  { src: '/illus-footer-4.png',   w: 129, h: 101 },
+  { src: '/illus-footer-4.png',   w: 193, h: 152 },
+  { src: '/illus-footer-4.png',   w: 144, h: 114 },
   // illus-footer-5 (near square) × 4
-  { src: '/illus-footer-5.png',   w: 116, h: 115 },
-  { src: '/illus-footer-5.png',   w: 93,  h: 92  },
-  { src: '/illus-footer-5.png',   w: 139, h: 138 },
-  { src: '/illus-footer-5.png',   w: 105, h: 104 },
+  { src: '/illus-footer-5.png',   w: 128, h: 127 },
+  { src: '/illus-footer-5.png',   w: 102, h: 101 },
+  { src: '/illus-footer-5.png',   w: 153, h: 152 },
+  { src: '/illus-footer-5.png',   w: 115, h: 114 },
   // illus-footer-6-1 (1.10:1) × 4
-  { src: '/illus-footer-6-1.png', w: 127, h: 115 },
-  { src: '/illus-footer-6-1.png', w: 101, h: 92  },
-  { src: '/illus-footer-6-1.png', w: 152, h: 138 },
-  { src: '/illus-footer-6-1.png', w: 114, h: 104 },
+  { src: '/illus-footer-6-1.png', w: 140, h: 127 },
+  { src: '/illus-footer-6-1.png', w: 111, h: 101 },
+  { src: '/illus-footer-6-1.png', w: 167, h: 152 },
+  { src: '/illus-footer-6-1.png', w: 125, h: 114 },
   // illus-footer-6 (portrait 0.92:1) × 4
-  { src: '/illus-footer-6.png',   w: 106, h: 115 },
-  { src: '/illus-footer-6.png',   w: 85,  h: 92  },
-  { src: '/illus-footer-6.png',   w: 127, h: 138 },
-  { src: '/illus-footer-6.png',   w: 96,  h: 104 },
+  { src: '/illus-footer-6.png',   w: 117, h: 127 },
+  { src: '/illus-footer-6.png',   w: 94,  h: 101 },
+  { src: '/illus-footer-6.png',   w: 140, h: 152 },
+  { src: '/illus-footer-6.png',   w: 106, h: 114 },
   // illus-footer-7 (1.08:1) × 4
-  { src: '/illus-footer-7.png',   w: 124, h: 115 },
-  { src: '/illus-footer-7.png',   w: 99,  h: 92  },
-  { src: '/illus-footer-7.png',   w: 150, h: 138 },
-  { src: '/illus-footer-7.png',   w: 112, h: 104 },
+  { src: '/illus-footer-7.png',   w: 136, h: 127 },
+  { src: '/illus-footer-7.png',   w: 109, h: 101 },
+  { src: '/illus-footer-7.png',   w: 165, h: 152 },
+  { src: '/illus-footer-7.png',   w: 123, h: 114 },
   // illus-footer-9 (portrait 0.94:1) × 4
-  { src: '/illus-footer-9.png',   w: 108, h: 115 },
-  { src: '/illus-footer-9.png',   w: 86,  h: 92  },
-  { src: '/illus-footer-9.png',   w: 130, h: 138 },
-  { src: '/illus-footer-9.png',   w: 98,  h: 104 },
+  { src: '/illus-footer-9.png',   w: 119, h: 127 },
+  { src: '/illus-footer-9.png',   w: 95,  h: 101 },
+  { src: '/illus-footer-9.png',   w: 143, h: 152 },
+  { src: '/illus-footer-9.png',   w: 108, h: 114 },
   // illus-footer-10 (square) × 4
-  { src: '/illus-footer-10.png',  w: 115, h: 115 },
-  { src: '/illus-footer-10.png',  w: 92,  h: 92  },
-  { src: '/illus-footer-10.png',  w: 138, h: 138 },
-  { src: '/illus-footer-10.png',  w: 90,  h: 90  },
+  { src: '/illus-footer-10.png',  w: 127, h: 127 },
+  { src: '/illus-footer-10.png',  w: 101, h: 101 },
+  { src: '/illus-footer-10.png',  w: 152, h: 152 },
+  { src: '/illus-footer-10.png',  w: 99,  h: 99  },
 ];
 
 const CONTAINER_HEIGHT = 620;
@@ -157,20 +157,10 @@ export default function FooterPhysics() {
 
     window.addEventListener('mousemove', onMouseMove);
 
-    // Start early — 2000px before footer enters viewport
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !startedRef.current) {
-          startedRef.current = true;
-          init();
-        }
-      },
-      { threshold: 0, rootMargin: '0px 0px 2000px 0px' }
-    );
-    observer.observe(anchor);
+    // Start immediately so objects are already falling when user scrolls to footer
+    init();
 
     return () => {
-      observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       cancelAnimationFrame(animFrame);
       if (document.body.contains(overlay)) document.body.removeChild(overlay);
