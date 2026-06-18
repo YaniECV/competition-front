@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowLeft } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft, ShareNetwork, Check } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
@@ -142,6 +142,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => void }) {
   const [btnHovered, setBtnHovered] = useState(false)
   const [resetHovered, setResetHovered] = useState(false)
+  const [shareHovered, setShareHovered] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : ''
+    if (navigator.share) {
+      await navigator.share({ title: 'Mon diagnostic FestAccess', url })
+    } else {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
   const rated = handicaps.map(h => ({ h, level: (answers[h.slug] as string) || 'pas' }))
   rated.sort((a, b) => RANK[a.level] - RANK[b.level])
   const gaps = rated.filter(r => (LEVEL_META[r.level] ?? LEVEL_META.pas).gap)
@@ -212,6 +225,27 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             <span style={{ width: 32, height: 32, borderRadius: 8, background: resetHovered ? '#EEE9F3' : '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s ease' }}>
               <ArrowRight size={16} weight="regular" color={resetHovered ? '#A122E2' : '#EEE9F3'} />
             </span>
+          </button>
+
+          <button
+            onClick={handleShare}
+            onMouseEnter={() => setShareHovered(true)}
+            onMouseLeave={() => setShareHovered(false)}
+            title={copied ? 'Lien copié !' : 'Partager'}
+            style={{
+              width: 42, height: 42,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: shareHovered ? 'rgba(161,34,226,0.07)' : 'transparent',
+              border: '1.5px solid', borderColor: shareHovered ? '#A122E2' : '#F1EDF5',
+              borderRadius: 12, cursor: 'pointer',
+              transition: 'background 0.2s ease, border-color 0.2s ease',
+              flexShrink: 0,
+            }}
+          >
+            {copied
+              ? <Check size={18} weight="bold" color="#5ec77a" />
+              : <ShareNetwork size={18} weight="regular" color="#F1EDF5" />
+            }
           </button>
         </div>
 
