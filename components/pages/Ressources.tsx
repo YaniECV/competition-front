@@ -36,24 +36,20 @@ const packs = [
 ]
 
 function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
-  const [hovered, setHovered] = useState(false)
   const [btnHovered, setBtnHovered] = useState(false)
   const col = index % 3
   const row = Math.floor(index / 3)
 
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       style={{
         display: 'flex',
         flexDirection: 'column',
         gap: 24,
         padding: 40,
-        background: hovered ? 'rgba(113,113,113,0.08)' : '#101010',
+        background: '#101010',
         borderRight: col < 2 ? '1px solid #3b3b39' : 'none',
         borderBottom: row === 0 ? '1px solid #3b3b39' : 'none',
-        transition: 'background 0.2s',
       }}
     >
       {/* Titre + description */}
@@ -153,32 +149,25 @@ export function LesRessources() {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Panneaux gauche */}
+        {/* Panneau gauche */}
         <img src="/panneau 2 gauche.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(8.33% + 40px)', top: 80, width: 220, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(8.33% + 40px)', top: 110, width: 150, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(7deg) scale(1)' : 'rotate(14deg) scale(0) translateX(-20px)',
           opacity: heroVisible ? 1 : 0,
           transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0ms, opacity 1s ease 0ms',
         }} />
-        <img src="/panneau 3 gauche.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(16.67% + 10px)', top: 130, width: 190, objectFit: 'contain', pointerEvents: 'none',
-          transformOrigin: 'bottom center',
-          transform: heroVisible ? 'rotate(-8deg) scale(1)' : 'rotate(-16deg) scale(0) translateX(-10px)',
-          opacity: heroVisible ? 1 : 0,
-          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 100ms, opacity 1s ease 100ms',
-        }} />
 
         {/* Panneaux droite */}
         <img src="/panneau 1 droite.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(66.67% - 10px)', top: 80, width: 240, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(66.67% - 10px)', top: 100, width: 160, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(-7deg) scale(1)' : 'rotate(-14deg) scale(0) translateX(20px)',
           opacity: heroVisible ? 1 : 0,
           transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 150ms, opacity 1s ease 150ms',
         }} />
         <img src="/panneau 3 droite.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(75% + 20px)', top: 120, width: 200, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(75% + 20px)', top: 140, width: 140, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(8deg) scale(1)' : 'rotate(16deg) scale(0) translateX(10px)',
           opacity: heroVisible ? 1 : 0,
