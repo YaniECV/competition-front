@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ClientShell from "@/components/ClientShell";
 
 const atkinsonHyperlegible = localFont({
   src: [
@@ -60,9 +61,11 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${atkinsonHyperlegible.variable} ${regensburg.variable}`}>
       <body>
-        <Nav />
-        <main style={{ flexGrow: 1 }}>{children}</main>
-        <Footer />
+        <ClientShell>
+          <Nav />
+          <main style={{ flexGrow: 1 }}>{children}</main>
+          <Footer />
+        </ClientShell>
       </body>
     </html>
   );
