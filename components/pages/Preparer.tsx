@@ -115,8 +115,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
 }
 
 const INTRO_TEXT = "Quelques questions pour voir\noù en est ton festival."
-const INTRO_SPEED = 55   // ms par caractère — intro (lent, soothing)
-const Q_SPEED     = 80   // ms par caractère — questions (lisible)
+const INTRO_SPEED = 28   // ms par caractère — intro (lent, soothing)
+const Q_SPEED     = 40   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
