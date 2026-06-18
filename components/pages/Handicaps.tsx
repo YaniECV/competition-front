@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link'
 import { ArrowRight, ArrowLeft } from '@phosphor-icons/react/dist/ssr'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { handicaps } from '../data/handicaps'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import BtnPrimary from '../BtnPrimary'
@@ -36,6 +36,17 @@ const HERO_FLOATS: Array<{ slug: string; left: string; top: number; rotate: numb
 
 // ── Index ─────────────────────────────────────────────────────────────────
 export function HandicapsIndex() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [heroVisible, setHeroVisible] = useState(false)
+  useEffect(() => {
+    const el = heroRef.current; if (!el) return
+    let observer: IntersectionObserver
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(([entry]) => { setHeroVisible(entry.isIntersecting) }, { threshold: 0.15 })
+      observer.observe(el)
+    }, 400)
+    return () => { clearTimeout(timer); observer?.disconnect() }
+  }, [])
   return (
     <>
       <style>{`
@@ -64,7 +75,7 @@ export function HandicapsIndex() {
       `}</style>
 
       {/* ── Hero ── */}
-      <section style={{
+      <section ref={heroRef} style={{
         background: '#101010',
         paddingTop: 240,
         paddingBottom: 120,
@@ -76,11 +87,20 @@ export function HandicapsIndex() {
         flexDirection: 'column',
         alignItems: 'center',
       }}>
-        {HERO_FLOATS.map((f, i) => (
-          <div key={i} style={{ position: 'absolute', left: f.left, top: f.top, transform: `rotate(${f.rotate}deg)`, pointerEvents: 'none' }}>
-            <HandicapIcon slug={f.slug} size={160} />
-          </div>
-        ))}
+        {HERO_FLOATS.map((f, i) => {
+          const delay = (i % 3) * 150
+          return (
+            <div key={i} style={{
+              position: 'absolute', left: f.left, top: f.top, pointerEvents: 'none',
+              transformOrigin: 'bottom center',
+              transform: heroVisible ? `rotate(${f.rotate}deg) scale(1)` : `rotate(${f.rotate * 2}deg) scale(0)`,
+              opacity: heroVisible ? 1 : 0,
+              transition: `transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, opacity 1s ease ${delay}ms`,
+            }}>
+              <HandicapIcon slug={f.slug} size={160} />
+            </div>
+          )
+        })}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
           <h1 style={{

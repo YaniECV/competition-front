@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ArrowLeft, ShareNetwork, CaretDown } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
@@ -134,6 +134,17 @@ export function BonnesPratiquesIndex() {
   const [activeZone, setActiveZone] = useState<'toutes' | Zone>('toutes')
   const [activeHandicap, setActiveHandicap] = useState<'tous' | Handicap>('tous')
   const [openDropdown, setOpenDropdown] = useState<'handicap' | 'zone' | null>(null)
+  const heroRef = useRef<HTMLElement>(null)
+  const [heroVisible, setHeroVisible] = useState(false)
+  useEffect(() => {
+    const el = heroRef.current; if (!el) return
+    let observer: IntersectionObserver
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(([entry]) => { setHeroVisible(entry.isIntersecting) }, { threshold: 0.15 })
+      observer.observe(el)
+    }, 400)
+    return () => { clearTimeout(timer); observer?.disconnect() }
+  }, [])
 
   const filtered = bonnesPratiques.filter((bp) => {
     if (activeZone !== 'toutes' && bp.zone !== activeZone) return false
@@ -144,7 +155,7 @@ export function BonnesPratiquesIndex() {
   return (
     <>
       {/* Hero */}
-      <section style={{
+      <section ref={heroRef} style={{
         background: '#101010',
         paddingTop: 240,
         paddingBottom: 120,
@@ -168,8 +179,11 @@ export function BonnesPratiquesIndex() {
             width: 260,
             height: 240,
             objectFit: 'contain',
-            transform: 'rotate(-19deg)',
             pointerEvents: 'none',
+            transformOrigin: 'bottom center',
+            transform: heroVisible ? 'rotate(-19deg) scale(1)' : 'rotate(-30deg) scale(0) translateX(-20px)',
+            opacity: heroVisible ? 1 : 0,
+            transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0ms, opacity 1s ease 0ms',
           }}
         />
         {/* Panneau droite */}
@@ -184,6 +198,10 @@ export function BonnesPratiquesIndex() {
             width: 172,
             objectFit: 'contain',
             pointerEvents: 'none',
+            transformOrigin: 'bottom center',
+            transform: heroVisible ? 'scale(1)' : 'rotate(12deg) scale(0) translateX(20px)',
+            opacity: heroVisible ? 1 : 0,
+            transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 150ms, opacity 1s ease 150ms',
           }}
         />
 
