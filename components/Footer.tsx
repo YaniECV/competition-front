@@ -74,7 +74,7 @@ export default function Footer() {
 
         {/* CTA button */}
         <BtnPrimary
-          href="/accessible/diagnostic"
+          href="/accessible/ameliorer"
           label="Améliorer mon accessibilité"
           style={{ marginLeft: 'auto', alignSelf: 'flex-start' }}
         />

@@ -61,7 +61,7 @@ const searchIndex = [
     href: `/s-informer/bonnes-pratiques/${bp.slug}`,
     tag: 'Bonne pratique',
   })),
-  { label: 'Améliorer mon accessibilité', desc: "Quelques questions sur votre festival, repartez avec un plan d'action.", href: '/accessible/diagnostic', tag: 'Outil' },
+  { label: 'Améliorer mon accessibilité', desc: "Quelques questions sur votre festival, repartez avec un plan d'action.", href: '/accessible/ameliorer', tag: 'Outil' },
   { label: 'Les lois', desc: 'Loi de 2005, ERP/IOP, arrêté de 2007.', href: '/s-informer/les-lois', tag: 'Lois' },
   { label: 'Signalétiques à télécharger', desc: 'Packs pictogrammes haut contraste.', href: '/les-ressources', tag: 'Ressource' },
 ]
@@ -109,7 +109,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
     { label: 'Handicap moteur', href: '/handicaps/moteur', tag: 'Handicap' },
     { label: 'Boucle magnétique', href: '/s-informer/bonnes-pratiques/boucle-magnetique', tag: 'Bonne pratique' },
     { label: 'Parking PMR', href: '/s-informer/bonnes-pratiques/parking-pmr', tag: 'Bonne pratique' },
-    { label: 'Améliorer mon accessibilité', href: '/accessible/diagnostic', tag: 'Outil' },
+    { label: 'Améliorer mon accessibilité', href: '/accessible/ameliorer', tag: 'Outil' },
     { label: 'Signalétiques', href: '/les-ressources', tag: 'Ressource' },
   ]
   const items = q.length === 0 ? suggestions : results
@@ -176,7 +176,7 @@ function InlineSearch({ dark }: { dark: boolean }) {
     { label: 'Handicap moteur', href: '/handicaps/moteur', tag: 'Handicap' },
     { label: 'Parking PMR', href: '/s-informer/bonnes-pratiques/parking-pmr', tag: 'Pratique' },
     { label: 'Boucle magnétique', href: '/s-informer/bonnes-pratiques/boucle-magnetique', tag: 'Pratique' },
-    { label: 'Améliorer mon accessibilité', href: '/accessible/diagnostic', tag: 'Outil' },
+    { label: 'Améliorer mon accessibilité', href: '/accessible/ameliorer', tag: 'Outil' },
   ]
   const results = q.length === 0 ? suggestions : searchIndex.filter(item =>
     item.label.toLowerCase().includes(q.toLowerCase()) ||
@@ -377,8 +377,8 @@ export default function Nav() {
               );
             })}
 
-            {/* Bouton audit */}
-            <BtnPrimary href="/accessible/diagnostic" label="Améliorer mon accessibilité" style={{ marginLeft: 16 }} />
+            {/* Bouton CTA */}
+            <BtnPrimary href="/accessible/ameliorer" label="Améliorer mon accessibilité" style={{ marginLeft: 16 }} />
           </div>
 
           {/* Burger mobile */}
