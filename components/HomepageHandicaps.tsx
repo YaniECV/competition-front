@@ -33,10 +33,30 @@ export default function HomepageHandicaps() {
           84%  { transform: scale(1) rotate(-1deg); }
           100% { transform: scale(1) rotate(0deg); }
         }
-        .hc-card { transition: background 0.2s; }
+        .hc-card { transition: background 0.2s; position: relative; }
         .hc-card:hover { background: rgba(255,255,255,0.03); }
         .hc-card:hover .hc-illus {
           animation: hc-wiggle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .hc-btn {
+          position: absolute;
+          bottom: 20px;
+          right: 20px;
+          width: 40px;
+          height: 40px;
+          background: #A122E2;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: translateY(6px);
+          transition: opacity 0.2s ease, transform 0.2s ease;
+          pointer-events: none;
+        }
+        .hc-card:hover .hc-btn {
+          opacity: 1;
+          transform: translateY(0);
         }
       `}</style>
 
@@ -100,6 +120,11 @@ export default function HomepageHandicaps() {
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
               <img src={h.img} alt="" aria-hidden className="hc-illus" style={{ width: 200, height: 200, objectFit: 'contain' }} />
             </div>
+            <span className="hc-btn" aria-hidden>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 9H14M14 9L9.5 4.5M14 9L9.5 13.5" stroke="#EEE9F3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
           </Link>
         ))}
       </div>
