@@ -128,21 +128,6 @@ export function LesLois() {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <img src="/bp-tableau.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(8.33% + 20px)', top: 110, width: 220, objectFit: 'contain', pointerEvents: 'none',
-          transformOrigin: 'bottom center',
-          transform: heroVisible ? 'rotate(-14deg) scale(1)' : 'rotate(-28deg) scale(0) translateX(-20px)',
-          opacity: heroVisible ? 1 : 0,
-          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0ms, opacity 1s ease 0ms',
-        }} />
-        <img src="/panneau 2 droite.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(75% - 8px)', top: 100, width: 172, objectFit: 'contain', pointerEvents: 'none',
-          transformOrigin: 'bottom center',
-          transform: heroVisible ? 'scale(1)' : 'rotate(12deg) scale(0) translateX(20px)',
-          opacity: heroVisible ? 1 : 0,
-          transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 150ms, opacity 1s ease 150ms',
-        }} />
-
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
           <img src="/cadre-carre-2.png" alt="" aria-hidden style={{
             width: 80, height: 80, objectFit: 'contain', pointerEvents: 'none',
