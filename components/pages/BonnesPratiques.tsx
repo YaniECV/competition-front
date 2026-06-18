@@ -514,7 +514,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
           </h2>
           <ul style={{ margin: 0, paddingLeft: 24 }}>
             {bp.commentFaire.map((step, i) => (
-              <li key={i} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', marginBottom: i < bp.commentFaire.length - 1 ? 8 : 0 }}>
+              <li key={i} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', marginBottom: i < bp.commentFaire.length - 1 ? 8 : 0, listStyleType: 'disc', display: 'list-item' }}>
                 {step}
               </li>
             ))}
