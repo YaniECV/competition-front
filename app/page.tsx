@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeroParallaxBarriers from "@/components/HeroParallaxBarriers";
+import HomepageTagline from "@/components/HomepageTagline";
 
 export default function Home() {
   return (
@@ -60,6 +61,8 @@ export default function Home() {
 
         </div>
       </section>
+
+      <HomepageTagline />
 
       {/* Les handicaps */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
