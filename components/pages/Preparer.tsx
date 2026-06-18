@@ -219,7 +219,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
               fontFamily: 'var(--font)',
             }}
           >
-            <span style={{ fontSize: 16, fontWeight: 500, color: '#101010', lineHeight: 1 }}>Voir les bonnes pratiques</span>
+            <span style={{ fontSize: 16, fontWeight: 500, color: '#101010', lineHeight: 1 }}>Voir toutes les bonnes pratiques</span>
             <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <ArrowRight size={16} weight="regular" color="#EEE9F3" />
             </span>
