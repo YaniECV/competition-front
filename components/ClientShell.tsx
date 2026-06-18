@@ -9,11 +9,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   const [loaderDone, setLoaderDone] = useState(false)
 
   useEffect(() => {
-    if (!sessionStorage.getItem('loader-done')) {
-      setShowLoader(true)
-    } else {
-      setLoaderDone(true)
-    }
+    setShowLoader(true)
   }, [])
 
   return (
