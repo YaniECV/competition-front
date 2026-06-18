@@ -89,9 +89,9 @@ function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
         onMouseEnter={() => setBtnHovered(true)}
         onMouseLeave={() => setBtnHovered(false)}
         style={{
-          display: 'inline-flex',
+          display: 'flex',
           alignItems: 'center',
-          gap: 16,
+          justifyContent: 'space-between',
           background: btnHovered ? '#A122E2' : 'transparent',
           border: btnHovered ? 'none' : '1.5px solid #F1EDF5',
           borderRadius: 12,
@@ -99,7 +99,6 @@ function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
           paddingRight: 4,
           paddingTop: 4,
           paddingBottom: 4,
-          flexShrink: 0,
           cursor: 'pointer',
           transition: 'background 0.2s ease',
         }}

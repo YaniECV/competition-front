@@ -4,64 +4,42 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 const ITEMS = [
-  // illus-footer-2 (portrait 0.78:1) × 4
   { src: '/illus-footer-2.png',   w: 114, h: 146 },
   { src: '/illus-footer-2.png',   w: 90,  h: 116 },
   { src: '/illus-footer-2.png',   w: 136, h: 175 },
   { src: '/illus-footer-2.png',   w: 102, h: 131 },
-  // illus-footer-3 (square) × 4
   { src: '/illus-footer-3.png',   w: 131, h: 131 },
   { src: '/illus-footer-3.png',   w: 161, h: 161 },
   { src: '/illus-footer-3.png',   w: 109, h: 109 },
   { src: '/illus-footer-3.png',   w: 146, h: 146 },
-  // illus-footer-4 (landscape 1.27:1) × 4
   { src: '/illus-footer-4.png',   w: 185, h: 146 },
   { src: '/illus-footer-4.png',   w: 148, h: 116 },
   { src: '/illus-footer-4.png',   w: 222, h: 175 },
   { src: '/illus-footer-4.png',   w: 166, h: 131 },
-  // illus-footer-5 (near square) × 4
   { src: '/illus-footer-5.png',   w: 147, h: 146 },
   { src: '/illus-footer-5.png',   w: 117, h: 116 },
   { src: '/illus-footer-5.png',   w: 176, h: 175 },
   { src: '/illus-footer-5.png',   w: 132, h: 131 },
-  // illus-footer-6-1 (1.10:1) × 4
   { src: '/illus-footer-6-1.png', w: 161, h: 146 },
   { src: '/illus-footer-6-1.png', w: 128, h: 116 },
   { src: '/illus-footer-6-1.png', w: 192, h: 175 },
   { src: '/illus-footer-6-1.png', w: 144, h: 131 },
-  // illus-footer-6 (portrait 0.92:1) × 4
   { src: '/illus-footer-6.png',   w: 135, h: 146 },
   { src: '/illus-footer-6.png',   w: 108, h: 116 },
   { src: '/illus-footer-6.png',   w: 161, h: 175 },
   { src: '/illus-footer-6.png',   w: 122, h: 131 },
-  // illus-footer-7 (1.08:1) × 4
   { src: '/illus-footer-7.png',   w: 156, h: 146 },
   { src: '/illus-footer-7.png',   w: 125, h: 116 },
   { src: '/illus-footer-7.png',   w: 190, h: 175 },
   { src: '/illus-footer-7.png',   w: 141, h: 131 },
-  // illus-footer-9 (portrait 0.94:1) × 4
   { src: '/illus-footer-9.png',   w: 137, h: 146 },
   { src: '/illus-footer-9.png',   w: 109, h: 116 },
   { src: '/illus-footer-9.png',   w: 164, h: 175 },
   { src: '/illus-footer-9.png',   w: 124, h: 131 },
-  // illus-footer-10 (square) × 4
   { src: '/illus-footer-10.png',  w: 146, h: 146 },
   { src: '/illus-footer-10.png',  w: 116, h: 116 },
   { src: '/illus-footer-10.png',  w: 175, h: 175 },
   { src: '/illus-footer-10.png',  w: 114, h: 114 },
-];
-
-// Pre-computed resting positions (% from left, px from bottom, rotation deg)
-const RESTING: { x: number; y: number; rot: number }[] = [
-  { x: 1,  y: 0,   rot: -18 }, { x: 5,  y: 2,   rot: 12  }, { x: 10, y: 0,   rot: -8  }, { x: 15, y: 5,   rot: 22  },
-  { x: 20, y: 0,   rot: -14 }, { x: 26, y: 8,   rot: 7   }, { x: 32, y: 0,   rot: -20 }, { x: 38, y: 3,   rot: 15  },
-  { x: 44, y: 0,   rot: -6  }, { x: 50, y: 10,  rot: 18  }, { x: 56, y: 0,   rot: -11 }, { x: 62, y: 4,   rot: 24  },
-  { x: 68, y: 0,   rot: -17 }, { x: 73, y: 6,   rot: 9   }, { x: 79, y: 0,   rot: -22 }, { x: 85, y: 2,   rot: 13  },
-  { x: 90, y: 0,   rot: -7  }, { x: 95, y: 8,   rot: 19  }, { x: 3,  y: 110, rot: 10  }, { x: 8,  y: 105, rot: -15 },
-  { x: 14, y: 115, rot: 20  }, { x: 22, y: 108, rot: -9  }, { x: 29, y: 120, rot: 16  }, { x: 36, y: 102, rot: -23 },
-  { x: 43, y: 118, rot: 8   }, { x: 51, y: 110, rot: -12 }, { x: 58, y: 125, rot: 21  }, { x: 65, y: 105, rot: -6  },
-  { x: 72, y: 115, rot: 14  }, { x: 78, y: 108, rot: -19 }, { x: 84, y: 122, rot: 11  }, { x: 91, y: 103, rot: -16 },
-  { x: 13, y: 260, rot: -20 }, { x: 27, y: 255, rot: 17  }, { x: 47, y: 265, rot: -10 }, { x: 67, y: 252, rot: 22  },
 ];
 
 const CONTAINER_HEIGHT = 620;
@@ -69,8 +47,10 @@ const BODY_RATIO = 0.88;
 const MOUSE_RADIUS = 220;
 const MOUSE_FORCE = 3;
 
-function FooterPhysicsAnimated() {
+export default function FooterPhysics() {
   const anchorRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const overlay = document.createElement('div');
@@ -114,7 +94,10 @@ function FooterPhysicsAnimated() {
 
       bodiesRef = ITEMS.map((item) => {
         const x = 80 + Math.random() * Math.max(width - 160, 100);
-        const y = -item.h - Math.random() * window.innerHeight;
+        // Home: fall from above. Other pages: start near ground so they settle fast.
+        const y = isHome
+          ? -item.h - Math.random() * window.innerHeight
+          : groundY - item.h - Math.random() * 300;
         return Matter.Bodies.rectangle(x, y, item.w * BODY_RATIO, item.h * BODY_RATIO, {
           restitution: 0.3,
           friction: 0.6,
@@ -125,6 +108,14 @@ function FooterPhysicsAnimated() {
       });
 
       Matter.Composite.add(engine.world, [ground, wallL, wallR, ...bodiesRef]);
+
+      // On non-home pages, fast-forward physics so items are already settled
+      if (!isHome) {
+        for (let i = 0; i < 400; i++) {
+          Matter.Engine.update(engine, 16);
+        }
+      }
+
       const runner = Matter.Runner.create();
       Matter.Runner.run(runner, engine);
 
@@ -172,47 +163,11 @@ function FooterPhysicsAnimated() {
       cancelAnimationFrame(animFrame);
       if (document.body.contains(overlay)) document.body.removeChild(overlay);
     };
-  }, []);
+  }, [isHome]);
 
   return (
     <div ref={anchorRef} style={{ position: 'relative', width: '100%', height: CONTAINER_HEIGHT, background: '#101010' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(to bottom, #101010, transparent)', zIndex: 10, pointerEvents: 'none' }} />
     </div>
   );
-}
-
-function FooterPhysicsStatic() {
-  return (
-    <div style={{ position: 'relative', width: '100%', height: CONTAINER_HEIGHT, background: '#101010', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(to bottom, #101010, transparent)', zIndex: 10, pointerEvents: 'none' }} />
-      {ITEMS.map((item, i) => {
-        const r = RESTING[i % RESTING.length];
-        return (
-          <img
-            key={i}
-            src={item.src}
-            alt=""
-            aria-hidden
-            style={{
-              position: 'absolute',
-              width: item.w,
-              height: item.h,
-              objectFit: 'contain',
-              left: `calc(${r.x}% - ${item.w / 2}px)`,
-              bottom: r.y,
-              transform: `rotate(${r.rot}deg)`,
-              transformOrigin: 'center bottom',
-              pointerEvents: 'none',
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-export default function FooterPhysics() {
-  const pathname = usePathname();
-  if (pathname === '/') return <FooterPhysicsAnimated />;
-  return <FooterPhysicsStatic />;
 }
