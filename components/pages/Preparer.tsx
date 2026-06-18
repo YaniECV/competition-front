@@ -138,10 +138,7 @@ export function AccessibleDiagnostic() {
   const [otherText, setOtherText] = useState('')
   const [showResult, setShowResult] = useState(false)
 
-  // ── 3D Animation ──────────────────────────────────────────────────────────
-  const [prevQIndex, setPrevQIndex] = useState<number | null>(null)
   const [enterKey, setEnterKey] = useState(0)
-  const [pushKey, setPushKey] = useState(0)
 
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
@@ -169,25 +166,16 @@ export function AccessibleDiagnostic() {
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
-      setPrevQIndex(qIndex)
-      setPushKey(k => k + 1)
-      setTimeout(() => setShowResult(true), 480)
+      setShowResult(true)
       return
     }
 
-    // 3D transition: push current to back, pull next to front
-    setPrevQIndex(qIndex)
-    setPushKey(k => k + 1)
-    setTimeout(() => {
-      setQIndex(i => i + 1)
-      setEnterKey(k => k + 1)
-      setTimeout(() => setPrevQIndex(null), 700)
-    }, 380)
+    setQIndex(i => i + 1)
+    setEnterKey(k => k + 1)
   }, [canAdvance, q, answers, qIndex, total, selected, otherText])
 
   const goBack = useCallback(() => {
     if (qIndex === 0) return
-    setPrevQIndex(null)
     setQIndex(i => i - 1)
     setEnterKey(k => k + 1)
   }, [qIndex])
@@ -209,7 +197,6 @@ export function AccessibleDiagnostic() {
       onReset={() => {
         setShowResult(false); setPhase('intro'); setIntroFading(false)
         setQIndex(0); setAnswers({}); setSelected(''); setEnterKey(0)
-        setPrevQIndex(null); setPushKey(0)
       }}
     />
   )
@@ -226,15 +213,6 @@ export function AccessibleDiagnostic() {
         @keyframes intro-out {
           0%   { opacity: 1; filter: blur(0px); }
           100% { opacity: 0; filter: blur(8px); }
-        }
-
-        @keyframes push-back {
-          0%   { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px);  opacity: 1; }
-          100% { transform: perspective(1000px) translateZ(-240px) scale(0.8) rotateX(10deg); filter: blur(12px); opacity: 0.18; }
-        }
-        @keyframes pull-forward {
-          0%   { transform: perspective(1000px) translateZ(80px) scale(1.06); filter: blur(7px); opacity: 0; }
-          100% { transform: perspective(1000px) translateZ(0)    scale(1)    rotateX(0deg);  filter: blur(0px); opacity: 1; }
         }
 
         @keyframes opt-in {
@@ -345,27 +323,7 @@ export function AccessibleDiagnostic() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', padding: '32px 48px 100px', width: '100%' }}>
 
             {/* Question précédente en blur — visible derrière */}
-            {prevQIndex !== null && (
-              <p
-                key={`blur-${pushKey}`}
-                style={{
-                  fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
-                  fontWeight: 400,
-                  color: '#5b5b5b',
-                  lineHeight: 1.25,
-                  letterSpacing: '-0.02em',
-                  filter: 'blur(7px)',
-                  opacity: 0.5,
-                  pointerEvents: 'none',
-                  marginBottom: 48,
-                  animation: 'intro-in 0.3s ease forwards',
-                }}
-              >
-                {QUESTIONS[prevQIndex].text}
-              </p>
-            )}
-
-            {/* Question courante — typewriter */}
+            {/* Question courante */}
             <div
               key={`enter-${enterKey}`}
               style={{
