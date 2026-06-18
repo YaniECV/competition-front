@@ -52,17 +52,36 @@ const ITEMS = [
 
 const CONTAINER_HEIGHT = 620;
 const BODY_RATIO = 0.88;
-const MOUSE_RADIUS = 140;
+const MOUSE_RADIUS = 160;
 const MOUSE_FORCE = 0.006;
 
 export default function FooterPhysics() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const anchorRef = useRef<HTMLDivElement>(null);
   const startedRef = useRef(false);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    // Fixed overlay at body level — sits above everything
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(overlay);
+
+    // Create item elements imperatively in the overlay
+    const itemEls: HTMLDivElement[] = [];
+    ITEMS.forEach((item) => {
+      const el = document.createElement('div');
+      el.style.cssText = `position:fixed;width:${item.w}px;height:${item.h}px;pointer-events:none;will-change:transform;left:-9999px;top:-9999px;`;
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+      el.appendChild(img);
+      overlay.appendChild(el);
+      itemEls.push(el);
+    });
+
+    const anchor = anchorRef.current;
+    if (!anchor) return;
 
     let animFrame: number;
     let MatterLib: typeof import('matter-js') | null = null;
@@ -71,21 +90,22 @@ export default function FooterPhysics() {
     const init = async () => {
       const Matter = (await import('matter-js')).default;
       MatterLib = Matter;
-      const width = container.offsetWidth;
-      const height = CONTAINER_HEIGHT;
+      const width = window.innerWidth;
+
+      // Ground in page-absolute coordinates
+      const anchorPageTop = anchor.getBoundingClientRect().top + window.scrollY;
+      const groundY = anchorPageTop + CONTAINER_HEIGHT;
 
       const engine = Matter.Engine.create({ gravity: { x: 0, y: 2.5 } });
 
-      const ground = Matter.Bodies.rectangle(width / 2, height + 25, width * 3, 50, { isStatic: true });
-      const wallL  = Matter.Bodies.rectangle(-30, height / 2, 60, height * 4, { isStatic: true });
-      const wallR  = Matter.Bodies.rectangle(width + 30, height / 2, 60, height * 4, { isStatic: true });
+      const ground = Matter.Bodies.rectangle(width / 2, groundY + 25, width * 3, 50, { isStatic: true });
+      const wallL  = Matter.Bodies.rectangle(-30, groundY / 2, 60, groundY * 2, { isStatic: true });
+      const wallR  = Matter.Bodies.rectangle(width + 30, groundY / 2, 60, groundY * 2, { isStatic: true });
 
-      const containerTop = container.getBoundingClientRect().top;
-      const spawnRange = containerTop + window.innerHeight;
-
+      // Spawn from above the visible viewport
       bodiesRef = ITEMS.map((item) => {
         const x = 80 + Math.random() * Math.max(width - 160, 100);
-        const y = -item.h - Math.random() * Math.max(spawnRange, 400);
+        const y = -item.h - Math.random() * window.innerHeight;
         return Matter.Bodies.rectangle(x, y, item.w * BODY_RATIO, item.h * BODY_RATIO, {
           restitution: 0.3,
           friction: 0.6,
@@ -100,11 +120,13 @@ export default function FooterPhysics() {
       Matter.Runner.run(runner, engine);
 
       const sync = () => {
+        const scrollY = window.scrollY;
         bodiesRef.forEach((body, i) => {
-          const el = itemRefs.current[i];
+          const el = itemEls[i];
           if (el) {
+            // Convert page-absolute physics coords to viewport coords
             el.style.left      = `${body.position.x - ITEMS[i].w / 2}px`;
-            el.style.top       = `${body.position.y - ITEMS[i].h / 2}px`;
+            el.style.top       = `${body.position.y - ITEMS[i].h / 2 - scrollY}px`;
             el.style.transform = `rotate(${body.angle}rad)`;
           }
         });
@@ -113,12 +135,11 @@ export default function FooterPhysics() {
       animFrame = requestAnimationFrame(sync);
     };
 
-    // Mouse repulsion
+    // Mouse repulsion — convert viewport coords to page-absolute
     const onMouseMove = (e: MouseEvent) => {
       if (!MatterLib || bodiesRef.length === 0) return;
-      const rect = container.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
+      const mx = e.clientX;
+      const my = e.clientY + window.scrollY;
 
       bodiesRef.forEach(body => {
         const dx = body.position.x - mx;
@@ -134,8 +155,9 @@ export default function FooterPhysics() {
       });
     };
 
-    container.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove);
 
+    // Start early — 2000px before footer enters viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !startedRef.current) {
@@ -143,61 +165,38 @@ export default function FooterPhysics() {
           init();
         }
       },
-      { threshold: 0.05 }
+      { threshold: 0, rootMargin: '0px 0px 2000px 0px' }
     );
-    observer.observe(container);
+    observer.observe(anchor);
 
     return () => {
       observer.disconnect();
-      container.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', onMouseMove);
       cancelAnimationFrame(animFrame);
+      if (document.body.contains(overlay)) document.body.removeChild(overlay);
     };
   }, []);
 
   return (
     <div
-      ref={containerRef}
+      ref={anchorRef}
       style={{
         position: 'relative',
         width: '100%',
         height: CONTAINER_HEIGHT,
-        overflow: 'visible',
         background: '#101010',
       }}
     >
-      {/* Gradient to blend seamlessly with the nav section above */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        height: 100,
+        height: 120,
         background: 'linear-gradient(to bottom, #101010, transparent)',
         zIndex: 10,
         pointerEvents: 'none',
       }} />
-      {ITEMS.map((item, i) => (
-        <div
-          key={i}
-          ref={el => { itemRefs.current[i] = el; }}
-          style={{
-            position: 'absolute',
-            width: item.w,
-            height: item.h,
-            pointerEvents: 'none',
-            willChange: 'transform',
-            left: -9999,
-            top: -9999,
-          }}
-        >
-          <img
-            src={item.src}
-            alt=""
-            aria-hidden
-            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-          />
-        </div>
-      ))}
     </div>
   );
 }
