@@ -239,7 +239,7 @@ export function LesLois() {
                 </div>
 
                 {/* Barre de recherche */}
-                <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 280, position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <MagnifyingGlass size={16} weight="regular" color="#9491a1" style={{ position: 'absolute', left: 16, pointerEvents: 'none' }} />
                   <input
                     type="text"
