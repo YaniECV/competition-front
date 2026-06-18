@@ -40,6 +40,14 @@ git push                       # 2. déploie tout seul sur Vercel (~1 min)
 
 **En cas de conflit :** Git te liste les fichiers concernés. Ouvre-les, garde le bon code (entre les `<<<<<<<`, `=======` et `>>>>>>>`), puis `git add .` + `git commit`. Dans le doute, demandez avant de forcer.
 
+## ⚠️ Wording : « audit » / « diagnostic » INTERDITS
+
+Metal AXS **n'est pas un organisme d'audit/diagnostic agréé** → interdiction de se positionner comme tel. Les mots **« audit », « diagnostic », « diagnostique », « évaluer / évaluation »** sont **bannis de tout texte visible** (boutons, liens, titres, descriptions, recherche).
+
+→ À la place : **« Améliorer mon accessibilité »**. L'outil est un **formulaire d'accompagnement** (questions sur le festival → pistes d'action perso), pas un verdict officiel.
+
+La route interne est `/accessible/ameliorer` (et non `/diagnostic`).
+
 ## Déploiement
 
 Hébergé sur **Vercel**, branché au repo : **chaque push sur `main` met à jour le site en ligne** automatiquement (~1 min). Rien à faire à la main.

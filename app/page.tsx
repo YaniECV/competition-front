@@ -45,7 +45,7 @@ export default function Home() {
 
           {/* Bouton CTA */}
           <div style={{ marginTop: 32 }}>
-            <BtnPrimary href="/accessible/diagnostic" label="Faire le diagnostique de mon festival" />
+            <BtnPrimary href="/accessible/ameliorer" label="Améliorer mon accessibilité" />
           </div>
 
         </div>
