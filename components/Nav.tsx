@@ -317,59 +317,42 @@ export default function Nav() {
                   {item.subs && hovered === item.label && (
                     <div style={{
                       position: 'absolute',
-                      top: '100%',
+                      top: 'calc(100% + 8px)',
                       left: 0,
-                      background: '#101010',
-                      border: '1px solid rgba(238,233,243,0.12)',
-                      borderTop: 'none',
-                      minWidth: 240,
+                      background: '#1a1a1a',
+                      border: '1px solid #323232',
+                      borderRadius: 8,
+                      padding: 12,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                      minWidth: 200,
                       zIndex: 200,
                     }}>
-                      {/* Label catégorie */}
-                      <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid rgba(238,233,243,0.08)' }}>
-                        <span style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontSize: 10,
-                          fontWeight: 500,
-                          letterSpacing: '0.12em',
-                          textTransform: 'uppercase' as const,
-                          color: 'rgba(238,233,243,0.35)',
-                        }}>
-                          {item.label}
-                        </span>
-                      </div>
-                      {/* Liens */}
-                      <div style={{ padding: '6px 0 10px' }}>
-                        {item.subs.map(sub => {
-                          const isSubActive = pathname === sub.to;
-                          return (
-                            <Link
-                              key={sub.to}
-                              href={sub.to}
-                              onClick={() => setHovered(null)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 10,
-                                padding: '10px 20px',
-                                fontSize: 14,
-                                fontWeight: isSubActive ? 600 : 400,
-                                color: isSubActive ? '#EEE9F3' : 'rgba(238,233,243,0.55)',
-                                textDecoration: 'none',
-                                fontFamily: 'var(--font)',
-                                transition: 'color 0.15s',
-                              }}
-                              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = '#EEE9F3' }}
-                              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = isSubActive ? '#EEE9F3' : 'rgba(238,233,243,0.55)' }}
-                            >
-                              {isSubActive && (
-                                <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#A122E2', flexShrink: 0, display: 'inline-block' }} />
-                              )}
-                              {sub.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
+                      {item.subs.map(sub => {
+                        const isSubActive = pathname === sub.to;
+                        return (
+                          <Link
+                            key={sub.to}
+                            href={sub.to}
+                            onClick={() => setHovered(null)}
+                            style={{
+                              display: 'block',
+                              fontSize: 16,
+                              fontWeight: 500,
+                              color: isSubActive ? '#EEE9F3' : '#c1c1c1',
+                              textDecoration: 'none',
+                              fontFamily: 'var(--font)',
+                              whiteSpace: 'nowrap',
+                              transition: 'color 0.15s',
+                            }}
+                            onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = '#EEE9F3' }}
+                            onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.color = isSubActive ? '#EEE9F3' : '#c1c1c1' }}
+                          >
+                            {sub.label}
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
