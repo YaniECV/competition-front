@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HeroParallaxBarriers from "@/components/HeroParallaxBarriers";
 import HomepageTagline from "@/components/HomepageTagline";
+import HomepageHandicaps from "@/components/HomepageHandicaps";
 
 export default function Home() {
   return (
@@ -64,35 +65,7 @@ export default function Home() {
 
       <HomepageTagline />
 
-      {/* Les handicaps */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
-            <div>
-              <span className="tag">Les handicaps</span>
-              <h2>6 types de handicap à connaître</h2>
-            </div>
-            <Link href="/handicaps" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'underline', whiteSpace: 'nowrap' }}>
-              Tout voir →
-            </Link>
-          </div>
-          <div className="grid-3">
-            {[
-              { label: 'Moteur', desc: 'Fauteuil, canne, endurance réduite — cheminements et stationnement adaptés.' },
-              { label: 'Visuel', desc: 'De la malvoyance à la cécité — guidage, contrastes, audiodescription.' },
-              { label: 'Auditif', desc: '4M de personnes — boucle magnétique, LSF, sous-titrage, gilets vibrants.' },
-              { label: 'Autisme', desc: 'Surcharge sensorielle, besoin de repères simples et d\'espaces calmes.' },
-              { label: 'Psychologique', desc: 'Stress, foule, attente — réduire les facteurs anxiogènes en amont.' },
-              { label: 'Invisibles', desc: '80% des handicaps — maladies chroniques, fatigue, épilepsie, douleurs.' },
-            ].map(h => (
-              <Link key={h.label} href="/handicaps" className="card" style={{ display: 'block', textDecoration: 'none' }}>
-                <h3 style={{ marginBottom: 8 }}>{h.label}</h3>
-                <p style={{ fontSize: 13, lineHeight: 1.6 }}>{h.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomepageHandicaps />
 
       {/* S'informer */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
