@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { bonnesPratiques } from "./data/bonnesPratiques";
 import { handicaps } from "./data/handicaps";
+import BtnPrimary from "./BtnPrimary";
 
 const navItems = [
   {
@@ -358,31 +359,7 @@ export default function Nav() {
             })}
 
             {/* Bouton audit */}
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              title="Bientôt disponible"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                background: '#A122E2',
-                color: '#fff',
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: 'var(--font)',
-                padding: '0 20px',
-                height: 42,
-                borderRadius: 999,
-                border: 'none',
-                whiteSpace: 'nowrap',
-                marginLeft: 16,
-                opacity: 0.45,
-                cursor: 'not-allowed',
-              }}
-            >
-              Faire un audit · Bientôt disponible
-            </button>
+            <BtnPrimary href="/accessible/diagnostic" label="Faire un audit" style={{ marginLeft: 16 }} />
           </div>
 
           {/* Burger mobile */}
