@@ -7,60 +7,72 @@ import Link from 'next/link'
 const QUESTIONS = [
   {
     id: 'jauge',
-    text: 'Ton festival fait combien de personnes ?',
+    text: 'Quelle est la jauge de ton festival (en nombre de participants par jour) ?',
     type: 'single' as const,
     options: [
-      { val: 'micro',  label: 'Moins de 300' },
-      { val: 'petit',  label: '300 à 1 500' },
-      { val: 'moyen',  label: '1 500 à 5 000' },
-      { val: 'grand',  label: 'Plus de 5 000' },
+      { val: 'micro',  label: 'Club — moins de 300 personnes' },
+      { val: 'petit',  label: 'Intimiste — 300 à 1 500' },
+      { val: 'moyen',  label: 'Belle affluence — 1 500 à 5 000' },
+      { val: 'grand',  label: 'Gros open air — plus de 5 000' },
     ],
   },
   {
     id: 'terrain',
-    text: 'Ton terrain c\'est quoi ?',
+    text: 'Sur quel type de sol se déroule le festival ?',
     type: 'single' as const,
     options: [
-      { val: 'herbe',  label: 'Herbe / terre' },
-      { val: 'bitume', label: 'Bitume' },
-      { val: 'mixte',  label: 'Mixte' },
-      { val: 'salle',  label: 'En salle' },
+      { val: 'herbe',  label: 'Pleine terre / Herbe — terrain exposé aux caprices de la météo.' },
+      { val: 'bitume', label: 'Bitume / Asphalte / En salle — sol plat, stabilisé et plus facile pour circuler.' },
+      { val: 'mixte',  label: 'Mixte — un mélange des deux selon les zones.' },
     ],
   },
   {
-    id: 'duree',
-    text: 'Ton festival dure combien de jours ?',
+    id: 'nuit',
+    text: 'Une fois la nuit tombée ou en cas de mauvaise météo, comment est géré le site ?',
     type: 'single' as const,
     options: [
-      { val: '1j',     label: '1 jour' },
-      { val: '2-3j',   label: '2-3 jours' },
-      { val: '3j+',    label: 'Plus de 3 jours' },
+      { val: 'ambiance',  label: 'On mise sur l\'ambiance — éclairage sombre, sol dépend du temps.' },
+      { val: 'balise',    label: 'On a prévu le coup — chemins et zones clés bien éclairés et balisés.' },
+      { val: 'interieur', label: 'Tout se passe en intérieur / sous chapiteau — à l\'abri, éclairage constant.' },
     ],
   },
   {
     id: 'espaces',
-    text: 'Ton festival c\'est quoi comme espaces ?',
+    text: 'Comment se compose le site du festival ?',
     type: 'multi' as const,
-    hint: 'Sélectionne tout ce qui s\'applique',
+    hint: 'Plusieurs choix possibles',
     options: [
-      { val: 'scene',    label: 'Scène' },
-      { val: 'buvettes', label: 'Buvettes / bars' },
-      { val: 'parking',  label: 'Parking' },
-      { val: 'toilettes',label: 'Toilettes' },
-      { val: 'camping',  label: 'Camping' },
-      { val: 'repos',    label: 'Espace repos' },
+      { val: 'scene',     label: 'Des scènes & des espaces de concerts' },
+      { val: 'buvettes',  label: 'Des bars, foodtrucks & stands de merchandising' },
+      { val: 'accueil',   label: 'Un point d\'accueil dédié ou une billetterie à l\'entrée' },
+      { val: 'toilettes', label: 'Des sanitaires (toilettes, douches)' },
+      { val: 'camping',   label: 'Un espace camping pour les festivaliers' },
+      { val: 'repos',     label: 'Un espace de repos / chill ou un poste de secours' },
+    ],
+  },
+  {
+    id: 'retours',
+    text: 'Des festivaliers en situation de handicap t\'ont-ils déjà fait part de difficultés ?',
+    type: 'multi' as const,
+    hint: 'Plusieurs choix possibles',
+    options: [
+      { val: 'aucun',     label: 'Non, aucun retour négatif à ce jour (ou première édition)' },
+      { val: 'moteur',    label: 'Oui — handicap moteur / physique (fauteuils, accès, comptoirs...)' },
+      { val: 'visuel',    label: 'Oui — handicap visuel (repérage, obstacles non signalés...)' },
+      { val: 'auditif',   label: 'Oui — handicap auditif (son, visibilité des scènes...)' },
+      { val: 'cognitif',  label: 'Oui — handicap mental / psychique / cognitif (anxiogène, signalétique...)' },
     ],
   },
   {
     id: 'budget',
-    text: 'T\'as un budget accessibilité ?',
-    type: 'single-other' as const,
+    text: 'Au niveau du budget et des ressources humaines, de quoi dispose ton organisation ?',
+    type: 'multi' as const,
+    hint: 'Plusieurs choix possibles',
     options: [
-      { val: 'zero',   label: 'Pas encore' },
-      { val: 'petit',  label: 'Moins de 1 000 €' },
-      { val: 'moyen',  label: '1 000 € à 5 000 €' },
-      { val: 'grand',  label: 'Plus de 5 000 €' },
-      { val: 'other',  label: 'Autre' },
+      { val: 'benevoles', label: 'Aucun budget spécifique, mais une équipe de bénévoles mobilisée' },
+      { val: 'petit',     label: 'Budget limité (moins de 1 000 €) — aménagements prioritaires' },
+      { val: 'grand',     label: 'Budget dédié (plus de 1 000 €) — matériel ou prestations spécifiques' },
+      { val: 'referent',  label: 'L\'organisation intègre (ou souhaite) un "Référent Accessibilité"' },
     ],
   },
 ] as const
@@ -808,14 +820,11 @@ export function AccessibleDiagnostic() {
 
   const canAdvance = q.type === 'multi'
     ? (selected as string[]).length > 0
-    : q.type === 'single-other'
-    ? (selected as string) !== '' && ((selected as string) !== 'other' || otherText.trim() !== '')
     : (selected as string) !== ''
 
   const advance = useCallback(() => {
     if (!canAdvance) return
-    const finalVal = q.type === 'single-other' && selected === 'other' ? otherText.trim() : selected
-    const newAnswers = { ...answers, [q.id]: finalVal }
+    const newAnswers = { ...answers, [q.id]: selected }
     setAnswers(newAnswers)
 
     if (qIndex === total - 1) {
@@ -1104,13 +1113,6 @@ export function AccessibleDiagnostic() {
                         </span>
                         {opt.label}
                       </button>
-                      {opt.val === 'other' && isSelected && (
-                        <input autoFocus value={otherText} onChange={e => setOtherText(e.target.value)}
-                          placeholder="Precise ton budget..."
-                          style={{ border: '1.5px solid #a122e2', borderRadius: 14, padding: '14px 18px', fontSize: 15, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', outline: 'none', background: '#fff', color: '#000', width: '100%', boxSizing: 'border-box', marginTop: 8 }}
-                          onKeyDown={e => { if (e.key === 'Enter' && canAdvance) advance() }}
-                        />
-                      )}
                     </div>
                   )
                 })}
