@@ -121,10 +121,15 @@ export default function FooterPhysics() {
 
       const sync = () => {
         const scrollY = window.scrollY;
+
+        // Clip overlay so items are only visible near the footer
+        const anchorTop = anchor.getBoundingClientRect().top;
+        const clipTop = Math.max(0, anchorTop - window.innerHeight * 0.8);
+        overlay.style.clipPath = `inset(${clipTop}px 0 0 0)`;
+
         bodiesRef.forEach((body, i) => {
           const el = itemEls[i];
           if (el) {
-            // Convert page-absolute physics coords to viewport coords
             el.style.left      = `${body.position.x - ITEMS[i].w / 2}px`;
             el.style.top       = `${body.position.y - ITEMS[i].h / 2 - scrollY}px`;
             el.style.transform = `rotate(${body.angle}rad)`;
