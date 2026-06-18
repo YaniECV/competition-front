@@ -27,12 +27,12 @@ const handicapOptions: { key: 'tous' | Handicap; label: string }[] = [
 ]
 
 const tagStyle: React.CSSProperties = {
-  border: '1.5px solid #F1EDF5',
-  borderRadius: 12,
-  padding: '8px 10px',
+  background: '#4a0f68',
+  borderRadius: 8,
+  padding: '8px',
   fontFamily: 'var(--font)',
-  fontSize: 12,
-  fontWeight: 600,
+  fontSize: 16,
+  fontWeight: 500,
   color: '#F1EDF5',
   lineHeight: 1,
   whiteSpace: 'nowrap',
@@ -326,15 +326,14 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
     .filter((l): l is NonNullable<typeof l> => Boolean(l))
 
   const detailTagStyle: React.CSSProperties = {
-    border: '1.5px solid #F1EDF5',
-    borderRadius: 12,
-    padding: '0 8px',
-    height: 40,
+    background: '#4a0f68',
+    borderRadius: 8,
+    padding: '8px',
     display: 'inline-flex',
     alignItems: 'center',
     fontFamily: 'var(--font)',
-    fontSize: 18,
-    fontWeight: 600,
+    fontSize: 16,
+    fontWeight: 500,
     color: '#F1EDF5',
     lineHeight: 1,
     whiteSpace: 'nowrap',
