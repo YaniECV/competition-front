@@ -106,7 +106,7 @@ export default function HomepageBonnesPratiques() {
                   Les lois
                 </p>
               </div>
-              <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', minHeight: 0 }}>
+              <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: 24, width: '100%', minHeight: 0 }}>
                 <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                   Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
                 </p>
