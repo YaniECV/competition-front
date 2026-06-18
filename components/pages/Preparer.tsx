@@ -26,7 +26,7 @@ const QUESTION_TEXT: Record<string, string> = {
 const QUESTIONS = handicaps.map(h => ({
   id: h.slug,
   text: QUESTION_TEXT[h.slug] ?? `Le handicap « ${h.nom} », tu en es où ?`,
-  type: 'single' as const,
+  type: 'single' as 'single' | 'multi',
   options: LEVEL_OPTS.map(l => ({ val: l.val, label: `${l.label} — ${l.note}` })),
 }))
 
@@ -435,8 +435,8 @@ export function AccessibleDiagnostic() {
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
-              {'hint' in q && q.hint && (
-                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{q.hint}</p>
+              {(q as { hint?: string }).hint && (
+                <p style={{ fontSize: 13, color: '#bbb', margin: '-28px 0 24px', opacity: qFullyTyped ? 1 : 0, transition: 'opacity 0.4s ease' }}>{(q as { hint?: string }).hint}</p>
               )}
 
               {/* Options */}
