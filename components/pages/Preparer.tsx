@@ -393,7 +393,7 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font-title)', textTransform: 'uppercase', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.75em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
