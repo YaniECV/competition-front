@@ -2,6 +2,7 @@ import Link from "next/link";
 import HeroParallaxBarriers from "@/components/HeroParallaxBarriers";
 import HomepageTagline from "@/components/HomepageTagline";
 import HomepageHandicaps from "@/components/HomepageHandicaps";
+import HomepageBonnesPratiques from "@/components/HomepageBonnesPratiques";
 
 export default function Home() {
   return (
@@ -67,31 +68,7 @@ export default function Home() {
 
       <HomepageHandicaps />
 
-      {/* S'informer */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <span className="tag">S'informer</span>
-          <h2 style={{ marginBottom: 32 }}>Bonnes pratiques & cadre légal</h2>
-          <div className="grid-2">
-            <Link href="/s-informer/bonnes-pratiques" className="card" style={{ display: 'block', textDecoration: 'none' }}>
-              <div className="accent-line" />
-              <h3 style={{ marginBottom: 8 }}>Les bonnes pratiques</h3>
-              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                Des actions concrètes, filtrables par zone du festival et par type de handicap.
-              </p>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les bonnes pratiques →</span>
-            </Link>
-            <Link href="/s-informer/les-lois" className="card" style={{ display: 'block', textDecoration: 'none' }}>
-              <div className="accent-line" />
-              <h3 style={{ marginBottom: 8 }}>Les lois</h3>
-              <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                Loi de 2005, ERP/IOP, arrêté de 2007 — ce que dit la loi pour votre festival.
-              </p>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Voir les lois →</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HomepageBonnesPratiques />
 
       {/* Signalétiques */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
