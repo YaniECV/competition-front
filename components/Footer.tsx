@@ -39,7 +39,7 @@ export default function Footer() {
   if (pathname.startsWith('/accessible')) return null;
 
   return (
-    <footer style={{ background: '#101010', borderTop: '1px solid #3b3b39', marginTop: 80 }}>
+    <footer style={{ background: '#101010', borderTop: '1px solid #3b3b39', marginTop: 80, overflow: 'hidden' }}>
 
       {/* ── Nav bar ── */}
       <div style={{
@@ -48,6 +48,8 @@ export default function Footer() {
         gap: 32,
         padding: '80px 40px 0',
         flexWrap: 'wrap',
+        position: 'relative',
+        zIndex: 1,
       }}>
 
         {/* Logo + tagline */}
@@ -81,7 +83,7 @@ export default function Footer() {
       </div>
 
       {/* Contact */}
-      <div style={{ padding: '24px 40px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ padding: '24px 40px 0', display: 'flex', flexDirection: 'column', gap: 8, position: 'relative', zIndex: 1 }}>
         <span style={{ fontFamily: 'var(--font-title)', fontSize: 14, fontWeight: 400, color: '#F1EDF5', lineHeight: 1, textTransform: 'uppercase' }}>Contact</span>
         <a href="mailto:Metal-AXS@mail.com" style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', textDecoration: 'none' }}>
           Metal-AXS@mail.com

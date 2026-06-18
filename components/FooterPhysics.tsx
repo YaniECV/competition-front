@@ -165,7 +165,7 @@ export default function FooterPhysics() {
         position: 'relative',
         width: '100%',
         height: CONTAINER_HEIGHT,
-        overflow: 'hidden',
+        overflow: 'visible',
         background: '#101010',
       }}
     >
