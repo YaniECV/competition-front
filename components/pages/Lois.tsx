@@ -149,7 +149,22 @@ export function LesLois() {
           }}
         />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
+          <img
+            src="/cadre-carre-2.png"
+            alt=""
+            aria-hidden
+            style={{
+              width: 80,
+              height: 80,
+              objectFit: 'contain',
+              pointerEvents: 'none',
+              transformOrigin: 'bottom center',
+              transform: heroVisible ? 'scale(1)' : 'scale(0)',
+              opacity: heroVisible ? 1 : 0,
+              transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0ms, opacity 1s ease 0ms',
+            }}
+          />
           <h1 style={{
             fontFamily: 'var(--font-title)',
             fontSize: 80,
