@@ -1,8 +1,37 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
 import BtnPrimary from './BtnPrimary';
 
 export default function HomepageFederation() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let observer: IntersectionObserver;
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        ([entry]) => { setVisible(entry.isIntersecting); },
+        { threshold: 0.1 }
+      );
+      observer.observe(el);
+    }, 400);
+    return () => { clearTimeout(timer); observer?.disconnect(); };
+  }, []);
+
+  const statStyle = (
+    delay: number,
+    hiddenTransform: string,
+    visibleTransform: string
+  ): React.CSSProperties => ({
+    transition: `transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, opacity 1s ease ${delay}ms`,
+    transform: visible ? visibleTransform : hiddenTransform,
+    opacity: visible ? 1 : 0,
+  });
+
   return (
-    <section style={{ background: '#101010', position: 'relative', padding: '300px 40px 470px' }}>
+    <section ref={sectionRef} style={{ background: '#101010', position: 'relative', padding: '300px 40px 470px' }}>
 
       {/* Contenu central */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'center', position: 'relative', zIndex: 1 }}>
@@ -40,7 +69,7 @@ export default function HomepageFederation() {
       </div>
 
       {/* Stat 80% — Des Handicaps sont invisibles */}
-      <div style={{ position: 'absolute', left: 40, top: 272, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+      <div style={{ position: 'absolute', left: 40, top: 272, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', ...statStyle(0, 'scale(0) rotate(-10deg) translateX(-20px)', 'scale(1) rotate(0deg) translateX(0px)') }}>
         <div style={{ width: 149, height: 80, position: 'relative', overflow: 'hidden', pointerEvents: 'none' }}>
           <img src="/fed-stat-80pct.png" alt="" aria-hidden style={{ position: 'absolute', width: '109.59%', height: '204.62%', left: '-5.57%', top: '-52.31%', maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none' }} />
         </div>
@@ -50,7 +79,7 @@ export default function HomepageFederation() {
       </div>
 
       {/* Stat 12M — Français en situation de handicap */}
-      <div style={{ position: 'absolute', left: 'calc(16.67% + 29px)', top: 570, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+      <div style={{ position: 'absolute', left: 'calc(16.67% + 29px)', top: 570, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', ...statStyle(150, 'scale(0) rotate(8deg) translateX(-15px)', 'scale(1) rotate(0deg) translateX(0px)') }}>
         <div style={{ width: 213.977, height: 70, position: 'relative', overflow: 'hidden', flexShrink: 0, pointerEvents: 'none' }}>
           <div style={{ position: 'absolute', width: 185.297, height: 104.229, left: -19.09, top: -13.52 }}>
             <img src="/fed-n-117.png" alt="" aria-hidden style={{ position: 'absolute', inset: 0, maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none', width: '100%', height: '100%' }} />
@@ -72,7 +101,7 @@ export default function HomepageFederation() {
       </div>
 
       {/* Stat 4M — Personnes malentendantes */}
-      <div style={{ position: 'absolute', left: 'calc(66.67% - 3px)', top: 670, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+      <div style={{ position: 'absolute', left: 'calc(66.67% - 3px)', top: 670, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', ...statStyle(300, 'scale(0) rotate(10deg) translateX(20px)', 'scale(1) rotate(0deg) translateX(0px)') }}>
         <div style={{ width: 153.678, height: 70, position: 'relative', overflow: 'hidden', flexShrink: 0, pointerEvents: 'none' }}>
           <div style={{ position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 129.853, height: 73.042, left: -35.72, top: -4.83 }}>
             <div style={{ transform: 'scaleY(-1) rotate(180deg)', flexShrink: 0 }}>
@@ -95,7 +124,7 @@ export default function HomepageFederation() {
       </div>
 
       {/* Stat 1/5 — Troubles psychiques */}
-      <div style={{ position: 'absolute', left: 'calc(75% - 8px)', top: 184, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+      <div style={{ position: 'absolute', left: 'calc(75% - 8px)', top: 184, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start', ...statStyle(100, 'scale(0) rotate(-8deg) translateX(15px)', 'scale(1) rotate(0deg) translateX(0px)') }}>
         <div style={{ width: 136.818, height: 70, position: 'relative', overflow: 'hidden', flexShrink: 0, pointerEvents: 'none' }}>
           <div style={{ position: 'absolute', width: 131.703, height: 74.083, left: 49.27, top: -4.54 }}>
             <img src="/fed-n-123.png" alt="" aria-hidden style={{ position: 'absolute', inset: 0, maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none', width: '100%', height: '100%' }} />
