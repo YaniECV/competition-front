@@ -59,20 +59,16 @@ export default function HomepageBonnesPratiques() {
               display: 'flex',
               flexDirection: 'column',
               gap: 24,
-              alignItems: 'flex-start',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-                <img src="/bp-icon-pratiques.png" alt="" aria-hidden style={{ width: 104, height: 104, objectFit: 'contain', pointerEvents: 'none' }} />
-                <p style={{ fontFamily: 'var(--font)', fontSize: 50, fontWeight: 700, color: '#101010', textAlign: 'center', lineHeight: 1, margin: 0 }}>
-                  Les bonnes<br />pratiques
-                </p>
-              </div>
-              <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', width: '100%', minHeight: 0 }}>
-                <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
-                  Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible.
-                </p>
-                <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
-              </div>
+              <p style={{ fontFamily: 'var(--font)', fontSize: 50, fontWeight: 700, color: '#101010', textAlign: 'center', lineHeight: 1, margin: 0 }}>
+                Les bonnes<br />pratiques
+              </p>
+              <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
+                Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible.
+              </p>
+              <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
             </div>
           </div>
 
@@ -99,19 +95,15 @@ export default function HomepageBonnesPratiques() {
               flexDirection: 'column',
               gap: 24,
               alignItems: 'center',
+              justifyContent: 'center',
             }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-                <img src="/bp-icon-lois.png" alt="" aria-hidden style={{ width: 104, height: 104, objectFit: 'contain', pointerEvents: 'none' }} />
-                <p style={{ fontFamily: 'var(--font)', fontSize: 50, fontWeight: 700, color: '#101010', textAlign: 'center', lineHeight: 1, margin: 0 }}>
-                  Les lois
-                </p>
-              </div>
-              <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: 24, width: '100%', minHeight: 0 }}>
-                <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
-                  Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
-                </p>
-                <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
-              </div>
+              <p style={{ fontFamily: 'var(--font)', fontSize: 50, fontWeight: 700, color: '#101010', textAlign: 'center', lineHeight: 1, margin: 0 }}>
+                Les lois
+              </p>
+              <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
+                Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
+              </p>
+              <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
             </div>
           </div>
 
