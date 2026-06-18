@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowLeft, ShareNetwork, Check } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft, ShareNetwork, Check, Envelope } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
@@ -151,7 +151,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => void }) {
   const [btnHovered, setBtnHovered] = useState(false)
-  const [resetHovered, setResetHovered] = useState(false)
+  const [mailHovered, setMailHovered] = useState(false)
   const [shareHovered, setShareHovered] = useState(false)
   const [copied, setCopied] = useState(false)
 
@@ -218,24 +218,23 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             </span>
           </Link>
 
-          <button
-            onClick={onReset}
-            onMouseEnter={() => setResetHovered(true)}
-            onMouseLeave={() => setResetHovered(false)}
+          <a
+            href={`mailto:?subject=Mon diagnostic FestAccess&body=${typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : ''}`}
+            onMouseEnter={() => setMailHovered(true)}
+            onMouseLeave={() => setMailHovered(false)}
+            title="Envoyer par mail"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 16,
-              background: resetHovered ? '#A122E2' : 'transparent',
-              border: '1.5px solid', borderColor: resetHovered ? '#A122E2' : '#F1EDF5',
-              borderRadius: 12, paddingLeft: 16, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
-              cursor: 'pointer', transition: 'background 0.2s ease, border-color 0.2s ease',
-              fontFamily: 'var(--font)',
+              width: 42, height: 42,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: mailHovered ? 'rgba(161,34,226,0.07)' : 'transparent',
+              border: '1.5px solid', borderColor: mailHovered ? '#A122E2' : '#F1EDF5',
+              borderRadius: 12, cursor: 'pointer',
+              transition: 'background 0.2s ease, border-color 0.2s ease',
+              flexShrink: 0, textDecoration: 'none',
             }}
           >
-            <span style={{ fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1 }}>Recommencer</span>
-            <span style={{ width: 32, height: 32, borderRadius: 8, background: resetHovered ? '#EEE9F3' : '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s ease' }}>
-              <ArrowRight size={16} weight="regular" color={resetHovered ? '#A122E2' : '#EEE9F3'} />
-            </span>
-          </button>
+            <Envelope size={18} weight="regular" color="#F1EDF5" />
+          </a>
 
           <button
             onClick={handleShare}
