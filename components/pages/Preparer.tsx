@@ -117,13 +117,24 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
         </div>
       </div>
       <span style={{
-        width: 32, height: 32, borderRadius: 8, flexShrink: 0,
+        display: 'inline-flex', alignItems: 'center', gap: 16,
         background: hovered ? '#A122E2' : 'transparent',
-        border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#3b3b39',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transition: 'background 0.2s, border-color 0.2s',
+        border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#F1EDF5',
+        borderRadius: 12,
+        paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+        flexShrink: 0, transition: 'background 0.2s ease, border-color 0.2s ease',
       }}>
-        <ArrowRight size={16} weight="regular" color="#F1EDF5" />
+        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+          En savoir plus
+        </span>
+        <span style={{
+          width: 32, height: 32, borderRadius: 8,
+          background: hovered ? '#EEE9F3' : '#A122E2',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, transition: 'background 0.2s ease',
+        }}>
+          <ArrowRight size={16} weight="regular" color={hovered ? '#A122E2' : '#EEE9F3'} />
+        </span>
       </span>
     </Link>
   )
