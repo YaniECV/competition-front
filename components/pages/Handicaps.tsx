@@ -78,7 +78,7 @@ export function HandicapsIndex() {
       }}>
         {HERO_FLOATS.map((f, i) => (
           <div key={i} style={{ position: 'absolute', left: f.left, top: f.top, transform: `rotate(${f.rotate}deg)`, pointerEvents: 'none' }}>
-            <HandicapIcon slug={f.slug} size={100} />
+            <HandicapIcon slug={f.slug} size={160} />
           </div>
         ))}
 
