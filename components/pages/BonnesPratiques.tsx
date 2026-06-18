@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ShareNetwork } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import type { Zone, Handicap, BonnePratique } from '../data/bonnesPratiques'
 import { handicaps } from '../data/handicaps'
@@ -413,10 +413,10 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
             cursor: 'pointer',
           }}>
             <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-              Partager l'information
+              Partager cette bonne pratique
             </span>
             <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+              <ShareNetwork size={16} weight="regular" color="#EEE9F3" />
             </div>
           </div>
         </div>
