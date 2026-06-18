@@ -12,7 +12,7 @@ const QUESTIONS = [
   {
     id: 'moteur',
     text: "Ton festival est-il accessible aux personnes à mobilité réduite, que ce soit pour se déplacer sur le site, accéder aux scènes ou profiter des espaces communs ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : accès PMR, sols adaptés, zones dédiées en fosse ou devant scène" },
       { val: 'moyen', label: "En cours : quelques aménagements mais pas sur tout le site" },
@@ -23,7 +23,7 @@ const QUESTIONS = [
   {
     id: 'auditif',
     text: "As-tu mis en place des solutions pour que les personnes sourdes ou malentendantes puissent suivre les annonces, profiter des concerts et se repérer sur ton festival ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : interprètes LSF, boucles magnétiques, affichage visuel des annonces" },
       { val: 'moyen', label: "En cours : quelques dispositifs mais incomplets sur certaines scènes ou zones" },
@@ -34,7 +34,7 @@ const QUESTIONS = [
   {
     id: 'visuel',
     text: "Les personnes malvoyantes ou non-voyantes peuvent-elles se déplacer et s'orienter de manière autonome et sécurisée sur ton site ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : accompagnateurs dédiés, signalétique en braille ou relief, guidage sonore" },
       { val: 'moyen', label: "En cours : quelques actions mais la navigation sur site reste difficile" },
@@ -45,7 +45,7 @@ const QUESTIONS = [
   {
     id: 'invisibles',
     text: "Ton festival est-il pensé pour accueillir des personnes ayant une déficience intellectuelle, notamment en termes de signalétique, d'accompagnement et de clarté des informations ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : signalétique simplifiée, espaces de retrait calmes, personnel formé" },
       { val: 'moyen', label: "En cours : quelques aménagements mais l'accueil reste perfectible" },
@@ -56,7 +56,7 @@ const QUESTIONS = [
   {
     id: 'psychologique',
     text: "As-tu prévu des dispositifs pour accompagner les personnes souffrant de troubles psychiques, qui peuvent être particulièrement affectées par l'environnement intense d'un festival ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : zones de décompression, équipe formée aux situations de crise, communication claire" },
       { val: 'moyen', label: "En cours : un espace calme existe mais l'accompagnement humain manque" },
@@ -67,7 +67,7 @@ const QUESTIONS = [
   {
     id: 'autisme',
     text: "Ton festival tient-il compte des besoins sensoriels spécifiques des personnes autistes, qui peuvent être sensibles au bruit, à la foule ou aux stimulations visuelles intenses ?",
-    type: 'single' as const,
+    type: 'single' as 'single' | 'multi',
     options: [
       { val: 'bien',  label: "En place : espaces sensoriels adaptés, casques anti-bruit disponibles, parcours fléché sans foule" },
       { val: 'moyen', label: "En cours : quelques aménagements sensoriels mais pas de parcours dédié" },
