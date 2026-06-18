@@ -7,14 +7,14 @@ export default function Loader({ onDone }: { onDone: () => void }) {
   const cadRef  = useRef<HTMLImageElement>(null)
   const bLRef   = useRef<HTMLImageElement>(null)
   const bRRef   = useRef<HTMLImageElement>(null)
-  const p1Ref   = useRef<HTMLImageElement>(null)
-  const p2Ref   = useRef<HTMLImageElement>(null)
-  const p3Ref   = useRef<HTMLImageElement>(null)
-  const p4Ref   = useRef<HTMLImageElement>(null)
-  const anRef   = useRef<HTMLImageElement>(null)
+  const f1gRef  = useRef<HTMLImageElement>(null) // fragment 1 gauche (top-left)
+  const f2dRef  = useRef<HTMLImageElement>(null) // fragment 2 droite (top-right)
+  const f3dRef  = useRef<HTMLImageElement>(null) // fragment 3 droite (bottom-right)
+  const f2gRef  = useRef<HTMLImageElement>(null) // fragment 2 gauche (bottom-left)
+  const f1dRef  = useRef<HTMLImageElement>(null) // fragment 1 droite / locket (top)
 
   useEffect(() => {
-    const frags = [p1Ref.current, p2Ref.current, p3Ref.current, p4Ref.current, anRef.current]
+    const frags = [f1gRef.current, f2dRef.current, f3dRef.current, f2gRef.current, f1dRef.current]
 
     // Set initial transform states (GSAP owns the transform, not CSS)
     gsap.set(cadRef.current, { xPercent: -50, yPercent: -50, scale: 2.1 })
@@ -41,11 +41,11 @@ export default function Loader({ onDone }: { onDone: () => void }) {
     tl.to(frags, { opacity: 1, duration: 0.18, stagger: 0.03 }, '<+=0.12')
 
     // ── Phase 3 (2.2 → 3.2s): fragments fly out ───────────────────────────
-    tl.to(p1Ref.current, { x: '-44vw', y: '-32vh', opacity: 0, rotation: -15, duration: 0.95, ease: 'power2.in' }, '+=0.04')
-    tl.to(p2Ref.current, { x:  '56vw', y: '-18vh', opacity: 0, rotation:  20, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(p3Ref.current, { x:  '38vw', y:  '56vh', opacity: 0, rotation:  10, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(p4Ref.current, { x: '-26vw', y:  '62vh', opacity: 0, rotation: -20, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(anRef.current,  { x:  '24vw', y: '-44vh', opacity: 0, rotation:  30, duration: 0.95, ease: 'power2.in' }, '<')
+    tl.to(f1gRef.current, { x: '-44vw', y: '-32vh', opacity: 0, rotation: -15, duration: 0.95, ease: 'power2.in' }, '+=0.04')
+    tl.to(f2dRef.current, { x:  '56vw', y: '-18vh', opacity: 0, rotation:  20, duration: 0.95, ease: 'power2.in' }, '<')
+    tl.to(f3dRef.current, { x:  '38vw', y:  '56vh', opacity: 0, rotation:  10, duration: 0.95, ease: 'power2.in' }, '<')
+    tl.to(f2gRef.current, { x: '-26vw', y:  '62vh', opacity: 0, rotation: -20, duration: 0.95, ease: 'power2.in' }, '<')
+    tl.to(f1dRef.current, { x:  '24vw', y: '-44vh', opacity: 0, rotation:  30, duration: 0.95, ease: 'power2.in' }, '<')
 
     // ── Phase 4 (3.2 → 3.7s): overlay fades out ───────────────────────────
     tl.to(wrapRef.current, { opacity: 0, duration: 0.5, ease: 'power2.inOut' }, '+=0.08')
@@ -82,11 +82,11 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       }} />
 
       {/* Fragments — positionnés au centre, animés en dehors par GSAP */}
-      <img ref={p1Ref} src="/loader/piece1.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '9vmin' }} />
-      <img ref={p2Ref} src="/loader/piece2.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '9vmin' }} />
-      <img ref={p3Ref} src="/loader/piece3.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '9vmin' }} />
-      <img ref={p4Ref} src="/loader/piece4.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '8vmin' }} />
-      <img ref={anRef}  src="/loader/anneau.png"  alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '7vmin' }} />
+      <img ref={f1gRef} src="/loader/frag-gauche-1.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />
+      <img ref={f2dRef} src="/loader/frag-droite-2.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />
+      <img ref={f3dRef} src="/loader/frag-droite-3.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />
+      <img ref={f2gRef} src="/loader/frag-gauche-2.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '12vmin' }} />
+      <img ref={f1dRef} src="/loader/frag-droite-1.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '10vmin' }} />
     </div>
   )
 }
