@@ -1022,6 +1022,8 @@ export function AccessibleDiagnostic() {
                   color: '#5b5b5b',
                   lineHeight: 1.25,
                   letterSpacing: '-0.02em',
+                  fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
+                  textTransform: 'none',
                   filter: 'blur(7px)',
                   opacity: 0.5,
                   pointerEvents: 'none',
@@ -1042,7 +1044,7 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', textTransform: 'none' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
