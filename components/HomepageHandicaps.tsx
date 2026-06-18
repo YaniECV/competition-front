@@ -24,21 +24,10 @@ export default function HomepageHandicaps() {
     <section style={{ background: '#101010', padding: '80px 0' }}>
 
       <style>{`
-        @keyframes hc-wiggle {
-          0%   { transform: scale(1) rotate(0deg); }
-          6%   { transform: scale(0.88) rotate(-4deg); }
-          18%  { transform: scale(1.18) rotate(-22deg) translateY(-6px); }
-          35%  { transform: scale(1.07) rotate(15deg); }
-          52%  { transform: scale(1.02) rotate(-7deg); }
-          68%  { transform: scale(1.01) rotate(3deg); }
-          84%  { transform: scale(1) rotate(-1deg); }
-          100% { transform: scale(1) rotate(0deg); }
-        }
         .hc-card { transition: background 0.2s; position: relative; }
         .hc-card:hover { background: rgba(255,255,255,0.03); }
-        .hc-card:hover .hc-illus {
-          animation: hc-wiggle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
+        .hc-illus { transition: transform 0.4s ease; }
+        .hc-card:hover .hc-illus { transform: rotate(8deg); }
         .hc-btn {
           position: absolute;
           bottom: 20px;
