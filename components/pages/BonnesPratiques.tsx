@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowLeft, ShareNetwork } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft, ShareNetwork, CaretDown } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import type { Zone, Handicap, BonnePratique } from '../data/bonnesPratiques'
 import { handicaps } from '../data/handicaps'
@@ -234,31 +234,33 @@ export function BonnesPratiquesIndex() {
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'handicap' ? null : 'handicap')}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 8, height: 38, padding: '0 14px',
-                    border: activeHandicap !== 'tous' ? '1px solid #A122E2' : '1px solid #484848',
-                    borderRadius: 8,
-                    background: activeHandicap !== 'tous' ? 'rgba(161,34,226,0.12)' : '#1c1c1c',
-                    fontSize: 13, color: '#EEE9F3', cursor: 'pointer', fontFamily: 'inherit',
+                    display: 'inline-flex', alignItems: 'center', gap: 12,
+                    padding: '10px 16px',
+                    background: activeHandicap !== 'tous' ? '#A122E2' : 'transparent',
+                    border: activeHandicap !== 'tous' ? 'none' : '1.5px solid #F1EDF5',
+                    borderRadius: 12,
+                    fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                    color: '#F1EDF5', cursor: 'pointer', whiteSpace: 'nowrap',
+                    transition: 'background 0.2s ease',
                   }}
                 >
-                  <span style={{ fontSize: 10, color: activeHandicap !== 'tous' ? '#EEE9F3' : '#9491a1', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Pour qui</span>
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ transform: openDropdown === 'handicap' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }}>
-                    <path d="M1 1L5 5L9 1" stroke="#9491a1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  {activeHandicap !== 'tous' ? handicapOptions.find(o => o.key === activeHandicap)?.label : 'Pour qui'}
+                  <CaretDown size={14} weight="bold" color="#F1EDF5" style={{ transform: openDropdown === 'handicap' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                 </button>
                 {openDropdown === 'handicap' && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#1c1c1c', border: '1px solid #484848', borderRadius: 8, minWidth: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
                     {handicapOptions.slice(1).map((o, i) => (
                       <button key={o.key} onClick={() => { setActiveHandicap(o.key); setOpenDropdown(null) }} style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        width: '100%', textAlign: 'left', padding: '10px 16px', fontSize: 13,
-                        color: activeHandicap === o.key ? '#EEE9F3' : '#9491a1',
-                        background: activeHandicap === o.key ? 'rgba(161,34,226,0.12)' : 'transparent',
+                        width: '100%', textAlign: 'left', padding: '12px 16px',
+                        fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                        color: activeHandicap === o.key ? '#F1EDF5' : '#9491a1',
+                        background: activeHandicap === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
                         border: 'none', borderBottom: i < handicapOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
-                        cursor: 'pointer', fontFamily: 'inherit',
+                        cursor: 'pointer',
                       }}>
                         {o.label}
-                        {activeHandicap === o.key && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
+                        {activeHandicap === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
                       </button>
                     ))}
                   </div>
@@ -270,31 +272,33 @@ export function BonnesPratiquesIndex() {
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'zone' ? null : 'zone')}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 8, height: 38, padding: '0 14px',
-                    border: activeZone !== 'toutes' ? '1px solid #A122E2' : '1px solid #484848',
-                    borderRadius: 8,
-                    background: activeZone !== 'toutes' ? 'rgba(161,34,226,0.12)' : '#1c1c1c',
-                    fontSize: 13, color: '#EEE9F3', cursor: 'pointer', fontFamily: 'inherit',
+                    display: 'inline-flex', alignItems: 'center', gap: 12,
+                    padding: '10px 16px',
+                    background: activeZone !== 'toutes' ? '#A122E2' : 'transparent',
+                    border: activeZone !== 'toutes' ? 'none' : '1.5px solid #F1EDF5',
+                    borderRadius: 12,
+                    fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                    color: '#F1EDF5', cursor: 'pointer', whiteSpace: 'nowrap',
+                    transition: 'background 0.2s ease',
                   }}
                 >
-                  <span style={{ fontSize: 10, color: activeZone !== 'toutes' ? '#EEE9F3' : '#9491a1', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Où</span>
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ transform: openDropdown === 'zone' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }}>
-                    <path d="M1 1L5 5L9 1" stroke="#9491a1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  {activeZone !== 'toutes' ? zoneOptions.find(o => o.key === activeZone)?.label : 'Où'}
+                  <CaretDown size={14} weight="bold" color="#F1EDF5" style={{ transform: openDropdown === 'zone' ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                 </button>
                 {openDropdown === 'zone' && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#1c1c1c', border: '1px solid #484848', borderRadius: 8, minWidth: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, background: '#1c1c1c', border: '1.5px solid #3b3b39', borderRadius: 12, minWidth: 220, boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
                     {zoneOptions.slice(1).map((o, i) => (
                       <button key={o.key} onClick={() => { setActiveZone(o.key); setOpenDropdown(null) }} style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        width: '100%', textAlign: 'left', padding: '10px 16px', fontSize: 13,
-                        color: activeZone === o.key ? '#EEE9F3' : '#9491a1',
-                        background: activeZone === o.key ? 'rgba(161,34,226,0.12)' : 'transparent',
+                        width: '100%', textAlign: 'left', padding: '12px 16px',
+                        fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
+                        color: activeZone === o.key ? '#F1EDF5' : '#9491a1',
+                        background: activeZone === o.key ? 'rgba(161,34,226,0.15)' : 'transparent',
                         border: 'none', borderBottom: i < zoneOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
-                        cursor: 'pointer', fontFamily: 'inherit',
+                        cursor: 'pointer',
                       }}>
                         {o.label}
-                        {activeZone === o.key && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
+                        {activeZone === o.key && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
                       </button>
                     ))}
                   </div>
