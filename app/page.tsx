@@ -51,13 +51,13 @@ export default function Home() {
         </div>
       </section>
 
-      <HomepageTagline />
+      <div style={{ marginTop: 200 }}><HomepageTagline /></div>
 
-      <HomepageHandicaps />
+      <div style={{ marginTop: 120 }}><HomepageHandicaps /></div>
 
-      <HomepageBonnesPratiques />
+      <div style={{ marginTop: 120 }}><HomepageBonnesPratiques /></div>
 
-      <HomepageFederation />
+      <div style={{ marginTop: 120 }}><HomepageFederation /></div>
     </>
   );
 }
