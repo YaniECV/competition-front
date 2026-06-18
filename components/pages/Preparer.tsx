@@ -8,37 +8,74 @@ import { handicaps } from '../data/handicaps'
 // Outil de POSITIONNEMENT (pas un audit) : l'orga se situe bien/moyen/un peu/pas
 // par profil, puis repart vers les ressources pour creuser. Aucune spec/coût/loi en dur.
 
-const LEVEL_OPTS = [
-  { val: 'bien',  label: 'Je gère bien', note: "des aménagements déjà en place" },
-  { val: 'moyen', label: 'Moyen', note: "quelques trucs, mais incomplet" },
-  { val: 'peu',   label: 'Un peu', note: "j'y ai pensé, rien de concret" },
-  { val: 'pas',   label: 'Pas du tout', note: "jamais traité" },
-] as const
-
-const QUESTION_TEXT: Record<string, string> = {
-  moteur: "Quand tu penses à l'accessibilité pour les personnes en situation de handicap lors de ton festival (mobilité, handicap auditif, visuel, cognitif…), où tu en es globalement ?",
-  visuel: "Le handicap visuel (malvoyance, cécité, repérage), tu gères ça comment ?",
-  auditif: "Le handicap auditif (sourds, malentendants, annonces), où tu en es ?",
-  autisme: "L'autisme et les troubles cognitifs (surcharge sensorielle, repères), tu en es où ?",
-  psychologique: "Les troubles psychiques (anxiété, foule, attente), tu gères ça comment ?",
-  invisibles: "Les handicaps invisibles (maladies chroniques, fatigue, douleurs), où tu en es ?",
-}
-
-const FIRST_Q_OPTS = [
-  { val: 'bien',  label: "Bien géré, des dispositifs sont en place pour plusieurs types de handicap" },
-  { val: 'moyen', label: "En cours, quelques actions existent mais c'est encore incomplet" },
-  { val: 'peu',   label: "Démarré, j'y ai réfléchi mais rien de concret pour l'instant" },
-  { val: 'pas',   label: "Pas encore adressé" },
+const QUESTIONS = [
+  {
+    id: 'moteur',
+    text: "Ton festival est-il accessible aux personnes à mobilité réduite, que ce soit pour se déplacer sur le site, accéder aux scènes ou profiter des espaces communs ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : accès PMR, sols adaptés, zones dédiées en fosse ou devant scène" },
+      { val: 'moyen', label: "En cours : quelques aménagements mais pas sur tout le site" },
+      { val: 'peu',   label: "Réfléchi : j'y ai pensé mais rien d'installé encore" },
+      { val: 'pas',   label: "Pas adressé : ce n'est pas encore dans mes priorités" },
+    ],
+  },
+  {
+    id: 'auditif',
+    text: "As-tu mis en place des solutions pour que les personnes sourdes ou malentendantes puissent suivre les annonces, profiter des concerts et se repérer sur ton festival ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : interprètes LSF, boucles magnétiques, affichage visuel des annonces" },
+      { val: 'moyen', label: "En cours : quelques dispositifs mais incomplets sur certaines scènes ou zones" },
+      { val: 'peu',   label: "Réfléchi : j'ai identifié le besoin mais rien de concret encore" },
+      { val: 'pas',   label: "Pas adressé : je n'ai pas encore traité ce sujet" },
+    ],
+  },
+  {
+    id: 'visuel',
+    text: "Les personnes malvoyantes ou non-voyantes peuvent-elles se déplacer et s'orienter de manière autonome et sécurisée sur ton site ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : accompagnateurs dédiés, signalétique en braille ou relief, guidage sonore" },
+      { val: 'moyen', label: "En cours : quelques actions mais la navigation sur site reste difficile" },
+      { val: 'peu',   label: "Réfléchi : j'ai conscience du besoin mais sans solution en place" },
+      { val: 'pas',   label: "Pas adressé : ce n'est pas encore pris en compte" },
+    ],
+  },
+  {
+    id: 'invisibles',
+    text: "Ton festival est-il pensé pour accueillir des personnes ayant une déficience intellectuelle, notamment en termes de signalétique, d'accompagnement et de clarté des informations ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : signalétique simplifiée, espaces de retrait calmes, personnel formé" },
+      { val: 'moyen', label: "En cours : quelques aménagements mais l'accueil reste perfectible" },
+      { val: 'peu',   label: "Réfléchi : j'ai identifié des pistes sans les avoir concrétisées" },
+      { val: 'pas',   label: "Pas adressé : je n'ai pas encore abordé ce sujet" },
+    ],
+  },
+  {
+    id: 'psychologique',
+    text: "As-tu prévu des dispositifs pour accompagner les personnes souffrant de troubles psychiques, qui peuvent être particulièrement affectées par l'environnement intense d'un festival ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : zones de décompression, équipe formée aux situations de crise, communication claire" },
+      { val: 'moyen', label: "En cours : un espace calme existe mais l'accompagnement humain manque" },
+      { val: 'peu',   label: "Réfléchi : j'ai pensé à des solutions sans les avoir mises en œuvre" },
+      { val: 'pas',   label: "Pas adressé : ce n'est pas encore dans ma démarche" },
+    ],
+  },
+  {
+    id: 'autisme',
+    text: "Ton festival tient-il compte des besoins sensoriels spécifiques des personnes autistes, qui peuvent être sensibles au bruit, à la foule ou aux stimulations visuelles intenses ?",
+    type: 'single' as const,
+    options: [
+      { val: 'bien',  label: "En place : espaces sensoriels adaptés, casques anti-bruit disponibles, parcours fléché sans foule" },
+      { val: 'moyen', label: "En cours : quelques aménagements sensoriels mais pas de parcours dédié" },
+      { val: 'peu',   label: "Réfléchi : j'ai conscience des besoins spécifiques sans solution concrète" },
+      { val: 'pas',   label: "Pas adressé : je ne l'ai pas encore pris en compte" },
+    ],
+  },
 ]
-
-const QUESTIONS = handicaps.map((h, i) => ({
-  id: h.slug,
-  text: QUESTION_TEXT[h.slug] ?? `Le handicap « ${h.nom} », tu en es où ?`,
-  type: 'single' as 'single' | 'multi',
-  options: i === 0
-    ? FIRST_Q_OPTS
-    : LEVEL_OPTS.map(l => ({ val: l.val, label: `${l.label} — ${l.note}` })),
-}))
 
 type Answers = Record<string, string | string[]>
 
