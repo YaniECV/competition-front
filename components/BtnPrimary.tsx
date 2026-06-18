@@ -9,9 +9,10 @@ type Props = {
   target?: '_blank';
   rel?: string;
   style?: React.CSSProperties;
+  labelColor?: string;
 };
 
-export default function BtnPrimary({ href, label, target, rel, style: extraStyle }: Props) {
+export default function BtnPrimary({ href, label, target, rel, style: extraStyle, labelColor }: Props) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -43,7 +44,7 @@ export default function BtnPrimary({ href, label, target, rel, style: extraStyle
         fontFamily: 'var(--font)',
         fontSize: 16,
         fontWeight: 500,
-        color: hovered ? '#F1EDF5' : '#101010',
+        color: hovered ? '#F1EDF5' : (labelColor ?? '#101010'),
         lineHeight: 1.1,
         whiteSpace: 'nowrap',
         transition: 'color 0.2s ease',

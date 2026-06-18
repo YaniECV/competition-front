@@ -201,7 +201,7 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
         </p>
       </div>
       {/* En savoir plus */}
-      <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" style={{ flexShrink: 0, background: 'transparent', border: '1.5px solid #F1EDF5' }} />
+      <BtnPrimary href={`/s-informer/bonnes-pratiques/${bp.slug}`} label="En savoir plus" labelColor="#F1EDF5" style={{ flexShrink: 0, background: 'transparent', border: '1.5px solid #F1EDF5' }} />
     </div>
   )
 }
