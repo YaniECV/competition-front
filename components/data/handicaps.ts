@@ -24,6 +24,40 @@ export interface Handicap {
 
 export const handicaps: Handicap[] = [
   {
+    slug: 'auditif',
+    nom: 'Auditif',
+    titreDetail: 'Le handicap auditif / déficience auditive',
+    realite:
+      'Les personnes sourdes ou malentendantes doivent pouvoir suivre les annonces et échanges malgré un environnement très bruyant, et être alertées visuellement en cas d\'urgence — la communication orale classique et les alarmes sonores ne suffisent pas.',
+    communication: [
+      'Parler face à la personne, visage bien éclairé',
+      'Prévoir du papier et un crayon',
+      'Ne pas exagérer l\'articulation',
+    ],
+    bonnesPratiquesIds: [
+      'sous-titrage-surtitrage',
+      'bim-portative',
+      'gilet-vibrant',
+      'alarme-visuelle',
+      'communication-ecrite-accueil',
+    ],
+    signaletiqueSlug: 'sourds-malentendants',
+    sections: [
+      {
+        titre: 'Avant votre arrivée',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Sur le site',
+        texte: 'Placeholder — texte à remplir.',
+      },
+      {
+        titre: 'Vivre le festival',
+        texte: 'Placeholder — texte à remplir.',
+      },
+    ],
+  },
+  {
     slug: 'moteur',
     nom: 'Moteur',
     titreDetail: 'Le handicap moteur / déficience motrice',
@@ -93,76 +127,40 @@ export const handicaps: Handicap[] = [
     ],
   },
   {
-    slug: 'auditif',
-    nom: 'Auditif',
-    titreDetail: 'Le handicap auditif / déficience auditive',
+    slug: 'invisibles',
+    nom: 'Déficience intellectuelle',
+    titreDetail: 'La déficience intellectuelle',
     realite:
-      'Les personnes sourdes ou malentendantes doivent pouvoir suivre les annonces et échanges malgré un environnement très bruyant, et être alertées visuellement en cas d\'urgence — la communication orale classique et les alarmes sonores ne suffisent pas.',
+      'Maladies chroniques, troubles cognitifs, fatigue invisible : ces besoins ne se voient pas et varient d\'une personne à l\'autre. Certaines personnes ont besoin d\'un accès prioritaire ou d\'aménagements sans avoir à justifier ou démontrer leur situation.',
     communication: [
-      'Parler face à la personne, visage bien éclairé',
-      'Prévoir du papier et un crayon',
-      'Ne pas exagérer l\'articulation',
+      'Ne pas présumer des capacités de la personne',
+      'Accueil respectueux, sans demande de justification',
+      'File prioritaire sans questionnement',
     ],
     bonnesPratiquesIds: [
-      'sous-titrage-surtitrage',
-      'bim-portative',
-      'gilet-vibrant',
-      'alarme-visuelle',
-      'communication-ecrite-accueil',
-    ],
-    signaletiqueSlug: 'sourds-malentendants',
-    sections: [
-      {
-        titre: 'Avant votre arrivée',
-        texte: 'Placeholder — texte à remplir.',
-      },
-      {
-        titre: 'Sur le site',
-        texte: 'Placeholder — texte à remplir.',
-      },
-      {
-        titre: 'Vivre le festival',
-        texte: 'Placeholder — texte à remplir.',
-      },
-    ],
-  },
-  {
-    slug: 'autisme',
-    nom: 'Autisme',
-    titreDetail: 'Troubles du spectre autistique (TSA)',
-    realite:
-      'La surcharge sensorielle — bruit, foule, lumières changeantes — et l\'imprévisibilité du déroulement sont les principales difficultés rencontrées par les personnes autistes en festival. Un cadre prévisible et des informations claires sur ce qui va se passer réduisent considérablement l\'anxiété.',
-    communication: [
-      'Prendre son temps',
-      'Utiliser des phrases courtes et simples',
-      'Donner des informations claires sur le déroulement',
-      'Éviter les métaphores',
-    ],
-    bonnesPratiquesIds: [
+      'file-prioritaire',
       'espace-repos-calme',
-      'info-accessibilite-site',
-      'transparence-offre',
     ],
-    signaletiqueSlug: 'espace-repos-calme',
+    signaletiqueSlug: 'accueil-prioritaire',
     sections: [
       {
-        titre: 'Préparez votre venue',
+        titre: 'Accès prioritaire',
         texte: 'Placeholder — texte à remplir.',
       },
       {
-        titre: 'Sur le site',
+        titre: 'Confort & repos',
         texte: 'Placeholder — texte à remplir.',
       },
       {
-        titre: 'Accompagnement',
+        titre: 'Accompagnement discret',
         texte: 'Placeholder — texte à remplir.',
       },
     ],
   },
   {
     slug: 'psychologique',
-    nom: 'Psychologique',
-    titreDetail: 'Le handicap psychologique / troubles psychiques',
+    nom: 'Les troubles psychiques',
+    titreDetail: 'Les troubles psychiques',
     realite:
       'Troubles anxieux, fatigue émotionnelle ou simple besoin de repères : la foule, l\'attente et l\'incertitude peuvent rapidement devenir difficiles à gérer. Savoir où se trouvent les sorties, les postes de secours et des personnes relais identifiables est rassurant pour ce public.',
     communication: [
@@ -192,32 +190,34 @@ export const handicaps: Handicap[] = [
     ],
   },
   {
-    slug: 'invisibles',
-    nom: 'Invisibles',
-    titreDetail: 'Les handicaps invisibles',
+    slug: 'autisme',
+    nom: 'Les troubles du spectre autistique',
+    titreDetail: 'Les troubles du spectre autistique (TSA)',
     realite:
-      'Maladies chroniques, troubles cognitifs, fatigue invisible : ces besoins ne se voient pas et varient d\'une personne à l\'autre. Certaines personnes ont besoin d\'un accès prioritaire ou d\'aménagements sans avoir à justifier ou démontrer leur situation.',
+      'La surcharge sensorielle — bruit, foule, lumières changeantes — et l\'imprévisibilité du déroulement sont les principales difficultés rencontrées par les personnes autistes en festival. Un cadre prévisible et des informations claires sur ce qui va se passer réduisent considérablement l\'anxiété.',
     communication: [
-      'Ne pas présumer des capacités de la personne',
-      'Accueil respectueux, sans demande de justification',
-      'File prioritaire sans questionnement',
+      'Prendre son temps',
+      'Utiliser des phrases courtes et simples',
+      'Donner des informations claires sur le déroulement',
+      'Éviter les métaphores',
     ],
     bonnesPratiquesIds: [
-      'file-prioritaire',
       'espace-repos-calme',
+      'info-accessibilite-site',
+      'transparence-offre',
     ],
-    signaletiqueSlug: 'accueil-prioritaire',
+    signaletiqueSlug: 'espace-repos-calme',
     sections: [
       {
-        titre: 'Accès prioritaire',
+        titre: 'Préparez votre venue',
         texte: 'Placeholder — texte à remplir.',
       },
       {
-        titre: 'Confort & repos',
+        titre: 'Sur le site',
         texte: 'Placeholder — texte à remplir.',
       },
       {
-        titre: 'Accompagnement discret',
+        titre: 'Accompagnement',
         texte: 'Placeholder — texte à remplir.',
       },
     ],
