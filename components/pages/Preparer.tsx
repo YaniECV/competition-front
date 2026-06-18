@@ -280,7 +280,7 @@ export function AccessibleDiagnostic() {
             gap: 48,
             animation: introFading ? 'intro-out 0.9s ease forwards' : 'intro-in 0.8s ease forwards',
           }}>
-            <h1 style={{
+            <h2 style={{
               fontFamily: 'var(--font-title)',
               fontSize: 'clamp(3rem, 7vw, 6rem)',
               fontWeight: 400,
@@ -293,7 +293,7 @@ export function AccessibleDiagnostic() {
               {INTRO_TEXT.split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
-            </h1>
+            </h2>
 
             <button
               onClick={startQuestions}
