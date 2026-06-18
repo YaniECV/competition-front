@@ -867,6 +867,8 @@ export function AccessibleDiagnostic() {
   return (
     <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: '#0a0a0a', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
       <style>{`
+        * { text-wrap: balance; }
+
         @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
         @keyframes intro-in {
