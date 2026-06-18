@@ -212,7 +212,7 @@ export function BonnesPratiquesIndex() {
             maxWidth: 466,
             margin: 0,
           }}>
-            Toutes les actions concrètes pour rendre ton festival accessible, filtrables par zone et type de handicap.
+            Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible, organisées et filtrables par zone spécifique et type de handicap, pour une expérience inclusive et réussie.
           </p>
         </div>
       </section>
