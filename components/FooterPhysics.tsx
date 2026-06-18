@@ -62,7 +62,7 @@ export default function FooterPhysics() {
   useEffect(() => {
     // Fixed overlay at body level — sits above everything
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:hidden;';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:visible;';
     document.body.appendChild(overlay);
 
     // Create item elements imperatively in the overlay
