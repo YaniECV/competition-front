@@ -39,14 +39,14 @@ export default function Footer() {
   if (pathname.startsWith('/accessible')) return null;
 
   return (
-    <footer style={{ background: '#101010', borderTop: '1px solid #3b3b39' }}>
+    <footer style={{ background: '#101010', borderTop: '1px solid #3b3b39', marginTop: 80 }}>
 
       {/* ── Nav bar ── */}
       <div style={{
         display: 'flex',
         alignItems: 'flex-start',
         gap: 32,
-        padding: '42px 40px 0',
+        padding: '80px 40px 0',
         flexWrap: 'wrap',
       }}>
 
