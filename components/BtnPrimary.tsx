@@ -40,7 +40,7 @@ export default function BtnPrimary({ href, label, target, rel, style: extraStyle
     >
       <span style={{
         fontFamily: 'var(--font)',
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 500,
         color: hovered ? '#F1EDF5' : '#101010',
         lineHeight: 1.1,

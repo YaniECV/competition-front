@@ -92,7 +92,8 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
       <Link
         href={`/s-informer/bonnes-pratiques/${bp.slug}`}
         style={{
-          background: '#EEE9F3',
+          background: 'transparent',
+          border: '1.5px solid #F1EDF5',
           borderRadius: 12,
           padding: '4px 4px 4px 16px',
           display: 'flex',
@@ -104,9 +105,9 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
       >
         <span style={{
           fontFamily: 'var(--font)',
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: 600,
-          color: '#101010',
+          color: '#F1EDF5',
           lineHeight: 1,
           whiteSpace: 'nowrap',
         }}>
