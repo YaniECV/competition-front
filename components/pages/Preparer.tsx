@@ -79,20 +79,21 @@ const QUESTIONS = [
 
 type Answers = Record<string, string | string[]>
 
-const LEVEL_META: Record<string, { label: string; fill: number; gap: boolean; color: string; bg: string }> = {
-  pas:   { label: 'Pas adressé', fill: 0,   gap: true,  color: '#fca5a5', bg: 'rgba(239,68,68,0.15)'   },
-  peu:   { label: 'Réfléchi',    fill: 34,  gap: true,  color: '#fdba74', bg: 'rgba(249,115,22,0.15)'  },
-  moyen: { label: 'En cours',    fill: 67,  gap: false, color: '#fcd34d', bg: 'rgba(234,179,8,0.15)'   },
-  bien:  { label: 'En place',    fill: 100, gap: false, color: '#5eead4', bg: 'rgba(20,184,166,0.15)'  },
+const LEVEL_META: Record<string, { label: string; fill: number; gap: boolean; color: string; bg: string; message: string }> = {
+  pas:   { label: 'Pas adressé', fill: 0,   gap: true,  color: '#fca5a5', bg: 'rgba(239,68,68,0.15)',   message: 'À prendre en compte dès maintenant' },
+  peu:   { label: 'Réfléchi',    fill: 34,  gap: true,  color: '#fdba74', bg: 'rgba(249,115,22,0.15)',  message: 'Des pistes identifiées, à concrétiser' },
+  moyen: { label: 'En cours',    fill: 67,  gap: false, color: '#fcd34d', bg: 'rgba(234,179,8,0.15)',   message: 'Bonne base, encore perfectible' },
+  bien:  { label: 'En place',    fill: 100, gap: false, color: '#5eead4', bg: 'rgba(20,184,166,0.15)',  message: 'Bien en place — à maintenir et enrichir' },
 }
 const RANK: Record<string, number> = { pas: 0, peu: 1, moyen: 2, bien: 3 }
 
 function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string }) {
   const [hovered, setHovered] = useState(false)
   const m = LEVEL_META[level] ?? LEVEL_META.pas
+  const bpKey = h.slug === 'invisibles' ? 'invisible' : h.slug
   return (
     <Link
-      href={`/handicaps/${h.slug}`}
+      href={`/s-informer/bonnes-pratiques?h=${bpKey}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -105,16 +106,21 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
     >
       <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>{h.nom}</span>
+          <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>
+            Handicap {h.nom.toLowerCase()}
+          </span>
           <span style={{
             fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
             color: m.color, background: m.bg,
             borderRadius: 8, padding: '4px 10px', lineHeight: 1, whiteSpace: 'nowrap',
           }}>{m.label}</span>
         </div>
-        <div style={{ height: 4, background: '#3b3b39', borderRadius: 99, overflow: 'hidden', maxWidth: 200 }}>
+        <div style={{ height: 4, background: '#3b3b39', borderRadius: 99, overflow: 'hidden' }}>
           <div style={{ height: '100%', width: `${m.fill}%`, background: 'linear-gradient(90deg, #A122E2, #ce9de7)', borderRadius: 99 }} />
         </div>
+        <span style={{ fontFamily: 'var(--font)', fontSize: 14, fontWeight: 400, color: '#9491a1', lineHeight: 1 }}>
+          {m.message}
+        </span>
       </div>
       <span style={{
         display: 'inline-flex', alignItems: 'center', gap: 16,
@@ -125,7 +131,7 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
         flexShrink: 0, transition: 'background 0.2s ease, border-color 0.2s ease',
       }}>
         <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
-          En savoir plus
+          Voir les bonnes pratiques
         </span>
         <span style={{
           width: 32, height: 32, borderRadius: 8,

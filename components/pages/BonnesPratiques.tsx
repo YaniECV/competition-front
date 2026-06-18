@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, ArrowLeft, ShareNetwork, CaretDown } from '@phosphor-icons/react/dist/ssr'
 import { bonnesPratiques } from '../data/bonnesPratiques'
@@ -131,11 +132,18 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
 
 // ── Index ─────────────────────────────────────────────────────────────────────
 export function BonnesPratiquesIndex() {
+  const searchParams = useSearchParams()
   const [activeZones, setActiveZones] = useState<Zone[]>([])
   const [activeHandicaps, setActiveHandicaps] = useState<Handicap[]>([])
   const [openDropdown, setOpenDropdown] = useState<'handicap' | 'zone' | null>(null)
   const heroRef = useRef<HTMLElement>(null)
   const [heroVisible, setHeroVisible] = useState(false)
+
+  useEffect(() => {
+    const h = searchParams.get('h') as Handicap | null
+    if (h && handicapOptions.some(o => o.key === h)) setActiveHandicaps([h])
+  }, [searchParams])
+
   useEffect(() => {
     const el = heroRef.current; if (!el) return
     let observer: IntersectionObserver
