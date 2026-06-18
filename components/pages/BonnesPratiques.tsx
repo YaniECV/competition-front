@@ -342,10 +342,10 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
   const outlineBtn: React.CSSProperties = {
     border: '1.5px solid #F1EDF5',
     borderRadius: 12,
-    padding: '4px 4px 4px 8px',
+    padding: '4px 4px 4px 24px',
     display: 'inline-flex',
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
     flexShrink: 0,
     textDecoration: 'none',
     background: 'transparent',
