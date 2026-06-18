@@ -19,6 +19,9 @@ export default function Loader({ onDone }: { onDone: () => void }) {
     // Set initial transform states (GSAP owns the transform, not CSS)
     gsap.set(cadRef.current, { xPercent: -50, yPercent: -50, scale: 2.1 })
     gsap.set(frags, { xPercent: -50, yPercent: -50, opacity: 0 })
+    // Barriers start completely off-screen (applied immediately, before timeline delay)
+    gsap.set(bLRef.current, { x: '-130%', scale: 1.08 })
+    gsap.set(bRRef.current, { x:  '130%', scale: 1.08 })
 
     const tl = gsap.timeline({
       delay: 0.1,
@@ -30,8 +33,8 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
     // ── Phase 1 (0 → 1.8s): cadenas shrinks, barriers slide in ────────────
     tl.to(cadRef.current, { scale: 1.0, duration: 1.8, ease: 'power2.inOut' })
-    tl.fromTo(bLRef.current, { x: '-120%' }, { x: '0%', duration: 1.8, ease: 'power3.out' }, '<')
-    tl.fromTo(bRRef.current, { x:  '120%' }, { x: '0%', duration: 1.8, ease: 'power3.out' }, '<')
+    tl.to(bLRef.current, { x: '0%', scale: 1.0, duration: 1.8, ease: 'power3.out' }, '<')
+    tl.to(bRRef.current, { x: '0%', scale: 1.0, duration: 1.8, ease: 'power3.out' }, '<')
 
     // ── Phase 2 (1.8 → 2.2s): cadenas out → fragments in ─────────────────
     tl.to(cadRef.current, { scale: 0.45, opacity: 0, duration: 0.35, ease: 'power2.in' })
