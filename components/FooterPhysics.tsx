@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 const ITEMS = [
   // illus-footer-2 (portrait 0.78:1) × 4
@@ -50,22 +51,32 @@ const ITEMS = [
   { src: '/illus-footer-10.png',  w: 114, h: 114 },
 ];
 
+// Pre-computed resting positions (% from left, px from bottom, rotation deg)
+const RESTING: { x: number; y: number; rot: number }[] = [
+  { x: 1,  y: 0,   rot: -18 }, { x: 5,  y: 2,   rot: 12  }, { x: 10, y: 0,   rot: -8  }, { x: 15, y: 5,   rot: 22  },
+  { x: 20, y: 0,   rot: -14 }, { x: 26, y: 8,   rot: 7   }, { x: 32, y: 0,   rot: -20 }, { x: 38, y: 3,   rot: 15  },
+  { x: 44, y: 0,   rot: -6  }, { x: 50, y: 10,  rot: 18  }, { x: 56, y: 0,   rot: -11 }, { x: 62, y: 4,   rot: 24  },
+  { x: 68, y: 0,   rot: -17 }, { x: 73, y: 6,   rot: 9   }, { x: 79, y: 0,   rot: -22 }, { x: 85, y: 2,   rot: 13  },
+  { x: 90, y: 0,   rot: -7  }, { x: 95, y: 8,   rot: 19  }, { x: 3,  y: 110, rot: 10  }, { x: 8,  y: 105, rot: -15 },
+  { x: 14, y: 115, rot: 20  }, { x: 22, y: 108, rot: -9  }, { x: 29, y: 120, rot: 16  }, { x: 36, y: 102, rot: -23 },
+  { x: 43, y: 118, rot: 8   }, { x: 51, y: 110, rot: -12 }, { x: 58, y: 125, rot: 21  }, { x: 65, y: 105, rot: -6  },
+  { x: 72, y: 115, rot: 14  }, { x: 78, y: 108, rot: -19 }, { x: 84, y: 122, rot: 11  }, { x: 91, y: 103, rot: -16 },
+  { x: 13, y: 260, rot: -20 }, { x: 27, y: 255, rot: 17  }, { x: 47, y: 265, rot: -10 }, { x: 67, y: 252, rot: 22  },
+];
+
 const CONTAINER_HEIGHT = 620;
 const BODY_RATIO = 0.88;
 const MOUSE_RADIUS = 220;
 const MOUSE_FORCE = 3;
 
-export default function FooterPhysics() {
+function FooterPhysicsAnimated() {
   const anchorRef = useRef<HTMLDivElement>(null);
-  const startedRef = useRef(false);
 
   useEffect(() => {
-    // Fixed overlay at body level — sits above everything
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:visible;';
     document.body.appendChild(overlay);
 
-    // Create item elements imperatively in the overlay
     const itemEls: HTMLDivElement[] = [];
     ITEMS.forEach((item) => {
       const el = document.createElement('div');
@@ -92,7 +103,6 @@ export default function FooterPhysics() {
       MatterLib = Matter;
       const width = window.innerWidth;
 
-      // Ground in page-absolute coordinates
       const anchorPageTop = anchor.getBoundingClientRect().top + window.scrollY;
       const groundY = anchorPageTop + CONTAINER_HEIGHT;
 
@@ -102,7 +112,6 @@ export default function FooterPhysics() {
       const wallL  = Matter.Bodies.rectangle(-30, groundY / 2, 60, groundY * 2, { isStatic: true });
       const wallR  = Matter.Bodies.rectangle(width + 30, groundY / 2, 60, groundY * 2, { isStatic: true });
 
-      // Spawn from above the visible viewport
       bodiesRef = ITEMS.map((item) => {
         const x = 80 + Math.random() * Math.max(width - 160, 100);
         const y = -item.h - Math.random() * window.innerHeight;
@@ -121,8 +130,6 @@ export default function FooterPhysics() {
 
       const sync = () => {
         const scrollY = window.scrollY;
-
-        // Hide overlay when footer is far below, show when approaching
         const anchorTop = anchor.getBoundingClientRect().top;
         overlay.style.visibility = anchorTop > window.innerHeight + 300 ? 'hidden' : 'visible';
 
@@ -139,12 +146,10 @@ export default function FooterPhysics() {
       animFrame = requestAnimationFrame(sync);
     };
 
-    // Mouse repulsion — convert viewport coords to page-absolute
     const onMouseMove = (e: MouseEvent) => {
       if (!MatterLib || bodiesRef.length === 0) return;
       const mx = e.clientX;
       const my = e.clientY + window.scrollY;
-
       bodiesRef.forEach(body => {
         const dx = body.position.x - mx;
         const dy = body.position.y - my;
@@ -160,8 +165,6 @@ export default function FooterPhysics() {
     };
 
     window.addEventListener('mousemove', onMouseMove);
-
-    // Start immediately so objects are already falling when user scrolls to footer
     init();
 
     return () => {
@@ -172,25 +175,44 @@ export default function FooterPhysics() {
   }, []);
 
   return (
-    <div
-      ref={anchorRef}
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: CONTAINER_HEIGHT,
-        background: '#101010',
-      }}
-    >
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 120,
-        background: 'linear-gradient(to bottom, #101010, transparent)',
-        zIndex: 10,
-        pointerEvents: 'none',
-      }} />
+    <div ref={anchorRef} style={{ position: 'relative', width: '100%', height: CONTAINER_HEIGHT, background: '#101010' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(to bottom, #101010, transparent)', zIndex: 10, pointerEvents: 'none' }} />
     </div>
   );
+}
+
+function FooterPhysicsStatic() {
+  return (
+    <div style={{ position: 'relative', width: '100%', height: CONTAINER_HEIGHT, background: '#101010', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(to bottom, #101010, transparent)', zIndex: 10, pointerEvents: 'none' }} />
+      {ITEMS.map((item, i) => {
+        const r = RESTING[i % RESTING.length];
+        return (
+          <img
+            key={i}
+            src={item.src}
+            alt=""
+            aria-hidden
+            style={{
+              position: 'absolute',
+              width: item.w,
+              height: item.h,
+              objectFit: 'contain',
+              left: `calc(${r.x}% - ${item.w / 2}px)`,
+              bottom: r.y,
+              transform: `rotate(${r.rot}deg)`,
+              transformOrigin: 'center bottom',
+              pointerEvents: 'none',
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+export default function FooterPhysics() {
+  const pathname = usePathname();
+  if (pathname === '/') return <FooterPhysicsAnimated />;
+  return <FooterPhysicsStatic />;
 }

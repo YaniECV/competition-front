@@ -37,6 +37,7 @@ const packs = [
 
 function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
   const [hovered, setHovered] = useState(false)
+  const [btnHovered, setBtnHovered] = useState(false)
   const col = index % 3
   const row = Math.floor(index / 3)
 
@@ -88,27 +89,35 @@ function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
       </div>
 
       {/* Bouton télécharger */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingLeft: 12,
-        paddingRight: 4,
-        paddingTop: 4,
-        paddingBottom: 4,
-        border: '1px solid #F1EDF5',
-        borderRadius: 12,
-        cursor: 'pointer',
-        flexShrink: 0,
-      }}>
-        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 600, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
+      <div
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 16,
+          background: btnHovered ? '#A122E2' : 'transparent',
+          border: btnHovered ? 'none' : '1.5px solid #F1EDF5',
+          borderRadius: 12,
+          paddingLeft: 24,
+          paddingRight: 4,
+          paddingTop: 4,
+          paddingBottom: 4,
+          flexShrink: 0,
+          cursor: 'pointer',
+          transition: 'background 0.2s ease',
+        }}
+      >
+        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
           Télécharger le pack
         </span>
         <span style={{
-          width: 32, height: 32, borderRadius: 9, background: '#F1EDF5',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          width: 32, height: 32, borderRadius: 8,
+          background: btnHovered ? '#EEE9F3' : '#A122E2',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, transition: 'background 0.2s ease',
         }}>
-          <DownloadSimple size={16} weight="bold" color="#101010" />
+          <DownloadSimple size={16} weight="bold" color={btnHovered ? '#A122E2' : '#EEE9F3'} />
         </span>
       </div>
     </div>
