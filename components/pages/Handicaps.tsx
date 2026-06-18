@@ -68,6 +68,132 @@ export function HandicapsIndex() {
   )
 }
 
+// ── Section riche : Visuel ────────────────────────────────────────────────
+function HandicapVisuelRiche() {
+  const amenagements = [
+    {
+      icon: '📱',
+      title: 'Avant d\'arriver',
+      items: [
+        'Site web conforme aux normes d\'accessibilité WCAG',
+        'Contenu lisible par les logiciels de synthèse vocale',
+        'Plan du site disponible en version accessible et téléchargeable',
+      ],
+    },
+    {
+      icon: '🛤️',
+      title: 'Circuler sur le site',
+      items: [
+        'Cheminements entièrement dégagés de tout obstacle',
+        'Guidage au sol et bandes de vigilance aux ruptures de parcours',
+        'Mains courantes avec indications en Braille',
+        'Signalétique en grands caractères, couleurs fortement contrastées',
+        'Éclairage suffisant sans zones d\'ombre ni éblouissement',
+      ],
+    },
+    {
+      icon: '🎸',
+      title: 'Vivre le festival',
+      items: [
+        'Informations orales diffusées régulièrement sur le site',
+        'Audiodescription des spectacles pour les temps forts',
+        'Bénévoles formés au guidage visuel et identifiables facilement',
+      ],
+    },
+  ]
+
+  const communication = [
+    'Annonce-toi avant de toucher ou de guider — jamais sans prévenir',
+    'Décris l\'environnement avec précision : "il y a une marche à 2 mètres devant vous"',
+    'Ne crie pas et ne parle pas trop lentement — entendre n\'est pas le problème',
+    'Propose ton bras pour guider, ne pousse pas',
+    'Préviens toujours quand tu t\'éloignes ou que tu quittes la personne',
+    'Ne parle pas à l\'accompagnant à la place de la personne',
+  ]
+
+  const besoins = [
+    'Un chemin sans obstacle du début à la fin',
+    'Une information simple, accessible, lisible',
+    'La possibilité de se repérer seul dans l\'espace',
+  ]
+
+  return (
+    <div style={{ marginBottom: 56 }}>
+      {/* Header accrocheur */}
+      <p style={{ fontSize: 22, fontFamily: 'var(--font)', fontWeight: 700, color: 'var(--text)', marginBottom: 24, lineHeight: 1.2 }}>
+        Et si les panneaux étaient illisibles, la foule un mur, et la scène invisible ?
+      </p>
+
+      {/* Corps narratif */}
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 16, color: 'var(--muted)' }}>
+        Un festival, c'est une avalanche d'informations visuelles. Des panneaux partout, de la signalétique, des écrans, de la foule dense. Pour la plupart des festivaliers, c'est de l'ambiance. Pour une personne malvoyante — c'est du bruit visuel ingérable.
+      </p>
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 16, color: 'var(--muted)' }}>
+        1,3 million de personnes sont touchées par un handicap visuel en France. Et contrairement à ce qu'on imagine, seulement 2 à 3 % sont non-voyantes. Les autres voient — mais pas comme vous. Certaines ne distinguent que les contrastes lumineux, d'autres ont perdu la vision périphérique, d'autres encore ne perçoivent ni les couleurs ni les détails. 7 à 8 000 personnes lisent en Braille.
+      </p>
+      <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 680, marginBottom: 24, color: 'var(--muted)' }}>
+        Ces personnes ne se repèrent pas avec les yeux seuls. Elles utilisent ce qui leur reste — les textures sous leurs pieds, les contrastes de couleurs, les odeurs, les sons. Dans un festival metal, cet environnement est pensé pour ceux qui voient bien. Votre rôle c'est de leur donner des points d'appui — concrets, fiables, constants.
+      </p>
+
+      {/* Besoins */}
+      <div style={{ marginBottom: 40 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', color: 'var(--text)', marginBottom: 16 }}>
+          ⚡ LEURS BESOINS EN FESTIVAL
+        </p>
+        <div style={{ border: '1px solid var(--border)' }}>
+          {besoins.map((b, i) => (
+            <div key={b} style={{ display: 'flex', gap: 10, padding: '12px 16px', borderBottom: i < besoins.length - 1 ? '1px solid var(--border)' : 'none' }}>
+              <span style={{ color: 'var(--muted)', flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12 }}>—</span>
+              <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>{b}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Aménagements */}
+      <div style={{ marginBottom: 40 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', color: 'var(--text)', marginBottom: 16 }}>
+          🛠️ LES AMÉNAGEMENTS ESSENTIELS
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          {amenagements.map(a => (
+            <div key={a.title} className="card">
+              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', color: 'var(--text)', marginBottom: 12 }}>
+                {a.icon} {a.title}
+              </p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {a.items.map(item => (
+                  <li key={item} style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
+                    <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)' }}>—</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Communication */}
+      <div>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', color: 'var(--text)', marginBottom: 16 }}>
+          💬 RÈGLES DE COMMUNICATION
+        </p>
+        <div style={{ border: '1px solid var(--border)' }}>
+          {communication.map((c, i) => (
+            <div key={c} style={{ display: 'flex', gap: 20, padding: '14px 16px', borderBottom: i < communication.length - 1 ? '1px solid var(--border)' : 'none' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)', minWidth: 20, flexShrink: 0, paddingTop: 2 }}>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>{c}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Détail ────────────────────────────────────────────────────────────────
 export function HandicapsDetail({ slug }: { slug: string }) {
   const index = handicaps.findIndex((h) => h.slug === slug)
@@ -104,6 +230,10 @@ export function HandicapsDetail({ slug }: { slug: string }) {
       </div>
 
       <div className="container" style={{ paddingBottom: 80 }}>
+
+        {/* Section éditoriale riche selon le profil */}
+        {slug === 'visuel' && <HandicapVisuelRiche />}
+
         <div className="handicap-cols" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start', marginBottom: 56 }}>
           <div>
             <div className="accent-line" />
