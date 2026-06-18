@@ -865,7 +865,7 @@ export function AccessibleDiagnostic() {
   )
 
   return (
-    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: phase === 'intro' ? '#0a0a0a' : '#f7f7f7', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', transition: 'background 0.6s ease' }}>
+    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: '#0a0a0a', fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
       <style>{`
         @keyframes tw-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -996,7 +996,7 @@ export function AccessibleDiagnostic() {
           {/* Header */}
           <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#999', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#9491a1', textDecoration: 'none', letterSpacing: '-0.01em' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
                 Retour
               </a>
@@ -1004,7 +1004,7 @@ export function AccessibleDiagnostic() {
                 {qIndex + 1} / {total}
               </span>
             </div>
-            <div style={{ height: 2.5, background: '#ebebeb', borderRadius: 99 }}>
+            <div style={{ height: 2.5, background: '#2e2e2e', borderRadius: 99 }}>
               <div style={{ height: '100%', width: `${((qIndex + 1) / total) * 100}%`, background: 'linear-gradient(90deg, #a122e2, #ce9de7)', borderRadius: 99, transition: 'width 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
             </div>
           </div>
@@ -1042,9 +1042,9 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#000', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', textTransform: 'none' }}>
                 {q.text.slice(0, qTypedChars)}
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#000', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
               {'hint' in q && q.hint && (
@@ -1078,12 +1078,12 @@ export function AccessibleDiagnostic() {
                         onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
                         style={{
                           width: '100%', textAlign: 'left',
-                          background: isSelected ? 'rgba(161,34,226,0.09)' : '#fff',
-                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #e8e8e8',
-                          borderRadius: 14, padding: '15px 18px', fontSize: 15, color: '#000',
+                          background: isSelected ? 'rgba(161,34,226,0.2)' : '#1c1c1c',
+                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #2e2e2e',
+                          borderRadius: 14, padding: '15px 18px', fontSize: 15, color: '#EEE9F3',
                           cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
                           display: 'flex', alignItems: 'center', gap: 12,
-                          boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.12)' : 'none',
+                          boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.2)' : 'none',
                         }}
                       >
                         <span style={{
@@ -1112,7 +1112,7 @@ export function AccessibleDiagnostic() {
           </div>
 
           {/* Footer nav — fixed, style Figma exact */}
-          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,247,247,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(10,10,10,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
 
             {/* Precedent — cercle pointilles + icone retour */}
             <button
