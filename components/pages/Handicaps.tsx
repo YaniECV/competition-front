@@ -6,23 +6,21 @@ import { handicaps } from '../data/handicaps'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import BtnPrimary from '../BtnPrimary'
 
-// ── Sprite ────────────────────────────────────────────────────────────────
-const SPRITE: Record<string, { w: string; h: string; l: string; t: string }> = {
-  moteur:        { w: '352.07%', h: '343.55%', l: '-66.94%',  t: '-9.68%'   },
-  visuel:        { w: '338.1%',  h: '343.55%', l: '-169.42%', t: '-9.68%'   },
-  auditif:       { w: '352.07%', h: '346.34%', l: '-66.94%',  t: '-120.22%' },
-  autisme:       { w: '349.18%', h: '346.34%', l: '-178.45%', t: '-120.22%' },
-  psychologique: { w: '352.07%', h: '346.34%', l: '-181.02%', t: '-226.93%' },
-  invisibles:    { w: '352.07%', h: '346.34%', l: '-66.94%',  t: '-226.93%' },
+// ── Icônes ───────────────────────────────────────────────────────────────
+const HANDICAP_ICONS: Record<string, string> = {
+  auditif:       '/Auditif 1.png',
+  moteur:        '/Moteur 1.png',
+  visuel:        '/Visuel 1.png',
+  autisme:       '/Déficience intellectuelle 1.png',
+  psychologique: '/Troubles psychiques 1.png',
+  invisibles:    '/Déficience intellectuelle 1.png',
 }
 
 function HandicapIcon({ slug, size = 56 }: { slug: string; size?: number }) {
-  const s = SPRITE[slug]
-  if (!s) return null
+  const src = HANDICAP_ICONS[slug]
+  if (!src) return null
   return (
-    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-      <img src="/handicap-sprite.png" alt="" aria-hidden style={{ position: 'absolute', maxWidth: 'none', width: s.w, height: s.h, left: s.l, top: s.t }} />
-    </div>
+    <img src={src} alt="" aria-hidden style={{ width: size, height: size, objectFit: 'contain', flexShrink: 0, pointerEvents: 'none' }} />
   )
 }
 

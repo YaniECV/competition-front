@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 
 const handicaps = [
-  { n: '01', label: 'Auditif',                             slug: 'auditif',       img: '/briqueee20.png' },
-  { n: '02', label: 'Moteur',                              slug: 'moteur',        img: '/briqueee19.png' },
-  { n: '03', label: 'Visuel',                              slug: 'visuel',        img: '/briqueee20.png' },
-  { n: '04', label: 'Déficience intellectuelle',           slug: 'invisibles',    img: '/briqueee19.png' },
-  { n: '05', label: 'Les troubles psychiques',             slug: 'psychologique', img: '/briqueee20.png' },
-  { n: '06', label: 'Les troubles du spectre autistique',  slug: 'autisme',       img: '/briqueee20.png' },
+  { n: '01', label: 'Auditif',                             slug: 'auditif',       img: '/Auditif 1.png' },
+  { n: '02', label: 'Moteur',                              slug: 'moteur',        img: '/Moteur 1.png' },
+  { n: '03', label: 'Visuel',                              slug: 'visuel',        img: '/Visuel 1.png' },
+  { n: '04', label: 'Déficience intellectuelle',           slug: 'invisibles',    img: '/Déficience intellectuelle 1.png' },
+  { n: '05', label: 'Les troubles psychiques',             slug: 'psychologique', img: '/Troubles psychiques 1.png' },
+  { n: '06', label: 'Les troubles du spectre autistique',  slug: 'autisme',       img: '/Déficience intellectuelle 1.png' },
 ];
 
 function cellBorder(index: number): React.CSSProperties {
