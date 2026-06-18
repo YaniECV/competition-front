@@ -146,14 +146,14 @@ export function LesRessources() {
       }}>
         {/* Panneaux gauche */}
         <img src="/panneau 2 gauche.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(8.33% + 40px)', top: 130, width: 130, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(8.33% + 40px)', top: 80, width: 220, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(7deg) scale(1)' : 'rotate(14deg) scale(0) translateX(-20px)',
           opacity: heroVisible ? 1 : 0,
           transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0ms, opacity 1s ease 0ms',
         }} />
         <img src="/panneau 3 gauche.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(16.67% + 10px)', top: 160, width: 110, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(16.67% + 10px)', top: 130, width: 190, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(-8deg) scale(1)' : 'rotate(-16deg) scale(0) translateX(-10px)',
           opacity: heroVisible ? 1 : 0,
@@ -162,14 +162,14 @@ export function LesRessources() {
 
         {/* Panneaux droite */}
         <img src="/panneau 1 droite.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(66.67% - 10px)', top: 120, width: 140, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(66.67% - 10px)', top: 80, width: 240, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(-7deg) scale(1)' : 'rotate(-14deg) scale(0) translateX(20px)',
           opacity: heroVisible ? 1 : 0,
           transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 150ms, opacity 1s ease 150ms',
         }} />
         <img src="/panneau 3 droite.png" alt="" aria-hidden style={{
-          position: 'absolute', left: 'calc(75% + 20px)', top: 155, width: 120, objectFit: 'contain', pointerEvents: 'none',
+          position: 'absolute', left: 'calc(75% + 20px)', top: 120, width: 200, objectFit: 'contain', pointerEvents: 'none',
           transformOrigin: 'bottom center',
           transform: heroVisible ? 'rotate(8deg) scale(1)' : 'rotate(16deg) scale(0) translateX(10px)',
           opacity: heroVisible ? 1 : 0,
