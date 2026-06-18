@@ -3,25 +3,21 @@ import BtnPrimary from './BtnPrimary';
 const stats = [
   {
     img: '/fed-stat-80.png',
-    imgStyle: { left: '-5.57%', top: '-52.31%', width: '109.59%', height: '204.62%' },
     label: 'Des Handicaps\nsont invisibles',
     pos: { left: 40, top: 272 },
   },
   {
     img: '/fed-stat-12m.png',
-    imgStyle: { left: '-6.91%', top: '-56.25%', width: '113.81%', height: '212.5%' },
     label: 'Français en situation\nde handicap',
     pos: { left: 'calc(16.67% + 29px)', top: 570 },
   },
   {
     img: '/fed-stat-15.png',
-    imgStyle: { left: '-2.22%', top: '-45%', width: '104.44%', height: '195%' },
     label: "Troubles psychiques\nau cours d'une vie",
     pos: { left: 'calc(75% - 8px)', top: 184 },
   },
   {
     img: '/fed-stat-4m.png',
-    imgStyle: { left: '0%', top: '-43.35%', width: '100%', height: '186.71%' },
     label: 'Personnes\nmalentendantes',
     pos: { left: 'calc(66.67% - 3px)', top: 670 },
   },
@@ -80,14 +76,12 @@ export default function HomepageFederation() {
       {/* Stats absolues */}
       {stats.map((s) => (
         <div key={s.label} style={{ position: 'absolute', left: s.pos.left as string | number, top: s.pos.top, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
-          <div style={{ width: 149, height: 80, position: 'relative', overflow: 'hidden', pointerEvents: 'none' }}>
-            <img
-              src={s.img}
-              alt=""
-              aria-hidden
-              style={{ position: 'absolute', maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none', ...s.imgStyle }}
-            />
-          </div>
+          <img
+            src={s.img}
+            alt=""
+            aria-hidden
+            style={{ width: 160, height: 160, objectFit: 'contain', pointerEvents: 'none' }}
+          />
           <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 500, lineHeight: 1.1, color: '#EEE9F3', margin: 0, width: 173, whiteSpace: 'pre-wrap' }}>
             {s.label}
           </p>
