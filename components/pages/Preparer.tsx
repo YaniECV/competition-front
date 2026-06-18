@@ -1009,8 +1009,8 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* Stage — layout gauche comme Figma */}
-          <div style={{ flex: 1, position: 'relative', padding: '32px 48px 100px', maxWidth: 860, width: '100%' }}>
+          {/* Stage — centré */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', padding: '32px 48px 100px', width: '100%' }}>
 
             {/* Question précédente en blur — visible derrière */}
             {prevQIndex !== null && (
@@ -1037,12 +1037,15 @@ export function AccessibleDiagnostic() {
             <div
               key={`enter-${enterKey}`}
               style={{
+                width: '100%',
+                maxWidth: 620,
+                textAlign: 'center',
                 animation: enterKey > 0
                   ? 'pull-forward 0.65s cubic-bezier(0.22,1,0.36,1) forwards'
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', textTransform: 'none' }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', textTransform: 'none', textAlign: 'center' }}>
                 {q.text.slice(0, qTypedChars)}
                 <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
@@ -1059,6 +1062,8 @@ export function AccessibleDiagnostic() {
                   gridTemplateColumns: q.type === 'multi' ? 'repeat(2, 1fr)' : '1fr',
                   gap: 10,
                   maxWidth: q.type === 'multi' ? 540 : 420,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
                   pointerEvents: qFullyTyped ? 'auto' : 'none',
                 }}
               >
