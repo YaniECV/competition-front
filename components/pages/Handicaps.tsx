@@ -259,7 +259,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
           style={{
             position: 'absolute',
             top: 40,
-            right: 40,
+            left: 40,
             display: 'inline-flex',
             alignItems: 'center',
             gap: 16,
@@ -274,7 +274,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
           }}
         >
           <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
-            Tous les profils
+            Retour
           </span>
           <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <ArrowRight size={16} weight="regular" color="#EEE9F3" />
