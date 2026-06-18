@@ -97,24 +97,24 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: 'flex', alignItems: 'center', gap: 24,
+        display: 'flex', flexDirection: 'column', gap: 16,
         paddingTop: 24, paddingBottom: 24,
         borderBottom: '1px solid #3b3b39',
         textDecoration: 'none',
-        transition: 'background 0.15s',
       }}
     >
-      <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>
-            Handicap {h.nom.toLowerCase()}
-          </span>
-          <span style={{
-            fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
-            color: m.color, background: m.bg,
-            borderRadius: 8, padding: '4px 10px', lineHeight: 1, whiteSpace: 'nowrap',
-          }}>{m.label}</span>
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>
+          Handicap {h.nom.toLowerCase()}
+        </span>
+        <span style={{
+          fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
+          color: m.color, background: m.bg,
+          borderRadius: 8, padding: '4px 10px', lineHeight: 1, whiteSpace: 'nowrap',
+        }}>{m.label}</span>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <div style={{ height: 4, background: '#3b3b39', borderRadius: 99, overflow: 'hidden' }}>
           <div style={{ height: '100%', width: `${m.fill}%`, background: 'linear-gradient(90deg, #A122E2, #ce9de7)', borderRadius: 99 }} />
         </div>
@@ -122,13 +122,14 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
           {m.message}
         </span>
       </div>
+
       <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 16,
+        display: 'inline-flex', alignItems: 'center', gap: 16, alignSelf: 'flex-start',
         background: hovered ? '#A122E2' : 'transparent',
         border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#F1EDF5',
         borderRadius: 12,
         paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
-        flexShrink: 0, transition: 'background 0.2s ease, border-color 0.2s ease',
+        transition: 'background 0.2s ease, border-color 0.2s ease',
       }}>
         <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
           Voir les bonnes pratiques
