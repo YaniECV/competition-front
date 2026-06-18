@@ -60,7 +60,7 @@ export default function BtnPrimary({ href, label, target, rel, style: extraStyle
         flexShrink: 0,
         transition: 'background 0.2s ease',
       }}>
-        <ArrowRight size={16} weight="light" color={hovered ? '#A122E2' : '#EEE9F3'} />
+        <ArrowRight size={16} weight="regular" color={hovered ? '#A122E2' : '#EEE9F3'} />
       </span>
     </Link>
   );
