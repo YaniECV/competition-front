@@ -16,7 +16,7 @@ const LEVEL_OPTS = [
 ] as const
 
 const QUESTION_TEXT: Record<string, string> = {
-  moteur: "Le handicap moteur (fauteuils, cannes, fatigue, cheminements), tu en es où ?",
+  moteur: "Quand tu penses à l'accessibilité pour les personnes en situation de handicap lors de ton festival (mobilité, handicap auditif, visuel, cognitif…), où tu en es globalement ?",
   visuel: "Le handicap visuel (malvoyance, cécité, repérage), tu gères ça comment ?",
   auditif: "Le handicap auditif (sourds, malentendants, annonces), où tu en es ?",
   autisme: "L'autisme et les troubles cognitifs (surcharge sensorielle, repères), tu en es où ?",
@@ -24,11 +24,20 @@ const QUESTION_TEXT: Record<string, string> = {
   invisibles: "Les handicaps invisibles (maladies chroniques, fatigue, douleurs), où tu en es ?",
 }
 
-const QUESTIONS = handicaps.map(h => ({
+const FIRST_Q_OPTS = [
+  { val: 'bien',  label: "Bien géré, des dispositifs sont en place pour plusieurs types de handicap" },
+  { val: 'moyen', label: "En cours, quelques actions existent mais c'est encore incomplet" },
+  { val: 'peu',   label: "Démarré, j'y ai réfléchi mais rien de concret pour l'instant" },
+  { val: 'pas',   label: "Pas encore adressé" },
+]
+
+const QUESTIONS = handicaps.map((h, i) => ({
   id: h.slug,
   text: QUESTION_TEXT[h.slug] ?? `Le handicap « ${h.nom} », tu en es où ?`,
   type: 'single' as 'single' | 'multi',
-  options: LEVEL_OPTS.map(l => ({ val: l.val, label: `${l.label} — ${l.note}` })),
+  options: i === 0
+    ? FIRST_Q_OPTS
+    : LEVEL_OPTS.map(l => ({ val: l.val, label: `${l.label} — ${l.note}` })),
 }))
 
 type Answers = Record<string, string | string[]>
