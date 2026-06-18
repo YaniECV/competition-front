@@ -28,7 +28,7 @@ export const handicaps: Handicap[] = [
     nom: 'Auditif',
     titreDetail: 'Le handicap auditif / déficience auditive',
     realite:
-      'Le handicap auditif est très large. Il concerne officiellement 4 millions de personnes en France et se manifeste sous forme de faible acuité auditive, d\'acouphènes ou, plus rarement, de surdité complète. Certaines personnes pratiquent la Langue des Signes Française (LSF) — dont le vocabulaire et la syntaxe diffèrent totalement du français courant — d\'autres non. Pour s\'orienter, les personnes sourdes ou malentendantes ont besoin d\'indices visuels, de renseignements écrits et d\'un éclairage adapté.',
+      'Le handicap auditif est très large. Il concerne officiellement 4 millions de personnes en France et se manifeste sous forme de faible acuité auditive, d\'acouphènes ou, plus rarement, de surdité complète. Certaines personnes pratiquent la Langue des Signes Française (LSF), dont le vocabulaire et la syntaxe diffèrent totalement du français courant, d\'autres non. Pour s\'orienter, les personnes sourdes ou malentendantes ont besoin d\'indices visuels, de renseignements écrits et d\'un éclairage adapté.',
     communication: [
       'Parler face à la personne, visage bien éclairé',
       'Prévoir du papier et un crayon',
@@ -76,7 +76,7 @@ export const handicaps: Handicap[] = [
     sections: [
       {
         titre: 'Leurs besoins',
-        texte: 'Les festivaliers à mobilité réduite ont besoin de déplacements les plus courts possibles, sur des surfaces planes et non glissantes, avec un bon éclairage. Une signalétique visible — adaptée en hauteur pour les personnes en fauteuil — est essentielle, tout comme la possibilité de faire des pauses et de vivre leur expérience de façon autonome. Les personnes en fauteuil roulant ont également besoin de places offrant une bonne visibilité sur les scènes, accompagnées de leur entourage.',
+        texte: 'Les festivaliers à mobilité réduite ont besoin de déplacements les plus courts possibles, sur des surfaces planes et non glissantes, avec un bon éclairage. Une signalétique visible, adaptée en hauteur pour les personnes en fauteuil, est essentielle, tout comme la possibilité de faire des pauses et de vivre leur expérience de façon autonome. Les personnes en fauteuil roulant ont également besoin de places offrant une bonne visibilité sur les scènes, accompagnées de leur entourage.',
       },
       {
         titre: 'Les aménagements',
@@ -106,7 +106,7 @@ export const handicaps: Handicap[] = [
     sections: [
       {
         titre: 'Leurs besoins',
-        texte: 'Pour évoluer sereinement, les personnes malvoyantes ou non-voyantes ont besoin d\'un cheminement entièrement dégagé de tout obstacle. L\'accès à l\'information doit être simple et l\'orientation dans l\'espace, autonome. Un environnement sensoriel riche — textures au sol, sons, contrastes lumineux — leur permet de compenser la vision réduite.',
+        texte: 'Pour évoluer sereinement, les personnes malvoyantes ou non-voyantes ont besoin d\'un cheminement entièrement dégagé de tout obstacle. L\'accès à l\'information doit être simple et l\'orientation dans l\'espace, autonome. Un environnement sensoriel riche, textures au sol, sons, contrastes lumineux, leur permet de compenser la vision réduite.',
       },
       {
         titre: 'Les solutions',
@@ -119,7 +119,7 @@ export const handicaps: Handicap[] = [
     nom: 'Déficience intellectuelle',
     titreDetail: 'La déficience intellectuelle',
     realite:
-      'Les personnes atteintes de déficience intellectuelle ont un QI très inférieur à la moyenne. Officiellement 700 000 en France, elles éprouvent des difficultés à mobiliser leur attention, maîtriser le raisonnement et comprendre les informations. S\'adapter à un environnement inconnu leur demande un effort particulier. Des indices simples — symboles graphiques, couleurs claires, panneaux répétitifs — leur permettent de se retrouver.',
+      'Les personnes atteintes de déficience intellectuelle ont un QI très inférieur à la moyenne. Officiellement 700 000 en France, elles éprouvent des difficultés à mobiliser leur attention, maîtriser le raisonnement et comprendre les informations. S\'adapter à un environnement inconnu leur demande un effort particulier. Des indices simples, symboles graphiques, couleurs claires, panneaux répétitifs, leur permettent de se retrouver.',
     communication: [
       'Ne pas présumer des capacités de la personne',
       'Accueil respectueux, sans demande de justification',
@@ -137,7 +137,7 @@ export const handicaps: Handicap[] = [
       },
       {
         titre: 'Les solutions',
-        texte: 'Des programmes en français « Facile à Lire et à Comprendre » (FALC) rendent l\'information accessible à tous. Des pictogrammes clairs — bar, restaurant, toilettes, salles de spectacle, infirmerie, sortie, parking — permettent une orientation autonome. La formation du personnel d\'accueil à l\'accueil de ce public est indispensable.',
+        texte: 'Des programmes en français « Facile à Lire et à Comprendre » (FALC) rendent l\'information accessible à tous. Des pictogrammes clairs, bar, restaurant, toilettes, salles de spectacle, infirmerie, sortie, parking, permettent une orientation autonome. La formation du personnel d\'accueil à l\'accueil de ce public est indispensable.',
       },
     ],
   },
@@ -146,7 +146,7 @@ export const handicaps: Handicap[] = [
     nom: 'Les troubles psychiques',
     titreDetail: 'Les troubles psychiques',
     realite:
-      'L\'OMS estime que 20 à 25 % de la population sera touchée par un trouble psychique au cours de sa vie. Addictions, TOC, bipolarité, schizophrénie, anxiété, dépression : ces troubles se traduisent par des difficultés de relation à l\'autre et font souvent l\'objet d\'un déni. Toute situation de stress, d\'attente ou de proximité avec la foule peut être anxiogène. Les personnels d\'accueil doivent faire la différence entre l\'incivilité — acte volontaire et conscient — et la « bizarrerie », caractéristique du handicap psychique.',
+      'L\'OMS estime que 20 à 25 % de la population sera touchée par un trouble psychique au cours de sa vie. Addictions, TOC, bipolarité, schizophrénie, anxiété, dépression : ces troubles se traduisent par des difficultés de relation à l\'autre et font souvent l\'objet d\'un déni. Toute situation de stress, d\'attente ou de proximité avec la foule peut être anxiogène. Les personnels d\'accueil doivent faire la différence entre l\'incivilité, acte volontaire et conscient, et la « bizarrerie », caractéristique du handicap psychique.',
     communication: [
       'Préciser le déroulement',
       'Indiquer clairement entrées, sorties et postes de secours',
@@ -174,7 +174,7 @@ export const handicaps: Handicap[] = [
     nom: 'Les troubles du spectre autistique',
     titreDetail: 'Les troubles du spectre autistique (TSA)',
     realite:
-      'Les personnes atteintes de troubles du spectre autistique peuvent avoir des comportements inhabituels et de grandes difficultés à établir des relations sociales ou à comprendre ce qui n\'est pas parfaitement explicite. Selon la Haute Autorité de Santé, elles représentent plus de 100 000 jeunes de moins de 20 ans et 600 000 adultes en France. La surcharge sensorielle — bruit, foule, lumières changeantes — et l\'imprévisibilité sont leurs principales difficultés en festival.',
+      'Les personnes atteintes de troubles du spectre autistique peuvent avoir des comportements inhabituels et de grandes difficultés à établir des relations sociales ou à comprendre ce qui n\'est pas parfaitement explicite. Selon la Haute Autorité de Santé, elles représentent plus de 100 000 jeunes de moins de 20 ans et 600 000 adultes en France. La surcharge sensorielle, bruit, foule, lumières changeantes, et l\'imprévisibilité sont leurs principales difficultés en festival.',
     communication: [
       'Prendre son temps',
       'Utiliser des phrases courtes et simples',
@@ -190,7 +190,7 @@ export const handicaps: Handicap[] = [
     sections: [
       {
         titre: 'La communication',
-        texte: 'Prendre son temps, utiliser des phrases courtes et simples, éviter les sous-entendus et les métaphores : ces ajustements permettent d\'établir un contact clair et rassurant. Donner des informations précises sur ce qui va se passer — ordre des événements, durées, transitions — est fondamental pour réduire l\'anxiété liée à l\'imprévisibilité.',
+        texte: 'Prendre son temps, utiliser des phrases courtes et simples, éviter les sous-entendus et les métaphores : ces ajustements permettent d\'établir un contact clair et rassurant. Donner des informations précises sur ce qui va se passer, ordre des événements, durées, transitions, est fondamental pour réduire l\'anxiété liée à l\'imprévisibilité.',
       },
       {
         titre: 'Les solutions',
