@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight, ArrowLeft } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
@@ -393,9 +393,9 @@ export function AccessibleDiagnostic() {
                   : 'intro-in 0.6s cubic-bezier(0.22,1,0.36,1) forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1.2, marginBottom: 40, letterSpacing: '-0.025em', fontFamily: 'var(--font-atkinson), system-ui, sans-serif', textTransform: 'none', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 400, color: '#EEE9F3', lineHeight: 1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font-title)', textTransform: 'uppercase', textAlign: 'center' }}>
                 {q.text.slice(0, qTypedChars)}
-                <span style={{ display: 'inline-block', width: 2.5, height: '0.85em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
+                <span style={{ display: 'inline-block', width: 2.5, height: '0.75em', background: '#EEE9F3', marginLeft: 5, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
               </h1>
 
               {(q as { hint?: string }).hint && (
@@ -431,24 +431,30 @@ export function AccessibleDiagnostic() {
                         onClick={() => isMulti ? toggleMulti(opt.val) : setSelected(opt.val)}
                         style={{
                           width: '100%', textAlign: 'left',
-                          background: isSelected ? 'rgba(161,34,226,0.2)' : '#1c1c1c',
-                          border: isSelected ? '1.5px solid #a122e2' : '1.5px solid #2e2e2e',
-                          borderRadius: 14, padding: '15px 18px', fontSize: 15, color: '#EEE9F3',
-                          cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                          display: 'flex', alignItems: 'center', gap: 12,
-                          boxShadow: isSelected ? '0 0 0 3px rgba(161,34,226,0.2)' : 'none',
+                          background: isSelected ? 'rgba(161,34,226,0.07)' : 'transparent',
+                          border: '1.5px solid',
+                          borderColor: isSelected ? '#A122E2' : '#3b3b39',
+                          borderRadius: 12, padding: '16px 20px',
+                          color: '#EEE9F3',
+                          cursor: 'pointer', fontFamily: 'var(--font)',
+                          display: 'flex', alignItems: 'center', gap: 16,
+                          transition: 'background 0.15s, border-color 0.15s',
                         }}
                       >
                         <span style={{
-                          width: 20, height: 20, borderRadius: isMulti ? 5 : '50%',
-                          border: isSelected ? '2px solid #a122e2' : '2px solid #ddd',
-                          background: isSelected ? '#a122e2' : 'transparent',
+                          width: 18, height: 18, borderRadius: 4, flexShrink: 0,
+                          border: isSelected ? 'none' : '1.5px solid #3b3b39',
+                          background: isSelected ? '#A122E2' : 'transparent',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          flexShrink: 0, transition: 'all 0.18s',
+                          transition: 'background 0.15s ease',
                         }}>
-                          {isSelected && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                          {isSelected && (
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                              <path d="M1 4L3.5 6.5L9 1" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
                         </span>
-                        {opt.label}
+                        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.2 }}>{opt.label}</span>
                       </button>
                     </div>
                   )
@@ -457,42 +463,52 @@ export function AccessibleDiagnostic() {
             </div>
           </div>
 
-          {/* Footer nav — fixed, style Figma exact */}
+          {/* Footer nav */}
           <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(10,10,10,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
 
-            {/* Precedent — cercle pointilles + icone retour */}
+            {/* Retour — secondary avec icon à gauche */}
             <button
               onClick={goBack}
               disabled={qIndex === 0}
               style={{
-                display: 'flex', alignItems: 'center', gap: 14,
-                background: 'none', border: 'none', cursor: qIndex === 0 ? 'default' : 'pointer',
-                opacity: qIndex === 0 ? 0 : 1, transition: 'opacity 0.3s',
-                fontFamily: 'var(--font-atkinson), system-ui, sans-serif', padding: 0,
+                display: 'inline-flex', alignItems: 'center', gap: 16,
+                background: 'transparent',
+                border: '1.5px solid', borderColor: '#F1EDF5',
+                borderRadius: 12,
+                paddingLeft: 4, paddingRight: 16, paddingTop: 4, paddingBottom: 4,
+                cursor: qIndex === 0 ? 'default' : 'pointer',
+                opacity: qIndex === 0 ? 0 : 1,
+                transition: 'opacity 0.3s',
+                fontFamily: 'var(--font)',
               }}
             >
-              <div style={{ width: 55, height: 55, borderRadius: '50%', border: '1.5px dashed #929292', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#929292" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
-                </svg>
-              </div>
-              <span style={{ fontSize: 20, color: '#929292' }}>Precedent</span>
+              <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ArrowLeft size={16} weight="regular" color="#EEE9F3" />
+              </span>
+              <span style={{ fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1 }}>Retour</span>
             </button>
 
-            {/* Suivant — pill noir */}
+            {/* Suivant — primary */}
             <button
               onClick={advance}
               style={{
-                background: '#000', color: '#fff', border: 'none',
-                borderRadius: 999, padding: '14px 32px', fontSize: 20,
-                cursor: 'pointer', fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                opacity: canAdvance ? 1 : 0,
-                pointerEvents: canAdvance ? 'auto' : 'none',
-                transform: canAdvance ? 'translateY(0)' : 'translateY(6px)',
-                transition: 'opacity 0.3s ease, transform 0.3s ease',
+                display: 'inline-flex', alignItems: 'center', gap: 16,
+                background: '#EEE9F3',
+                border: 'none',
+                borderRadius: 12,
+                paddingLeft: 16, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+                cursor: canAdvance ? 'pointer' : 'default',
+                opacity: canAdvance ? 1 : 0.35,
+                transition: 'opacity 0.3s ease',
+                fontFamily: 'var(--font)',
               }}
             >
-              {qIndex === total - 1 ? 'Voir le résultat' : 'Suivant'}
+              <span style={{ fontSize: 16, fontWeight: 500, color: '#101010', lineHeight: 1 }}>
+                {qIndex === total - 1 ? 'Voir le résultat' : 'Suivant'}
+              </span>
+              <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+              </span>
             </button>
           </div>
         </>
