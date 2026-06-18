@@ -14,10 +14,10 @@ const QUESTIONS = [
     text: "Ton festival est-il accessible aux personnes à mobilité réduite, que ce soit pour se déplacer sur le site, accéder aux scènes ou profiter des espaces communs ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : accès PMR, sols adaptés, zones dédiées en fosse ou devant scène" },
-      { val: 'moyen', label: "En cours : quelques aménagements mais pas sur tout le site" },
-      { val: 'peu',   label: "Réfléchi : j'y ai pensé mais rien d'installé encore" },
-      { val: 'pas',   label: "Pas adressé : ce n'est pas encore dans mes priorités" },
+      { val: 'bien',  label: "Accès PMR, sols adaptés, zones dédiées en fosse ou devant scène" },
+      { val: 'moyen', label: "Quelques aménagements mais pas sur tout le site" },
+      { val: 'peu',   label: "J'y ai pensé mais rien d'installé encore" },
+      { val: 'pas',   label: "Ce n'est pas encore dans mes priorités" },
     ],
   },
   {
@@ -25,10 +25,10 @@ const QUESTIONS = [
     text: "As-tu mis en place des solutions pour que les personnes sourdes ou malentendantes puissent suivre les annonces, profiter des concerts et se repérer sur ton festival ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : interprètes LSF, boucles magnétiques, affichage visuel des annonces" },
-      { val: 'moyen', label: "En cours : quelques dispositifs mais incomplets sur certaines scènes ou zones" },
-      { val: 'peu',   label: "Réfléchi : j'ai identifié le besoin mais rien de concret encore" },
-      { val: 'pas',   label: "Pas adressé : je n'ai pas encore traité ce sujet" },
+      { val: 'bien',  label: "Interprètes LSF, boucles magnétiques, affichage visuel des annonces" },
+      { val: 'moyen', label: "Quelques dispositifs mais incomplets sur certaines scènes ou zones" },
+      { val: 'peu',   label: "J'ai identifié le besoin mais rien de concret encore" },
+      { val: 'pas',   label: "Je n'ai pas encore traité ce sujet" },
     ],
   },
   {
@@ -36,10 +36,10 @@ const QUESTIONS = [
     text: "Les personnes malvoyantes ou non-voyantes peuvent-elles se déplacer et s'orienter de manière autonome et sécurisée sur ton site ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : accompagnateurs dédiés, signalétique en braille ou relief, guidage sonore" },
-      { val: 'moyen', label: "En cours : quelques actions mais la navigation sur site reste difficile" },
-      { val: 'peu',   label: "Réfléchi : j'ai conscience du besoin mais sans solution en place" },
-      { val: 'pas',   label: "Pas adressé : ce n'est pas encore pris en compte" },
+      { val: 'bien',  label: "Accompagnateurs dédiés, signalétique en braille ou relief, guidage sonore" },
+      { val: 'moyen', label: "Quelques actions mais la navigation sur site reste difficile" },
+      { val: 'peu',   label: "J'ai conscience du besoin mais sans solution en place" },
+      { val: 'pas',   label: "Ce n'est pas encore pris en compte" },
     ],
   },
   {
@@ -47,10 +47,10 @@ const QUESTIONS = [
     text: "Ton festival est-il pensé pour accueillir des personnes ayant une déficience intellectuelle, notamment en termes de signalétique, d'accompagnement et de clarté des informations ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : signalétique simplifiée, espaces de retrait calmes, personnel formé" },
-      { val: 'moyen', label: "En cours : quelques aménagements mais l'accueil reste perfectible" },
-      { val: 'peu',   label: "Réfléchi : j'ai identifié des pistes sans les avoir concrétisées" },
-      { val: 'pas',   label: "Pas adressé : je n'ai pas encore abordé ce sujet" },
+      { val: 'bien',  label: "Signalétique simplifiée, espaces de retrait calmes, personnel formé" },
+      { val: 'moyen', label: "Quelques aménagements mais l'accueil reste perfectible" },
+      { val: 'peu',   label: "J'ai identifié des pistes sans les avoir concrétisées" },
+      { val: 'pas',   label: "Je n'ai pas encore abordé ce sujet" },
     ],
   },
   {
@@ -58,10 +58,10 @@ const QUESTIONS = [
     text: "As-tu prévu des dispositifs pour accompagner les personnes souffrant de troubles psychiques, qui peuvent être particulièrement affectées par l'environnement intense d'un festival ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : zones de décompression, équipe formée aux situations de crise, communication claire" },
-      { val: 'moyen', label: "En cours : un espace calme existe mais l'accompagnement humain manque" },
-      { val: 'peu',   label: "Réfléchi : j'ai pensé à des solutions sans les avoir mises en œuvre" },
-      { val: 'pas',   label: "Pas adressé : ce n'est pas encore dans ma démarche" },
+      { val: 'bien',  label: "Zones de décompression, équipe formée aux situations de crise, communication claire" },
+      { val: 'moyen', label: "Un espace calme existe mais l'accompagnement humain manque" },
+      { val: 'peu',   label: "J'ai pensé à des solutions sans les avoir mises en œuvre" },
+      { val: 'pas',   label: "Ce n'est pas encore dans ma démarche" },
     ],
   },
   {
@@ -69,10 +69,10 @@ const QUESTIONS = [
     text: "Ton festival tient-il compte des besoins sensoriels spécifiques des personnes autistes, qui peuvent être sensibles au bruit, à la foule ou aux stimulations visuelles intenses ?",
     type: 'single' as 'single' | 'multi',
     options: [
-      { val: 'bien',  label: "En place : espaces sensoriels adaptés, casques anti-bruit disponibles, parcours fléché sans foule" },
-      { val: 'moyen', label: "En cours : quelques aménagements sensoriels mais pas de parcours dédié" },
-      { val: 'peu',   label: "Réfléchi : j'ai conscience des besoins spécifiques sans solution concrète" },
-      { val: 'pas',   label: "Pas adressé : je ne l'ai pas encore pris en compte" },
+      { val: 'bien',  label: "Espaces sensoriels adaptés, casques anti-bruit disponibles, parcours fléché sans foule" },
+      { val: 'moyen', label: "Quelques aménagements sensoriels mais pas de parcours dédié" },
+      { val: 'peu',   label: "J'ai conscience des besoins spécifiques sans solution concrète" },
+      { val: 'pas',   label: "Je ne l'ai pas encore pris en compte" },
     ],
   },
 ]
@@ -107,9 +107,8 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font)', fontSize: 20, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1 }}>{h.nom}</span>
           <span style={{
-            fontFamily: 'var(--font)', fontSize: 13, fontWeight: 500,
-            color: m.color, background: 'rgba(255,255,255,0.06)',
-            border: `1px solid rgba(255,255,255,0.1)`,
+            fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500,
+            color: '#F1EDF5', background: '#4a0f68',
             borderRadius: 8, padding: '4px 10px', lineHeight: 1, whiteSpace: 'nowrap',
           }}>{m.label}</span>
         </div>
@@ -172,7 +171,7 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
           <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.4, color: '#9491a1', margin: 0, maxWidth: 520 }}>
             {gaps.length === 0
               ? "Tu sembles déjà bien avancé sur tous les profils. Continue à creuser pour aller plus loin."
-              : `${gaps.length} profil${gaps.length > 1 ? 's' : ''} à prioriser — clique sur chacun pour voir les bonnes pratiques associées.`}
+              : `${gaps.length} profil${gaps.length > 1 ? 's' : ''} à prioriser. Clique sur chacun pour voir les bonnes pratiques associées.`}
           </p>
         </div>
 
