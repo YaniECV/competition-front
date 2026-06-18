@@ -153,8 +153,41 @@ export function BonnesPratiquesIndex() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        position: 'relative',
+        overflow: 'hidden',
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%' }}>
+        {/* Écouteurs gauche */}
+        <img
+          src="/illus-footer-11.png"
+          alt=""
+          aria-hidden
+          style={{
+            position: 'absolute',
+            left: 'calc(8.33% + 35px)',
+            top: 120,
+            width: 155,
+            height: 143,
+            objectFit: 'contain',
+            transform: 'rotate(-19deg)',
+            pointerEvents: 'none',
+          }}
+        />
+        {/* Panneau droite */}
+        <img
+          src="/panneau 3 droite.png"
+          alt=""
+          aria-hidden
+          style={{
+            position: 'absolute',
+            left: 'calc(75% - 8px)',
+            top: 100,
+            width: 172,
+            objectFit: 'contain',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
           <h1 style={{
             fontFamily: 'var(--font-title)',
             fontSize: 80,
