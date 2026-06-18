@@ -370,7 +370,7 @@ export function AccessibleDiagnostic() {
                 animation: 'intro-in 0.8s ease forwards',
               }}
             >
-              <h1 style={{ fontSize: 24, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 24, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.5, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
                 {q.text}
               </h1>
 
