@@ -126,8 +126,8 @@ export function LesLois() {
       {/* Hero */}
       <section ref={heroRef} style={{
         background: '#101010',
-        paddingTop: 240,
-        paddingBottom: 120,
+        paddingTop: 160,
+        paddingBottom: 80,
         paddingLeft: 40,
         paddingRight: 40,
         display: 'flex',
