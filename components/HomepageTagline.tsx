@@ -1,6 +1,30 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+
 export default function HomepageTagline() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const illus = (delay: number): React.CSSProperties => ({
+    transition: `transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, opacity 0.5s ease ${delay}ms`,
+    transform: visible ? 'scale(1)' : 'scale(0)',
+    opacity: visible ? 1 : 0,
+    transformOrigin: 'bottom center',
+  });
+
   return (
-    <section style={{
+    <section ref={sectionRef} style={{
       position: 'relative',
       background: '#101010',
       minHeight: 680,
@@ -12,14 +36,14 @@ export default function HomepageTagline() {
     }}>
 
       {/* Illustrations gauche */}
-      <img src="/panneau 1 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 320, width: 'auto', left: -40, top: '50%', transform: 'translateY(-54%)', pointerEvents: 'none', objectFit: 'contain' }} />
-      <img src="/panneau 2 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 220, width: 'auto', left: 120, top: '50%', transform: 'translateY(-40%)', pointerEvents: 'none', objectFit: 'contain' }} />
-      <img src="/panneau 3 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 170, width: 'auto', left: 60, top: '50%', transform: 'translateY(10%)', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 1 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 320, width: 'auto', left: 40, top: '50%', transform: visible ? 'translateY(-54%) scale(1)' : 'translateY(-54%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 0ms, opacity 0.5s ease 0ms', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 2 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 220, width: 'auto', left: 220, top: '50%', transform: visible ? 'translateY(-40%) scale(1)' : 'translateY(-40%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 80ms, opacity 0.5s ease 80ms', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 3 gauche.png" alt="" aria-hidden style={{ position: 'absolute', height: 170, width: 'auto', left: 160, top: '50%', transform: visible ? 'translateY(10%) scale(1)' : 'translateY(10%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 160ms, opacity 0.5s ease 160ms', pointerEvents: 'none', objectFit: 'contain' }} />
 
       {/* Illustrations droite */}
-      <img src="/panneau 1 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 300, width: 'auto', right: -20, top: '50%', transform: 'translateY(-60%)', pointerEvents: 'none', objectFit: 'contain' }} />
-      <img src="/panneau 2 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 190, width: 'auto', right: 200, top: '50%', transform: 'translateY(-20%)', pointerEvents: 'none', objectFit: 'contain' }} />
-      <img src="/panneau 3 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 200, width: 'auto', right: 40, top: '50%', transform: 'translateY(15%)', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 1 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 300, width: 'auto', right: 40, top: '50%', transform: visible ? 'translateY(-60%) scale(1)' : 'translateY(-60%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 0ms, opacity 0.5s ease 0ms', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 2 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 190, width: 'auto', right: 260, top: '50%', transform: visible ? 'translateY(-20%) scale(1)' : 'translateY(-20%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 80ms, opacity 0.5s ease 80ms', pointerEvents: 'none', objectFit: 'contain' }} />
+      <img src="/panneau 3 droite.png" alt="" aria-hidden style={{ position: 'absolute', height: 200, width: 'auto', right: 120, top: '50%', transform: visible ? 'translateY(15%) scale(1)' : 'translateY(15%) scale(0)', opacity: visible ? 1 : 0, transformOrigin: 'bottom center', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1) 160ms, opacity 0.5s ease 160ms', pointerEvents: 'none', objectFit: 'contain' }} />
 
       {/* Contenu texte */}
       <div style={{
