@@ -227,7 +227,36 @@ export function HandicapsDetail({ slug }: { slug: string }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        position: 'relative',
       }}>
+        {/* Bouton retour */}
+        <Link
+          href="/handicaps"
+          style={{
+            position: 'absolute',
+            top: 40,
+            right: 40,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 16,
+            background: 'transparent',
+            border: '1.5px solid #F1EDF5',
+            borderRadius: 12,
+            paddingLeft: 16,
+            paddingRight: 4,
+            paddingTop: 4,
+            paddingBottom: 4,
+            textDecoration: 'none',
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+            Tous les profils
+          </span>
+          <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+          </span>
+        </Link>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', width: 708, maxWidth: '100%' }}>
           <HandicapIcon slug={slug} size={80} />
           <h1 style={{
