@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
@@ -114,14 +115,12 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
   )
 }
 
-const INTRO_TEXT = "Quelques questions pour voir\noù en est ton festival."
-const INTRO_SPEED = 28   // ms par caractère — intro (lent, soothing)
+const INTRO_TEXT = "Quelques questions\npour voir où en est\nton festival."
 const Q_SPEED     = 40   // ms par caractère — questions (lisible)
 
 export function AccessibleDiagnostic() {
   // ── Phase ─────────────────────────────────────────────────────────────────
   const [phase, setPhase] = useState<'intro' | 'questions'>('intro')
-  const [typedChars, setTypedChars] = useState(0)
   const [introFading, setIntroFading] = useState(false)
 
   // ── Question ──────────────────────────────────────────────────────────────
@@ -143,28 +142,10 @@ export function AccessibleDiagnostic() {
   const q = QUESTIONS[qIndex]
   const total = QUESTIONS.length
 
-  const [showButton, setShowButton] = useState(false)
-
   const startQuestions = () => {
     setIntroFading(true)
     setTimeout(() => setPhase('questions'), 900)
   }
-
-  // ── Typewriter intro ───────────────────────────────────────────────────────
-  useEffect(() => {
-    if (phase !== 'intro') return
-    let i = 0
-    const iv = setInterval(() => {
-      i++
-      setTypedChars(i)
-      if (i >= INTRO_TEXT.length) {
-        clearInterval(iv)
-        // Bouton apparaît 600ms après la fin du typewriter
-        setTimeout(() => setShowButton(true), 600)
-      }
-    }, INTRO_SPEED)
-    return () => clearInterval(iv)
-  }, [phase])
 
   // ── Typewriter par question — redémarre à chaque changement de question ────
   useEffect(() => {
@@ -240,7 +221,7 @@ export function AccessibleDiagnostic() {
     <ResultPage
       answers={answers}
       onReset={() => {
-        setShowResult(false); setPhase('intro'); setTypedChars(0); setIntroFading(false)
+        setShowResult(false); setPhase('intro'); setIntroFading(false)
         setQIndex(0); setAnswers({}); setSelected(''); setEnterKey(0)
         setPrevQIndex(null); setPushKey(0)
       }}
@@ -280,9 +261,6 @@ export function AccessibleDiagnostic() {
           from { opacity: 0; transform: translateY(12px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .start-btn:hover { background: #f0f0f0 !important; transform: translateY(-1px); }
-        .start-btn:active { transform: translateY(0); }
-
         .diag-opt { transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s; }
         .diag-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
         .diag-opt:active { transform: translateY(0); }
@@ -290,87 +268,60 @@ export function AccessibleDiagnostic() {
         @media (max-width: 600px) { .diag-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
-      {/* ─── INTRO PHASE — fond noir comme le design ─── */}
+      {/* ─── INTRO PHASE ─── */}
       {phase === 'intro' && (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 32px', background: '#0a0a0a', margin: '-1px' }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 32px', background: '#0a0a0a' }}>
           <div style={{
-            maxWidth: 680,
+            maxWidth: 760,
             textAlign: 'center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 40,
-            animation: introFading
-              ? 'intro-out 0.9s ease forwards'
-              : 'intro-in 1.2s ease forwards',
+            gap: 48,
+            animation: introFading ? 'intro-out 0.9s ease forwards' : 'intro-in 0.8s ease forwards',
           }}>
-            {/* Texte typewriter */}
-            <p style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.03em', margin: 0 }}>
-              {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
+            <h1 style={{
+              fontFamily: 'var(--font-title)',
+              fontSize: 'clamp(3rem, 7vw, 6rem)',
+              fontWeight: 400,
+              color: '#EEE9F3',
+              lineHeight: 1,
+              textTransform: 'uppercase',
+              letterSpacing: 0,
+              margin: 0,
+            }}>
+              {INTRO_TEXT.split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
               ))}
-              {!showButton && (
-                <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#fff', marginLeft: 4, verticalAlign: 'middle', animation: 'tw-blink 0.9s step-end infinite' }} />
-              )}
-            </p>
+            </h1>
 
-            {/* Chips features */}
-            {showButton && (
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', animation: 'btn-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards' }}>
-                {[
-                  { title: 'Ton positionnement', sub: 'profil par profil' },
-                  { title: 'Tes priorités', sub: 'par où commencer' },
-                  { title: 'Les ressources', sub: 'pour creuser' },
-                ].map(chip => (
-                  <div key={chip.title} style={{
-                    background: 'rgba(255,255,255,0.08)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: 12,
-                    width: 148,
-                    height: 56,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', margin: '0 0 2px' }}>{chip.title}</p>
-                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', margin: 0 }}>{chip.sub}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Bouton Commencer */}
-            {showButton && (
-              <button
-                className="start-btn"
-                onClick={startQuestions}
-                style={{
-                  background: '#fff',
-                  color: '#000',
-                  border: 'none',
-                  borderRadius: 999,
-                  padding: '16px 48px',
-                  fontSize: 17,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-atkinson), system-ui, sans-serif',
-                  letterSpacing: '-0.01em',
-                  transition: 'background 0.2s, transform 0.15s',
-                  animation: 'btn-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both',
-                }}
-              >
-                Commencer
-              </button>
-            )}
-
-            {/* Sous-titre sous le bouton */}
-            {showButton && (
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em', margin: 0, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', animation: 'btn-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.2s both' }}>
-                6 questions · 2 min · gratuit
-              </p>
-            )}
+            <button
+              onClick={startQuestions}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 16,
+                background: '#EEE9F3',
+                border: 'none',
+                borderRadius: 12,
+                paddingLeft: 16,
+                paddingRight: 4,
+                paddingTop: 4,
+                paddingBottom: 4,
+                cursor: 'pointer',
+                transition: 'background 0.2s ease',
+                fontFamily: 'var(--font)',
+                fontSize: 16,
+                fontWeight: 500,
+                color: '#101010',
+                animation: 'btn-in 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both',
+              }}
+            >
+              Commencer
+              <span style={{ width: 32, height: 32, borderRadius: 8, background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+              </span>
+            </button>
           </div>
         </div>
       )}
