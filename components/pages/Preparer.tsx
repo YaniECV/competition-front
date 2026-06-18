@@ -919,11 +919,6 @@ export function AccessibleDiagnostic() {
               ? 'intro-out 0.9s ease forwards'
               : 'intro-in 1.2s ease forwards',
           }}>
-            {/* Sous-titre */}
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em', margin: 0, fontFamily: 'var(--font-atkinson), system-ui, sans-serif' }}>
-              5 questions · ~2 min · gratuit
-            </p>
-
             {/* Texte typewriter */}
             <p style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.03em', margin: 0 }}>
               {INTRO_TEXT.slice(0, typedChars).split('\n').map((line, i, arr) => (
@@ -978,6 +973,13 @@ export function AccessibleDiagnostic() {
               >
                 Commencer
               </button>
+            )}
+
+            {/* Sous-titre sous le bouton */}
+            {showButton && (
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em', margin: 0, fontFamily: 'var(--font-atkinson), system-ui, sans-serif', animation: 'btn-in 0.7s cubic-bezier(0.22,1,0.36,1) 0.2s both' }}>
+                5 questions · ~5 min · gratuit
+              </p>
             )}
           </div>
         </div>
