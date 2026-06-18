@@ -304,7 +304,7 @@ export function AccessibleDiagnostic() {
               margin: 0,
               maxWidth: 480,
             }}>
-              5 minutes suffisent. Tu repars avec une vue claire sur les profils à prioriser et des ressources concrètes pour agir.
+              5 minutes suffisent. Tu repars avec des ressources concrètes adaptées à ton festival pour agir dès maintenant.
             </p>
 
             <button
@@ -342,18 +342,18 @@ export function AccessibleDiagnostic() {
       {phase === 'questions' && (
         <>
           {/* Header */}
-          <div style={{ padding: '20px 40px 0', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13, color: '#9491a1', textDecoration: 'none', letterSpacing: '-0.01em' }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          <div style={{ padding: '24px 40px 0', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#9491a1', textDecoration: 'none', lineHeight: 1 }}>
+                <ArrowLeft size={16} weight="regular" color="#9491a1" />
                 Retour
               </a>
-              <span style={{ fontSize: 11, color: '#bbb', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+              <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 400, color: '#9491a1', lineHeight: 1 }}>
                 {qIndex + 1} / {total}
               </span>
             </div>
-            <div style={{ height: 2.5, background: '#2e2e2e', borderRadius: 99 }}>
-              <div style={{ height: '100%', width: `${((qIndex + 1) / total) * 100}%`, background: 'linear-gradient(90deg, #a122e2, #ce9de7)', borderRadius: 99, transition: 'width 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
+            <div style={{ height: 6, background: '#2e2e2e', borderRadius: 99 }}>
+              <div style={{ height: '100%', width: `${((qIndex + 1) / total) * 100}%`, background: 'linear-gradient(90deg, #A122E2, #ce9de7)', borderRadius: 99, transition: 'width 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
             </div>
           </div>
 
