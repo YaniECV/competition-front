@@ -282,16 +282,28 @@ export function BonnesPratiquesIndex() {
                         const selected = activeHandicaps.includes(o.key as Handicap)
                         return (
                           <button key={o.key} onClick={() => toggleHandicap(o.key as Handicap)} style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            display: 'flex', alignItems: 'center', gap: 12,
                             width: '100%', textAlign: 'left', padding: '12px 16px',
                             fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
                             color: selected ? '#F1EDF5' : '#9491a1',
-                            background: selected ? 'rgba(161,34,226,0.15)' : 'transparent',
+                            background: 'transparent',
                             border: 'none', borderBottom: i < handicapOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
                             cursor: 'pointer',
                           }}>
+                            <span style={{
+                              width: 18, height: 18, borderRadius: 4, flexShrink: 0,
+                              border: selected ? 'none' : '1.5px solid #3b3b39',
+                              background: selected ? '#A122E2' : 'transparent',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              transition: 'background 0.15s ease',
+                            }}>
+                              {selected && (
+                                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                  <path d="M1 4L3.5 6.5L9 1" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              )}
+                            </span>
                             {o.label}
-                            {selected && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
                           </button>
                         )
                       })}
@@ -328,16 +340,28 @@ export function BonnesPratiquesIndex() {
                         const selected = activeZones.includes(o.key as Zone)
                         return (
                           <button key={o.key} onClick={() => toggleZone(o.key as Zone)} style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            display: 'flex', alignItems: 'center', gap: 12,
                             width: '100%', textAlign: 'left', padding: '12px 16px',
                             fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500,
                             color: selected ? '#F1EDF5' : '#9491a1',
-                            background: selected ? 'rgba(161,34,226,0.15)' : 'transparent',
+                            background: 'transparent',
                             border: 'none', borderBottom: i < zoneOptions.length - 2 ? '1px solid #2e2e2e' : 'none',
                             cursor: 'pointer',
                           }}>
+                            <span style={{
+                              width: 18, height: 18, borderRadius: 4, flexShrink: 0,
+                              border: selected ? 'none' : '1.5px solid #3b3b39',
+                              background: selected ? '#A122E2' : 'transparent',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              transition: 'background 0.15s ease',
+                            }}>
+                              {selected && (
+                                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                  <path d="M1 4L3.5 6.5L9 1" stroke="#EEE9F3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              )}
+                            </span>
                             {o.label}
-                            {selected && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A122E2', flexShrink: 0 }} />}
                           </button>
                         )
                       })}
