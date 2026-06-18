@@ -39,7 +39,7 @@ export default function Footer() {
   if (pathname.startsWith('/accessible')) return null;
 
   return (
-    <footer style={{ background: 'rgba(113,113,113,0.1)', borderTop: '1px solid #3b3b39' }}>
+    <footer style={{ background: '#101010', borderTop: '1px solid #3b3b39' }}>
 
       {/* ── Nav bar ── */}
       <div style={{

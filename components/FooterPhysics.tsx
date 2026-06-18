@@ -166,7 +166,7 @@ export default function FooterPhysics() {
         width: '100%',
         height: CONTAINER_HEIGHT,
         overflow: 'hidden',
-        background: 'transparent',
+        background: '#101010',
       }}
     >
       {/* Gradient to blend seamlessly with the nav section above */}
@@ -176,7 +176,7 @@ export default function FooterPhysics() {
         left: 0,
         right: 0,
         height: 100,
-        background: 'linear-gradient(to bottom, rgba(113,113,113,0.1), transparent)',
+        background: 'linear-gradient(to bottom, #101010, transparent)',
         zIndex: 10,
         pointerEvents: 'none',
       }} />
