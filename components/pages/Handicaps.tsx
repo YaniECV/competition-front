@@ -143,12 +143,11 @@ export function HandicapsIndex() {
                     <HandicapIcon slug={h.slug} size={56} />
                     <span style={{
                       fontFamily: 'var(--font-title)',
-                      fontSize: 56,
+                      fontSize: 'clamp(2rem, 3.5vw, 3.5rem)',
                       fontWeight: 400,
                       color: '#F1EDF5',
                       textTransform: 'uppercase',
                       lineHeight: 1,
-                      whiteSpace: 'nowrap',
                     }}>
                       {h.nom}
                     </span>
@@ -364,7 +363,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <HandicapIcon slug={prev.slug} size={56} />
-                <span style={{ fontFamily: 'var(--font-title)', fontSize: 56, fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(2rem, 3.5vw, 3.5rem)', fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1 }}>
                   {prev.nom}
                 </span>
               </div>
@@ -388,7 +387,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <HandicapIcon slug={next.slug} size={56} />
-                <span style={{ fontFamily: 'var(--font-title)', fontSize: 56, fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(2rem, 3.5vw, 3.5rem)', fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1 }}>
                   {next.nom}
                 </span>
               </div>
