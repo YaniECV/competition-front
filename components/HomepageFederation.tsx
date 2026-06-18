@@ -88,7 +88,7 @@ export default function HomepageFederation() {
           flexShrink: 0,
         }}>
           <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-            Voir le site de la FMM
+            En savoir plus
           </span>
           <span style={{ width: 32, height: 32, borderRadius: '50%', background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <ArrowUpRight size={16} weight="light" color="#EEE9F3" />
