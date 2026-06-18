@@ -45,8 +45,8 @@ export function HandicapsIndex() {
           position: absolute;
           bottom: 20px;
           right: 20px;
-          width: 32px;
-          height: 32px;
+          width: 40px;
+          height: 40px;
           background: #A122E2;
           border-radius: 8px;
           display: flex;
