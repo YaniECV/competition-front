@@ -1,38 +1,113 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
+import FooterPhysics from './FooterPhysics';
+
+const NAV_COLS = [
+  {
+    title: 'Les handicaps',
+    links: [{ label: 'Tous les profils', href: '/handicaps' }],
+  },
+  {
+    title: "S'informer",
+    links: [
+      { label: 'Les bonnes pratiques', href: '/s-informer/bonnes-pratiques' },
+      { label: 'Les lois', href: '/s-informer/les-lois' },
+    ],
+  },
+  {
+    title: 'Les ressources',
+    links: [{ label: 'Signalétiques', href: '/les-ressources' }],
+  },
+  {
+    title: 'La fédération',
+    links: [{ label: 'À propos & objectifs', href: '/la-federation' }],
+  },
+  {
+    title: 'Légal',
+    links: [
+      { label: 'Privacy Police', href: '/legal/privacy' },
+      { label: 'Terms of use', href: '/legal/terms' },
+    ],
+  },
+];
 
 export default function Footer() {
   const pathname = usePathname();
   if (pathname.startsWith('/accessible')) return null;
 
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg)', marginTop: 'auto' }}>
-      <div className="container" style={{ padding: '40px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32 }}>
-        <div>
-          <p style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: 14, color: 'var(--text)', marginBottom: 10 }}>FEST_ACCESS</p>
-          <p style={{ fontSize: 13, lineHeight: 1.6 }}>Rendre les festivals de metal accessibles à tous.</p>
+    <footer style={{ background: '#101010' }}>
+
+      {/* ── Nav bar ── */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 32,
+        padding: '42px 40px 0',
+        flexWrap: 'wrap',
+      }}>
+
+        {/* Logo + tagline */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0, minWidth: 200 }}>
+          <img src="/footer-logo.png" alt="Metal AXS" style={{ height: 23, width: 'auto', objectFit: 'contain', objectPosition: 'left' }} />
+          <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
+            Rendre les festivals de metal<br />accessibles à tous
+          </p>
         </div>
-        {[
-          { title: 'Les handicaps', links: [{ to: '/handicaps', l: 'Tous les profils' }] },
-          { title: "S'informer", links: [{ to: '/s-informer/bonnes-pratiques', l: 'Les bonnes pratiques' }, { to: '/s-informer/les-lois', l: 'Les lois' }] },
-          { title: 'Les ressources', links: [{ to: '/les-ressources', l: 'Signalétiques' }] },
-          { title: 'La fédération', links: [{ to: '/la-federation', l: 'À propos & objectifs' }] },
-          { title: 'Contact', links: [{ to: 'mailto:contact@fmm.fr', l: 'contact@fmm.fr' }] },
-        ].map(col => (
-          <div key={col.title}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'var(--font)', marginBottom: 12 }}>{col.title}</p>
+
+        {/* Nav columns */}
+        {NAV_COLS.map(col => (
+          <div key={col.title} style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
+            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, lineHeight: 1, color: '#F1EDF5', whiteSpace: 'nowrap' }}>
+              {col.title}
+            </span>
             {col.links.map(l => (
-              <div key={l.to} style={{ marginBottom: 8 }}>
-                <Link href={l.to} style={{ fontSize: 13, color: 'var(--muted)' }}>{l.l}</Link>
-              </div>
+              <Link key={l.href} href={l.href} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                {l.label}
+              </Link>
             ))}
           </div>
         ))}
+
+        {/* CTA button */}
+        <Link href="/accessible/diagnostic" style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          background: '#EEE9F3',
+          borderRadius: 12,
+          paddingLeft: 8,
+          paddingRight: 4,
+          paddingTop: 4,
+          paddingBottom: 4,
+          textDecoration: 'none',
+          flexShrink: 0,
+          alignSelf: 'flex-start',
+          marginLeft: 'auto',
+        }}>
+          <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+            Faire un audit
+          </span>
+          <span style={{ width: 32, height: 32, borderRadius: '50%', background: '#A122E2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <ArrowRight size={16} weight="light" color="#EEE9F3" />
+          </span>
+        </Link>
       </div>
-      <div style={{ borderTop: '1px solid var(--border)', padding: '16px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font)' }}>© 2026 FestAccess × FMM</p>
+
+      {/* Contact */}
+      <div style={{ padding: '24px 40px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#F1EDF5', lineHeight: 1 }}>Contact</span>
+        <a href="mailto:Metal-AXS@mail.com" style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', textDecoration: 'none' }}>
+          Metal-AXS@mail.com
+        </a>
       </div>
+
+      {/* ── Physics zone ── */}
+      <FooterPhysics />
+
     </footer>
   );
 }
