@@ -330,12 +330,12 @@ export default function Nav() {
                   )}
 
                   {item.subs && hovered === item.label && (
-                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, height: 8, zIndex: 199 }} />
+                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, height: 4, zIndex: 199 }} />
                   )}
                   {item.subs && hovered === item.label && (
                     <div style={{
                       position: 'absolute',
-                      top: 'calc(100% + 8px)',
+                      top: 'calc(100% + 4px)',
                       left: 0,
                       background: '#1a1a1a',
                       border: '1px solid #323232',
