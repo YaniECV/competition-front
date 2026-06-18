@@ -87,9 +87,12 @@ export default function FooterPhysics() {
       const wallL  = Matter.Bodies.rectangle(-30, height / 2, 60, height * 4, { isStatic: true });
       const wallR  = Matter.Bodies.rectangle(width + 30, height / 2, 60, height * 4, { isStatic: true });
 
+      const containerTop = container.getBoundingClientRect().top;
+      const spawnRange = containerTop + window.innerHeight;
+
       bodiesRef = ITEMS.map((item) => {
         const x = 80 + Math.random() * Math.max(width - 160, 100);
-        const y = -100 - Math.random() * 900;
+        const y = -item.h - Math.random() * Math.max(spawnRange, 400);
         return Matter.Bodies.rectangle(x, y, item.w * BODY_RATIO, item.h * BODY_RATIO, {
           restitution: 0.3,
           friction: 0.6,
