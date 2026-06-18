@@ -2,6 +2,17 @@ import Link from 'next/link'
 import { Accessibility, Eye, Ear, Brain, HeartPulse, CircleDashed, type LucideIcon } from 'lucide-react'
 import { handicaps } from '../data/handicaps'
 import { bonnesPratiques } from '../data/bonnesPratiques'
+import { lois } from '../data/lois'
+
+// Lois applicables par profil de handicap
+const LOIS_PAR_HANDICAP: Record<string, string[]> = {
+  moteur:       ['loi-2005', 'erp-iop', 'arrete-2007', 'parking-obligation', 'sanitaires-obligation'],
+  visuel:       ['loi-2005', 'erp-iop', 'arrete-2007', 'bande-vigilance', 'rgaa'],
+  auditif:      ['loi-2005', 'erp-iop'],
+  autisme:      ['loi-2005', 'erp-iop'],
+  psychologique:['loi-2005', 'erp-iop'],
+  invisibles:   ['loi-2005'],
+}
 
 // Icône par profil (lucide, monochrome — cohérent avec la DA wireframe)
 const ICON: Record<string, LucideIcon> = {
@@ -304,6 +315,41 @@ export function HandicapsDetail({ slug }: { slug: string }) {
             </Link>
           )}
         </div>
+
+        {/* Lois en vigueur */}
+        {(() => {
+          const loisApplicables = (LOIS_PAR_HANDICAP[handicap.slug] ?? [])
+            .map(s => lois.find(l => l.slug === s))
+            .filter((l): l is NonNullable<typeof l> => Boolean(l))
+          if (!loisApplicables.length) return null
+          return (
+            <div style={{ marginBottom: 48 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 16 }}>
+                <h2>Lois en vigueur</h2>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--muted)' }}>
+                  {loisApplicables.length} texte{loisApplicables.length > 1 ? 's' : ''}
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {loisApplicables.map(l => (
+                  <div key={l.slug} className="card" style={{ borderLeft: '2px solid var(--border2)' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 6 }}>
+                      <h3 style={{ marginBottom: 0 }}>{l.titre}</h3>
+                      <Link
+                        href={`/s-informer/les-lois#${l.slug}`}
+                        style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--muted)', whiteSpace: 'nowrap', textDecoration: 'none', flexShrink: 0 }}
+                      >
+                        Voir le texte →
+                      </Link>
+                    </div>
+                    <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 6 }}>{l.contenu}</p>
+                    <p style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--muted)', opacity: 0.7 }}>{l.source}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
 
         {/* Navigation entre profils */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'var(--border)', borderTop: '1px solid var(--border)' }}>
