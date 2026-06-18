@@ -75,7 +75,6 @@ export default function HomepageHandicaps() {
         }}>
           Les 6 types de handicaps
         </h2>
-        <img src="/search1.png" alt="" aria-hidden style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0 }} />
       </div>
 
       {/* Grille */}
