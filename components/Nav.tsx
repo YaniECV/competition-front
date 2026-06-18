@@ -288,8 +288,7 @@ export default function Nav() {
                         color,
                         textDecoration: 'none',
                         whiteSpace: 'nowrap',
-                        borderBottom: isActive ? '2px solid rgba(238,233,243,0.4)' : '2px solid transparent',
-                      }}
+                                              }}
                     >
                       {item.label}
                       {item.subs && <ChevronDown color={color} />}
@@ -307,8 +306,7 @@ export default function Nav() {
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                       userSelect: 'none' as const,
-                      borderBottom: isActive ? '2px solid rgba(238,233,243,0.4)' : '2px solid transparent',
-                    }}>
+                                          }}>
                       {item.label}
                       {item.subs && <ChevronDown color={color} />}
                     </span>
