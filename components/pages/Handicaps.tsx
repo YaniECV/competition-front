@@ -235,10 +235,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
   const index = handicaps.findIndex((h) => h.slug === slug)
   if (index === -1) return null
   const handicap = handicaps[index]
-  const prev = handicaps[(index - 1 + handicaps.length) % handicaps.length]
-  const next = handicaps[(index + 1) % handicaps.length]
-
-  const bps = handicap.bonnesPratiquesIds
+const bps = handicap.bonnesPratiquesIds
     .map((id) => bonnesPratiques.find((bp) => bp.id === id))
     .filter((bp): bp is NonNullable<typeof bp> => Boolean(bp))
 
@@ -391,64 +388,6 @@ export function HandicapsDetail({ slug }: { slug: string }) {
           </div>
         </div>
 
-        {/* ── Prev / next ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 950, maxWidth: '100%' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, lineHeight: 1, color: '#F1EDF5' }}>Profil précédent</span>
-            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, lineHeight: 1, color: '#F1EDF5' }}>Profil suivant</span>
-          </div>
-          <div style={{ display: 'flex', width: '100%' }}>
-            {/* Prev */}
-            <Link
-              href={`/handicaps/${prev.slug}`}
-              style={{
-                flex: '1 0 0',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                minHeight: 200,
-                padding: '40px 40px 40px 0',
-                borderRight: '1px solid #3b3b39',
-                textDecoration: 'none',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <HandicapIcon slug={prev.slug} size={56} />
-                <span style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(2rem, 3.5vw, 3.5rem)', fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1 }}>
-                  {prev.nom}
-                </span>
-              </div>
-              <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
-                {prev.realite}
-              </p>
-            </Link>
-            {/* Next */}
-            <Link
-              href={`/handicaps/${next.slug}`}
-              style={{
-                flex: '1 0 0',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                minHeight: 200,
-                padding: '40px 0 40px 40px',
-                textDecoration: 'none',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <HandicapIcon slug={next.slug} size={56} />
-                <span style={{ fontFamily: 'var(--font-title)', fontSize: 'clamp(2rem, 3.5vw, 3.5rem)', fontWeight: 400, color: '#F1EDF5', textTransform: 'uppercase', lineHeight: 1 }}>
-                  {next.nom}
-                </span>
-              </div>
-              <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
-                {next.realite}
-              </p>
-            </Link>
-          </div>
-        </div>
       </section>
     </>
   )
