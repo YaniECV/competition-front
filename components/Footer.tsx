@@ -52,7 +52,7 @@ export default function Footer() {
 
         {/* Logo + tagline */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0, minWidth: 200 }}>
-          <img src="/footer-logo.png" alt="Metal AXS" style={{ height: 23, width: 'auto', objectFit: 'contain', objectPosition: 'left' }} />
+          <img src="/footer-logo.svg" alt="Metal AXS" style={{ height: 24, width: 'auto', objectFit: 'contain', objectPosition: 'left' }} />
           <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
             Rendre les festivals de metal<br />accessibles à tous
           </p>
