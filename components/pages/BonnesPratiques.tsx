@@ -451,8 +451,8 @@ export function BonnesPratiquesIndex() {
       </section>
 
       {/* Filtres + Liste */}
-      <div style={{ background: '#101010', padding: '56px 40px 80px' }}>
-        <div style={{ maxWidth: 1356, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
+      <div style={{ background: '#101010', padding: '56px 160px 80px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 
           {/* Filtres — dropdowns */}
           {openDropdown && (
