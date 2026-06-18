@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Accessibility, Eye, Ear, Brain, HeartPulse, CircleDashed, type LucideIcon } from 'lucide-react'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
 import { bonnesPratiques } from '../data/bonnesPratiques'
 import { lois } from '../data/lois'
@@ -24,57 +25,171 @@ const ICON: Record<string, LucideIcon> = {
   invisibles: CircleDashed,
 }
 
-function countPratiques(ids: string[]) {
-  return ids.filter((id) => bonnesPratiques.some((bp) => bp.id === id)).length
+// Sprite crop positions for /briqueee19.png (2×3 icon grid)
+const SPRITE: Record<string, { w: string; h: string; l: string; t: string }> = {
+  moteur:        { w: '352.07%', h: '343.55%', l: '-66.94%',  t: '-9.68%'   },
+  visuel:        { w: '338.1%',  h: '343.55%', l: '-169.42%', t: '-9.68%'   },
+  auditif:       { w: '352.07%', h: '346.34%', l: '-66.94%',  t: '-120.22%' },
+  autisme:       { w: '349.18%', h: '346.34%', l: '-178.45%', t: '-120.22%' },
+  psychologique: { w: '352.07%', h: '346.34%', l: '-181.02%', t: '-226.93%' },
+  invisibles:    { w: '352.07%', h: '346.34%', l: '-66.94%',  t: '-226.93%' },
 }
+
+function HandicapIcon({ slug, size = 56 }: { slug: string; size?: number }) {
+  const s = SPRITE[slug]
+  if (!s) return null
+  return (
+    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+      <img src="/handicap-sprite.png" alt="" aria-hidden style={{ position: 'absolute', maxWidth: 'none', width: s.w, height: s.h, left: s.l, top: s.t }} />
+    </div>
+  )
+}
+
+const HERO_FLOATS: Array<{ slug: string; left: string; top: number; rotate: number }> = [
+  { slug: 'visuel',        left: 'calc(16.67% + 28.83px)',  top: 142,    rotate: 13.61  },
+  { slug: 'moteur',        left: 'calc(16.67% + 93px)',     top: 308.12, rotate: -12.42 },
+  { slug: 'autisme',       left: 'calc(75% + 5.73px)',      top: 149.61, rotate: 16.06  },
+  { slug: 'auditif',       left: 'calc(8.33% + 37.37px)',   top: 390.3,  rotate: -4.49  },
+  { slug: 'invisibles',    left: 'calc(75% + 80.43px)',     top: 376.29, rotate: 5.79   },
+  { slug: 'psychologique', left: 'calc(66.67% + 41px)',     top: 305.46, rotate: -6.04  },
+]
 
 // ── Index ─────────────────────────────────────────────────────────────────
 export function HandicapsIndex() {
   return (
     <>
-      <div className="page-hero">
-        <div className="container">
-          <span className="tag">Les handicaps</span>
-          <h1>Les handicaps</h1>
-          <p style={{ fontSize: 16, maxWidth: 560, marginTop: 16, lineHeight: 1.7 }}>
-            6 profils à connaître pour mieux accueillir. Chaque fiche donne la réalité en contexte festival, les règles de communication et les bonnes pratiques concrètes.
-          </p>
-        </div>
-      </div>
+      <style>{`
+        .hc-page-card { transition: background 0.2s; }
+        .hc-page-card:hover { background: rgba(113, 113, 113, 0.1); }
+        .hc-page-btn {
+          position: absolute;
+          bottom: 20px;
+          right: 20px;
+          width: 32px;
+          height: 32px;
+          background: #A122E2;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: translateY(6px);
+          transition: opacity 0.2s ease, transform 0.2s ease;
+          pointer-events: none;
+        }
+        .hc-page-card:hover .hc-page-btn {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      `}</style>
 
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div className="grid-3">
+      {/* ── Hero ── */}
+      <section style={{
+        background: '#101010',
+        paddingTop: 240,
+        paddingBottom: 120,
+        paddingLeft: 40,
+        paddingRight: 40,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        {HERO_FLOATS.map((f, i) => (
+          <div key={i} style={{ position: 'absolute', left: f.left, top: f.top, transform: `rotate(${f.rotate}deg)`, pointerEvents: 'none' }}>
+            <HandicapIcon slug={f.slug} size={100} />
+          </div>
+        ))}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
+          <h1 style={{
+            fontFamily: 'var(--font-title)',
+            fontSize: 80,
+            fontWeight: 400,
+            color: '#EEE9F3',
+            textTransform: 'uppercase',
+            lineHeight: 1,
+            letterSpacing: 0,
+            textAlign: 'center',
+            margin: 0,
+            width: '100%',
+          }}>
+            Les différents handicaps
+          </h1>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+            <p style={{
+              fontFamily: 'var(--font)',
+              fontSize: 18,
+              fontWeight: 400,
+              lineHeight: 1.1,
+              color: '#EEE9F3',
+              textAlign: 'center',
+              maxWidth: 466,
+              margin: 0,
+            }}>
+              6 profils à connaître pour mieux accueillir. Chaque fiche donne la réalité en contexte festival, les règles de communication et les bonnes pratiques concrètes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Cards grid ── */}
+      <section style={{ background: '#101010', paddingBottom: 80, paddingLeft: 40, paddingRight: 40 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {handicaps.map((h, i) => {
-            const Icon = ICON[h.slug] ?? CircleDashed
-            const n = countPratiques(h.bonnesPratiquesIds)
+            const row = Math.floor(i / 3)
+            const col = i % 3
             return (
               <Link
                 key={h.slug}
                 href={`/handicaps/${h.slug}`}
-                className="card"
-                style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', minHeight: 200 }}
+                className="hc-page-card"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 24,
+                  padding: 40,
+                  textDecoration: 'none',
+                  position: 'relative',
+                  borderRight: col < 2 ? '1px solid #3b3b39' : 'none',
+                  borderBottom: row === 0 ? '1px solid #3b3b39' : 'none',
+                }}
               >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
-                  <Icon size={28} strokeWidth={1.5} style={{ color: 'var(--text)' }} aria-hidden />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)' }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                    <HandicapIcon slug={h.slug} size={56} />
+                    <span style={{
+                      fontFamily: 'var(--font-title)',
+                      fontSize: 56,
+                      fontWeight: 400,
+                      color: '#F1EDF5',
+                      textTransform: 'uppercase',
+                      lineHeight: 1,
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {h.nom}
+                    </span>
+                  </div>
+                  <p style={{
+                    fontFamily: 'var(--font)',
+                    fontSize: 18,
+                    fontWeight: 400,
+                    lineHeight: 1.2,
+                    color: '#F1EDF5',
+                    margin: 0,
+                  }}>
+                    {h.realite}
+                  </p>
                 </div>
-                <h3 style={{ marginBottom: 8 }}>{h.nom}</h3>
-                <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
-                  {h.realite.slice(0, 96).trimEnd()}…
-                </p>
-                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)' }}>
-                    {n} bonne{n > 1 ? 's' : ''} pratique{n > 1 ? 's' : ''}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text)' }}>→</span>
-                </div>
+                <span className="hc-page-btn" aria-hidden>
+                  <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+                </span>
               </Link>
             )
           })}
         </div>
-      </div>
+      </section>
     </>
   )
 }
