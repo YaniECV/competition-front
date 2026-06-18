@@ -3,52 +3,63 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
 export default function Loader({ onDone }: { onDone: () => void }) {
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const cadRef  = useRef<HTMLImageElement>(null)
-  const bLRef   = useRef<HTMLImageElement>(null)
-  const bRRef   = useRef<HTMLImageElement>(null)
-  const f1gRef  = useRef<HTMLImageElement>(null) // fragment 1 gauche (top-left)
-  const f2dRef  = useRef<HTMLImageElement>(null) // fragment 2 droite (top-right)
-  const f3dRef  = useRef<HTMLImageElement>(null) // fragment 3 droite (bottom-right)
-  const f2gRef  = useRef<HTMLImageElement>(null) // fragment 2 gauche (bottom-left)
-  const f1dRef  = useRef<HTMLImageElement>(null) // fragment 1 droite / locket (top)
+  const wrapRef  = useRef<HTMLDivElement>(null)
+  const cadRef   = useRef<HTMLImageElement>(null)
+  const bodyRef  = useRef<HTMLImageElement>(null)
+  const lkRef    = useRef<HTMLImageElement>(null)
+  const smokeRef = useRef<HTMLDivElement>(null)
+  const bLRef    = useRef<HTMLImageElement>(null)
+  const bRRef    = useRef<HTMLImageElement>(null)
+  const f1gRef   = useRef<HTMLImageElement>(null)
+  const f2dRef   = useRef<HTMLImageElement>(null)
+  const f3dRef   = useRef<HTMLImageElement>(null)
+  const f2gRef   = useRef<HTMLImageElement>(null)
+  const f1dRef   = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     const frags = [f1gRef.current, f2dRef.current, f3dRef.current, f2gRef.current, f1dRef.current]
 
-    // Set initial transform states (GSAP owns the transform, not CSS)
-    gsap.set(cadRef.current, { xPercent: -50, yPercent: -50, scale: 2.1 })
-    gsap.set(frags, { xPercent: -50, yPercent: -50, opacity: 0 })
-    // Barriers start completely off-screen (applied immediately, before timeline delay)
-    gsap.set(bLRef.current, { x: '-130%', scale: 1.08 })
-    gsap.set(bRRef.current, { x:  '130%', scale: 1.08 })
+    gsap.set(cadRef.current,   { xPercent: -50, yPercent: -50, scale: 2.6 })
+    gsap.set(bodyRef.current,  { xPercent: -50, yPercent: -50, opacity: 0 })
+    gsap.set(lkRef.current,    { xPercent: -50, yPercent: -50, opacity: 0 })
+    gsap.set(frags,            { xPercent: -50, yPercent: -50, opacity: 0 })
+    gsap.set(smokeRef.current, { xPercent: -50, yPercent: -50, opacity: 0, scale: 0.5 })
+    // Barrières : hors écran avec rotation forte
+    gsap.set(bLRef.current, { x: '-140%', scale: 1.1, rotation: -28 })
+    gsap.set(bRRef.current, { x:  '140%', scale: 1.1, rotation:  22 })
 
     const tl = gsap.timeline({
-      delay: 0.1,
-      onComplete: () => {
-        sessionStorage.setItem('loader-done', '1')
-        onDone()
-      },
+      delay: 0.2,
+      onComplete: () => { onDone() },
     })
 
-    // ── Phase 1 (0 → 1.8s): cadenas shrinks, barriers slide in ────────────
-    tl.to(cadRef.current, { scale: 1.0, duration: 1.8, ease: 'power2.inOut' })
-    tl.to(bLRef.current, { x: '0%', scale: 1.0, duration: 1.8, ease: 'power3.out' }, '<')
-    tl.to(bRRef.current, { x: '0%', scale: 1.0, duration: 1.8, ease: 'power3.out' }, '<')
+    // ── Phase 1 (0 → 2.2s): cadenas rétrécit, barrières glissent en rotation ──
+    tl.to(cadRef.current, { scale: 1.0, duration: 2.2, ease: 'power2.inOut' })
+    tl.to(bLRef.current,  { x: '0%', scale: 1.0, rotation: -8, duration: 2.2, ease: 'power3.out' }, '<')
+    tl.to(bRRef.current,  { x: '0%', scale: 1.0, rotation:  5, duration: 2.2, ease: 'power3.out' }, '<')
 
-    // ── Phase 2 (1.8 → 2.2s): cadenas out → fragments in ─────────────────
-    tl.to(cadRef.current, { scale: 0.45, opacity: 0, duration: 0.35, ease: 'power2.in' })
-    tl.to(frags, { opacity: 1, duration: 0.18, stagger: 0.03 }, '<+=0.12')
+    // ── Phase 2 (2.2 → 2.9s): cadenas → corps + locket qui s'ouvre ────────────
+    tl.to(cadRef.current, { opacity: 0, duration: 0.08 })
+    tl.set(bodyRef.current, { opacity: 1 }, '<')
+    tl.set(lkRef.current,   { opacity: 1, rotation: 0, y: 0 }, '<')
+    tl.to(lkRef.current, { y: -22, rotation: -18, duration: 0.5, ease: 'power2.out' })
+    tl.to(lkRef.current, { y: -38, rotation: 10, scale: 1.05, duration: 0.22, ease: 'power2.in' }, '+=0.04')
 
-    // ── Phase 3 (2.2 → 3.2s): fragments fly out ───────────────────────────
-    tl.to(f1gRef.current, { x: '-44vw', y: '-32vh', opacity: 0, rotation: -15, duration: 0.95, ease: 'power2.in' }, '+=0.04')
-    tl.to(f2dRef.current, { x:  '56vw', y: '-18vh', opacity: 0, rotation:  20, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(f3dRef.current, { x:  '38vw', y:  '56vh', opacity: 0, rotation:  10, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(f2gRef.current, { x: '-26vw', y:  '62vh', opacity: 0, rotation: -20, duration: 0.95, ease: 'power2.in' }, '<')
-    tl.to(f1dRef.current, { x:  '24vw', y: '-44vh', opacity: 0, rotation:  30, duration: 0.95, ease: 'power2.in' }, '<')
+    // ── Phase 3 (2.9 → 3.1s): explosion + fumée ──────────────────────────────
+    tl.to([bodyRef.current, lkRef.current], { scale: 0.05, opacity: 0, duration: 0.12, ease: 'power4.in' })
+    tl.to(smokeRef.current, { opacity: 1, duration: 0.04 }, '<')
+    tl.to(smokeRef.current, { scale: 10, opacity: 0, duration: 1.0, ease: 'expo.out' }, '<+=0.04')
+    tl.to(frags, { opacity: 1, duration: 0.06, stagger: 0.01 }, '<')
 
-    // ── Phase 4 (3.2 → 3.7s): overlay fades out ───────────────────────────
-    tl.to(wrapRef.current, { opacity: 0, duration: 0.5, ease: 'power2.inOut' }, '+=0.08')
+    // ── Phase 4 (3.1 → 4.0s): fragments s'éparpillent ───────────────────────
+    tl.to(f1gRef.current, { x: '-52vw', y: '-36vh', opacity: 0, rotation: -55, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '+=0.02')
+    tl.to(f2dRef.current, { x:  '62vw', y: '-22vh', opacity: 0, rotation:  42, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
+    tl.to(f3dRef.current, { x:  '44vw', y:  '62vh', opacity: 0, rotation:  28, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
+    tl.to(f2gRef.current, { x: '-32vw', y:  '70vh', opacity: 0, rotation: -38, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
+    tl.to(f1dRef.current, { x:  '30vw', y: '-55vh', opacity: 0, rotation:  62, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
+
+    // ── Phase 5 (4.0 → 4.7s): overlay s'efface, hero apparaît ───────────────
+    tl.to(wrapRef.current, { opacity: 0, duration: 0.7, ease: 'power2.inOut' }, '+=0.1')
 
     return () => { tl.kill() }
   }, [onDone])
@@ -57,31 +68,46 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
   return (
     <div ref={wrapRef} style={{
-      position: 'fixed', inset: 0, zIndex: 9999,
+      position: 'fixed', inset: 0, zIndex: 50,
       background: '#101010', overflow: 'hidden',
     }}>
+      {/* Fumée — radial gradient qui explose du centre */}
+      <div ref={smokeRef} style={{
+        position: 'absolute', top: '50%', left: '50%',
+        width: '60vmin', height: '60vmin',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(200,185,165,0.95) 0%, rgba(140,120,100,0.55) 35%, rgba(70,50,35,0) 70%)',
+        filter: 'blur(22px)',
+        mixBlendMode: 'screen',
+        pointerEvents: 'none',
+      }} />
+
       {/* Barrière gauche */}
       <img ref={bLRef} src="/loader/barriere-gauche.png" alt="" aria-hidden style={{
-        ...blend,
-        position: 'absolute', bottom: '-8%', left: '-4%',
-        width: '38vw',
+        ...blend, position: 'absolute', bottom: '-8%', left: '-4%', width: '38vw',
       }} />
 
       {/* Barrière droite */}
       <img ref={bRRef} src="/loader/barriere-droite.png" alt="" aria-hidden style={{
-        ...blend,
-        position: 'absolute', bottom: '-8%', right: '-4%',
-        width: '38vw',
+        ...blend, position: 'absolute', bottom: '-8%', right: '-4%', width: '38vw',
       }} />
 
-      {/* Cadenas intact */}
+      {/* Cadenas entier — phase 1 */}
       <img ref={cadRef} src="/loader/cadenas.png" alt="" aria-hidden style={{
-        ...blend,
-        position: 'absolute', top: '50%', left: '50%',
-        width: '52vmin',
+        ...blend, position: 'absolute', top: '50%', left: '50%', width: '52vmin',
       }} />
 
-      {/* Fragments — positionnés au centre, animés en dehors par GSAP */}
+      {/* Corps du cadenas sans locket — phase 2 */}
+      <img ref={bodyRef} src="/loader/cadenasansnlocket.png" alt="" aria-hidden style={{
+        ...blend, position: 'absolute', top: 'calc(50% + 4vmin)', left: '50%', width: '30vmin',
+      }} />
+
+      {/* Locket / anneau — phase 2, s'ouvre avant explosion */}
+      <img ref={lkRef} src="/loader/locket.png" alt="" aria-hidden style={{
+        ...blend, position: 'absolute', top: 'calc(50% - 10vmin)', left: '50%', width: '13vmin',
+      }} />
+
+      {/* Fragments */}
       <img ref={f1gRef} src="/loader/frag-gauche-1.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />
       <img ref={f2dRef} src="/loader/frag-droite-2.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />
       <img ref={f3dRef} src="/loader/frag-droite-3.png" alt="" aria-hidden style={{ ...blend, position: 'absolute', top: '50%', left: '50%', width: '14vmin' }} />

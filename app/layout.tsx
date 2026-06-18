@@ -61,8 +61,8 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${atkinsonHyperlegible.variable} ${regensburg.variable}`}>
       <body>
+        <Nav />
         <ClientShell>
-          <Nav />
           <main style={{ flexGrow: 1 }}>{children}</main>
           <Footer />
         </ClientShell>
