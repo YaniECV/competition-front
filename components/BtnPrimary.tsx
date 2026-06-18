@@ -36,6 +36,7 @@ export default function BtnPrimary({ href, label, target, rel, style: extraStyle
         transition: 'background 0.2s ease',
         cursor: 'pointer',
         ...extraStyle,
+        ...(hovered ? { border: 'none' } : {}),
       }}
     >
       <span style={{
