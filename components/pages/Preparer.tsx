@@ -370,7 +370,7 @@ export function AccessibleDiagnostic() {
                 animation: 'intro-in 0.8s ease forwards',
               }}
             >
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
+              <h1 style={{ fontSize: 24, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, marginBottom: 40, letterSpacing: 0, fontFamily: 'var(--font)', textTransform: 'none', textAlign: 'center' }}>
                 {q.text}
               </h1>
 
@@ -437,7 +437,7 @@ export function AccessibleDiagnostic() {
           </div>
 
           {/* Footer nav */}
-          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(10,10,10,0.88)', backdropFilter: 'blur(16px)', zIndex: 50 }}>
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '16px 48px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 50 }}>
 
             {/* Retour — secondary avec icon à gauche */}
             <button
