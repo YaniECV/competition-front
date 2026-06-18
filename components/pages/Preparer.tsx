@@ -282,7 +282,7 @@ export function AccessibleDiagnostic() {
           }}>
             <h2 style={{
               fontFamily: 'var(--font-title)',
-              fontSize: 'clamp(3rem, 7vw, 6rem)',
+              fontSize: 80,
               fontWeight: 400,
               color: '#EEE9F3',
               lineHeight: 1,
