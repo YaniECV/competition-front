@@ -39,20 +39,15 @@ export default function HomepageBonnesPratiques() {
 
           {/* ── Card 1 : Les bonnes pratiques ── */}
           <div style={{ display: 'inline-grid' }}>
-            {/* Frame rectangulaire */}
-            <div style={{ gridColumn: 1, gridRow: 1, width: 583, height: 723, position: 'relative', overflow: 'hidden', pointerEvents: 'none' }}>
-              <img
-                src="/bp-cadre.png"
-                alt=""
-                aria-hidden
-                style={{ position: 'absolute', left: '-49.06%', top: '-26.28%', width: '185.25%', height: '149.38%', maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none' }}
-              />
+            {/* Frame carré */}
+            <div style={{ gridColumn: 1, gridRow: 1, width: 500, height: 493, position: 'relative', overflow: 'hidden', pointerEvents: 'none' }}>
+              <img src="/cadre-carre-1.png" alt="" aria-hidden style={{ position: 'absolute', left: '-2.07%', top: '-2.7%', width: '104.04%', height: '105.39%', maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none' }} />
             </div>
             {/* White card */}
             <div style={{
               gridColumn: 1, gridRow: 1,
-              width: 368, height: 506,
-              marginLeft: 109, marginTop: 105,
+              width: 438, height: 459,
+              marginLeft: 31, marginTop: 10,
               background: '#F1EDF5',
               border: '1px solid #3b3b39',
               padding: '56px 32px',
@@ -68,28 +63,24 @@ export default function HomepageBonnesPratiques() {
               <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                 Passe à l'action dès maintenant avec notre guide complet : découvre toutes les bonnes pratiques pour rendre ton festival accessible.
               </p>
-              <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
+              <BtnPrimary href="/s-informer/bonnes-pratiques" label="En savoir plus" style={{ border: '1px solid #101010' }} />
             </div>
           </div>
 
           {/* ── Card 2 : Les lois ── */}
           <div style={{ display: 'inline-grid' }}>
-            {/* Frame ovale */}
-            <div style={{ gridColumn: 1, gridRow: 1, width: 557, height: 710, position: 'relative', overflow: 'hidden', pointerEvents: 'none' }}>
-              <img
-                src="/bp-tableau.png"
-                alt=""
-                aria-hidden
-                style={{ position: 'absolute', left: '-49.4%', top: '-19.41%', width: '186.53%', height: '146.39%', maxWidth: 'none', objectFit: 'cover', pointerEvents: 'none' }}
-              />
+            {/* Frame cercle */}
+            <div style={{ gridColumn: 1, gridRow: 1, width: 500, height: 500, pointerEvents: 'none' }}>
+              <img src="/cadre-carre-2.png" alt="" aria-hidden style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
             </div>
             {/* White card */}
             <div style={{
               gridColumn: 1, gridRow: 1,
-              width: 368, height: 506,
-              marginLeft: 98, marginTop: 99,
+              width: 438, height: 455,
+              marginLeft: 31, marginTop: 20,
               background: '#F1EDF5',
               border: '1px solid #3b3b39',
+              borderRadius: 77777,
               padding: '56px 32px',
               display: 'flex',
               flexDirection: 'column',
@@ -103,7 +94,7 @@ export default function HomepageBonnesPratiques() {
               <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', textAlign: 'center', margin: 0 }}>
                 Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
               </p>
-              <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" style={{ border: '1.5px solid #101010' }} />
+              <BtnPrimary href="/s-informer/les-lois" label="En savoir plus" style={{ border: '1px solid #101010' }} />
             </div>
           </div>
 
