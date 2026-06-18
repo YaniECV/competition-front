@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Tanker';
+  src: url('/Tanker-Regular.woff2') format('woff2'),
+       url('/Tanker-Regular.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
 /* ── Variables (Dark mode) ───────────────────────────────────────────────── */
 :root {
   --bg:      #101010;
@@ -12,7 +21,7 @@
   --muted:   #9491a1;
   --accent:  #d98d91;
   --font:     var(--font-atkinson), 'Atkinson Hyperlegible Next', system-ui, sans-serif;
-  --font-title: var(--font-regensburg), 'Regensburg', serif;
+  --font-title: 'Tanker', serif;
   --font-mono: 'DM Mono', 'Courier New', monospace;
   /* backward compat */
   --font-ui: var(--font);
