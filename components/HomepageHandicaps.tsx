@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 
 const handicaps = [
-  { n: '01', label: 'Moteur',         slug: 'moteur',         img: '/briqueee19.png' },
-  { n: '02', label: 'Visuel',         slug: 'visuel',         img: '/briqueee20.png' },
-  { n: '03', label: 'Auditif',        slug: 'auditif',        img: '/briqueee20.png' },
-  { n: '04', label: 'Autisme',        slug: 'autisme',        img: '/briqueee19.png' },
-  { n: '05', label: 'Psychologique',  slug: 'psychologique',  img: '/briqueee20.png' },
-  { n: '06', label: 'Invisibles',     slug: 'invisibles',     img: '/briqueee20.png' },
+  { n: '01', label: 'Auditif',                             slug: 'auditif',       img: '/briqueee20.png' },
+  { n: '02', label: 'Moteur',                              slug: 'moteur',        img: '/briqueee19.png' },
+  { n: '03', label: 'Visuel',                              slug: 'visuel',        img: '/briqueee20.png' },
+  { n: '04', label: 'Déficience intellectuelle',           slug: 'invisibles',    img: '/briqueee19.png' },
+  { n: '05', label: 'Les troubles psychiques',             slug: 'psychologique', img: '/briqueee20.png' },
+  { n: '06', label: 'Les troubles du spectre autistique',  slug: 'autisme',       img: '/briqueee20.png' },
 ];
 
 function cellBorder(index: number): React.CSSProperties {
