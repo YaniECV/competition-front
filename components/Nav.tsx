@@ -271,7 +271,7 @@ export default function Nav() {
               return (
                 <div
                   key={item.label}
-                  style={{ position: 'relative', paddingBottom: hovered === item.label && item.subs ? 8 : 0 }}
+                  style={{ position: 'relative', paddingBottom: item.subs ? 8 : 0 }}
                   onMouseEnter={() => setHovered(item.label)}
                   onMouseLeave={() => setHovered(null)}
                 >
