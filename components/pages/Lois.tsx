@@ -38,13 +38,10 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
       borderBottom: '1px solid #3b3b39',
     }}>
       <div style={{ flex: '1 0 0', display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}>
-        <p style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5', margin: 0 }}>
-          {loi.titre}
-        </p>
-        <p style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 400, lineHeight: 1.3, color: '#9491a1', margin: 0 }}>
-          {loi.contenu}
-        </p>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <p style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5', margin: 0 }}>
+            {loi.titre}
+          </p>
           {loi.handicaps.length === handicapOptions.length
             ? <span style={tagStyle}>Tout public</span>
             : loi.handicaps.map(h => (
@@ -52,7 +49,10 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
               ))
           }
         </div>
-        <p style={{ fontFamily: 'var(--font)', fontSize: 13, fontWeight: 400, color: '#5a5a5a', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 400, lineHeight: 1.3, color: '#9491a1', margin: 0 }}>
+          {loi.contenu}
+        </p>
+        <p style={{ fontFamily: 'var(--font)', fontSize: 14, fontWeight: 400, color: '#9491a1', margin: 0 }}>
           {loi.source}
         </p>
       </div>
@@ -137,7 +137,7 @@ export function LesLois() {
         overflow: 'hidden',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', width: 708, maxWidth: '100%', position: 'relative', zIndex: 1 }}>
-          <img src="/cadre-carre-2.png" alt="" aria-hidden style={{
+          <img src="/balance-lois.png" alt="" aria-hidden style={{
             width: 80, height: 80, objectFit: 'contain', pointerEvents: 'none',
             transformOrigin: 'bottom center',
             transform: heroVisible ? 'scale(1)' : 'scale(0)',
