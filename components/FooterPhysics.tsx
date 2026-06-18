@@ -52,8 +52,8 @@ const ITEMS = [
 
 const CONTAINER_HEIGHT = 620;
 const BODY_RATIO = 0.88;
-const MOUSE_RADIUS = 200;
-const MOUSE_FORCE = 0.08;
+const MOUSE_RADIUS = 220;
+const MOUSE_FORCE = 3;
 
 export default function FooterPhysics() {
   const anchorRef = useRef<HTMLDivElement>(null);
