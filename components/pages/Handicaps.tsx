@@ -411,7 +411,7 @@ export function HandicapsDetail({ slug }: { slug: string }) {
                       whiteSpace: 'nowrap',
                       border: '1px solid ' + (obligatoire ? 'var(--text)' : 'var(--border2)'),
                       background: obligatoire ? 'var(--text)' : 'transparent',
-                      color: obligatoire ? '#fff' : 'var(--muted)',
+                      color: obligatoire ? 'var(--bg)' : 'var(--muted)',
                     }}
                   >
                     {bp.statut}
