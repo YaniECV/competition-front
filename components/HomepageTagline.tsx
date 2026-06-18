@@ -8,12 +8,20 @@ export default function HomepageTagline() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    let observer: IntersectionObserver;
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
+            setVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.15 }
+      );
+      observer.observe(el);
+    }, 400);
+    return () => { clearTimeout(timer); observer?.disconnect(); };
   }, []);
 
   const illus = (delay: number): React.CSSProperties => ({
