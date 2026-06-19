@@ -103,7 +103,7 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
           padding: '4px 4px 4px 24px',
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
+          gap: 16,
           flexShrink: 0,
           textDecoration: 'none',
           transition: 'background 0.2s ease, border-color 0.2s ease',
@@ -509,10 +509,14 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
     flexShrink: 0,
     textDecoration: 'none',
     background: 'transparent',
+    transition: 'background 0.2s ease, border-color 0.2s ease',
   }
 
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', background: '#101010', minHeight: '100vh', position: 'relative' }}>
+      <style>{`
+        .bp-loi-link:hover { background: #A122E2 !important; border-color: #A122E2 !important; }
+      `}</style>
 
       {/* Bouton retour */}
       <Link
@@ -673,8 +677,8 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
                 <span style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5' }}>
                   {l.titre}
                 </span>
-                <Link href={`/s-informer/les-lois#${l.slug}`} style={outlineBtn}>
-                  <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
+                <Link href={`/s-informer/les-lois#${l.slug}`} className="bp-loi-link" style={outlineBtn}>
+                  <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1, whiteSpace: 'nowrap' }}>
                     En savoir plus
                   </span>
                   <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
