@@ -8,12 +8,12 @@ import BtnPrimary from '../BtnPrimary'
 
 // ── Icônes ───────────────────────────────────────────────────────────────
 const HANDICAP_ICONS: Record<string, string> = {
-  auditif:       '/Auditif 1.png',
-  moteur:        '/Moteur 1.png',
-  visuel:        '/Visuel 1.png',
-  autisme:       '/Déficience intellectuelle 1.png',
-  psychologique: '/Troubles psychiques 1.png',
-  invisibles:    '/Déficience intellectuelle 1.png',
+  auditif:       '/auditif.png',
+  moteur:        '/moteur.png',
+  visuel:        '/visuel.png',
+  autisme:       '/deficience-intellectuelle.png',
+  psychologique: '/troubles-psychiques.png',
+  invisibles:    '/deficience-intellectuelle.png',
 }
 
 function HandicapIcon({ slug, size = 56 }: { slug: string; size?: number }) {
