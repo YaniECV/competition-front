@@ -36,17 +36,6 @@ export default function Home() {
             }}>
               Access<br />to the pit
             </h1>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 'clamp(60px, 15vw, 227px)',
-              height: 'clamp(60px, 15vw, 227px)',
-              pointerEvents: 'none',
-            }}>
-              <img src="/hero-icon.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
           </div>
 
           {/* Bouton CTA */}
