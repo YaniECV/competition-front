@@ -84,7 +84,7 @@ h4 {
   color: var(--muted);
 }
 
-p { color: var(--muted); line-height: 1.7; }
+p { color: var(--muted); line-height: 1.85; }
 
 /* ── Layout ─────────────────────────────────────────────────────────────── */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }

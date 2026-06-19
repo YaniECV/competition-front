@@ -590,7 +590,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
               fontFamily: 'var(--font)',
               fontSize: 18,
               fontWeight: 500,
-              lineHeight: 1.1,
+              lineHeight: 1.6,
               color: '#EEE9F3',
               margin: 0,
               maxWidth: 346,
@@ -599,24 +599,6 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
             </p>
           </div>
 
-          {/* Btn partager */}
-          <div style={{
-            background: '#EEE9F3',
-            borderRadius: 12,
-            padding: '4px 4px 4px 8px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            alignSelf: 'flex-start',
-            cursor: 'pointer',
-          }}>
-            <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
-              Partager cette bonne pratique
-            </span>
-            <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ShareNetwork size={16} weight="regular" color="#EEE9F3" />
-            </div>
-          </div>
         </div>
 
         {/* Bloc blanc — Comment faire */}
@@ -641,7 +623,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
           </h2>
           <ul style={{ margin: 0, paddingLeft: 24 }}>
             {bp.commentFaire.map((step, i) => (
-              <li key={i} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#101010', marginBottom: i < bp.commentFaire.length - 1 ? 8 : 0, listStyleType: 'disc', display: 'list-item' }}>
+              <li key={i} style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.7, color: '#101010', marginBottom: i < bp.commentFaire.length - 1 ? 8 : 0, listStyleType: 'disc', display: 'list-item' }}>
                 {step}
               </li>
             ))}
@@ -702,6 +684,25 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
             ))}
           </div>
         )}
+
+        {/* Btn partager — en bas de fiche */}
+        <div style={{
+          background: '#EEE9F3',
+          borderRadius: 12,
+          padding: '4px 4px 4px 8px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          alignSelf: 'flex-start',
+          cursor: 'pointer',
+        }}>
+          <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+            Partager cette bonne pratique
+          </span>
+          <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <ShareNetwork size={16} weight="regular" color="#EEE9F3" />
+          </div>
+        </div>
 
       </div>
 
