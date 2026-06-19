@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ArrowLeft, ShareNetwork, Check, DownloadSimple } from '@phosphor-icons/react/dist/ssr'
 import { handicaps } from '../data/handicaps'
+import { bonnesPratiques } from '../data/bonnesPratiques'
 
 // ── Auto-évaluation par type de handicap ───────────────────────────────────
 // Outil de POSITIONNEMENT (pas un audit) : l'orga se situe bien/moyen/un peu/pas
@@ -91,6 +92,7 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
   const [hovered, setHovered] = useState(false)
   const m = LEVEL_META[level] ?? LEVEL_META.pas
   const bpKey = h.slug === 'invisibles' ? 'invisible' : h.slug
+  const count = bonnesPratiques.filter(bp => bp.handicaps.includes('tous') || bp.handicaps.includes(bpKey as never)).length
   return (
     <Link
       href={`/s-informer/bonnes-pratiques?h=${bpKey}`}
@@ -132,7 +134,7 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
         transition: 'background 0.2s ease, border-color 0.2s ease',
       }}>
         <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
-          Voir les bonnes pratiques
+          Accéder aux {count} recommandations
         </span>
         <span style={{
           width: 32, height: 32, borderRadius: 8,
