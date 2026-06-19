@@ -154,7 +154,7 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 48 }}>
-      <p style={{ fontFamily: 'var(--font)', fontSize: 14, fontWeight: 500, color: '#9491a1', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{title}</p>
+      <p style={{ fontFamily: 'var(--font-title)', fontSize: 28, fontWeight: 400, color: '#EEE9F3', margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: 0 }}>{title}</p>
       <div style={{ display: 'flex', flexDirection: 'column' }}>{children}</div>
     </div>
   )
