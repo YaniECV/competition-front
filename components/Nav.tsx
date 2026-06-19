@@ -12,12 +12,12 @@ const navItems = [
     href: '/handicaps',
     prefix: '/handicaps',
     subs: [
-      { to: '/handicaps/moteur',        label: 'Handicap moteur' },
-      { to: '/handicaps/visuel',        label: 'Handicap visuel' },
-      { to: '/handicaps/auditif',       label: 'Handicap auditif' },
-      { to: '/handicaps/autisme',       label: 'Autisme & troubles cognitifs' },
-      { to: '/handicaps/psychologique', label: 'Troubles psychiques' },
-      { to: '/handicaps/invisibles',    label: 'Handicaps invisibles' },
+      { to: '/handicaps/auditif',       label: 'Auditif' },
+      { to: '/handicaps/moteur',        label: 'Moteur' },
+      { to: '/handicaps/visuel',        label: 'Visuel' },
+      { to: '/handicaps/invisibles',    label: 'Déficience intellectuelle' },
+      { to: '/handicaps/psychologique', label: 'Les troubles psychiques' },
+      { to: '/handicaps/autisme',       label: 'Les troubles du spectre autistique' },
     ],
   },
   {
