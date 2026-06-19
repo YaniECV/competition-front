@@ -52,6 +52,7 @@ function getBpImage(n: number): string {
 
 // ── Card liste ────────────────────────────────────────────────────────────────
 function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
+  const [btnHovered, setBtnHovered] = useState(false)
   const zoneLabel = zoneOptions.find(z => z.key === bp.zone)?.label ?? bp.zone
   const handicapLabels = getHandicapLabels(bp)
 
@@ -92,9 +93,12 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
       {/* Bouton */}
       <Link
         href={`/s-informer/bonnes-pratiques/${bp.slug}`}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
         style={{
-          background: 'transparent',
-          border: '1.5px solid #F1EDF5',
+          background: btnHovered ? '#A122E2' : 'transparent',
+          border: '1.5px solid',
+          borderColor: btnHovered ? '#A122E2' : '#F1EDF5',
           borderRadius: 12,
           padding: '4px 4px 4px 24px',
           display: 'flex',
@@ -102,6 +106,7 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
           gap: 8,
           flexShrink: 0,
           textDecoration: 'none',
+          transition: 'background 0.2s ease, border-color 0.2s ease',
         }}
       >
         <span style={{
@@ -117,13 +122,14 @@ function BpCard({ bp, index }: { bp: BonnePratique; index: number }) {
         <div style={{
           width: 32,
           height: 32,
-          background: '#A122E2',
+          background: btnHovered ? '#EEE9F3' : '#A122E2',
           borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          transition: 'background 0.2s ease',
         }}>
-          <ArrowRight size={16} weight="regular" color="#EEE9F3" />
+          <ArrowRight size={16} weight="regular" color={btnHovered ? '#A122E2' : '#EEE9F3'} />
         </div>
       </Link>
     </div>
