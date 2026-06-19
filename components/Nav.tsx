@@ -72,7 +72,7 @@ function MetalAxsLogo({ dark }: { dark: boolean }) {
       src="/logo.svg"
       alt="Metal AXS"
       style={{
-        height: 28,
+        height: 40,
         width: 'auto',
         filter: dark ? 'brightness(0) invert(1)' : 'brightness(0)',
         display: 'block',
