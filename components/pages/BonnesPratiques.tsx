@@ -474,6 +474,7 @@ export function BonnesPratiquesIndex() {
 // ── Détail ────────────────────────────────────────────────────────────────────
 export function BonnePratiqueDetail({ slug }: { slug: string }) {
   const [backHovered, setBackHovered] = useState(false)
+  const [shareHovered, setShareHovered] = useState(false)
   const bp = bonnesPratiques.find((b) => b.slug === slug)
   if (!bp) return null
 
@@ -686,20 +687,26 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
         )}
 
         {/* Btn partager — en bas de fiche */}
-        <div style={{
-          background: '#EEE9F3',
-          borderRadius: 12,
-          padding: '4px 4px 4px 24px',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          alignSelf: 'flex-start',
-          cursor: 'pointer',
-        }}>
-          <span style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 600, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
+        <div
+          onMouseEnter={() => setShareHovered(true)}
+          onMouseLeave={() => setShareHovered(false)}
+          onClick={() => navigator.share?.({ title: bp.titre, url: window.location.href })}
+          style={{
+            background: shareHovered ? '#d4cfdb' : '#EEE9F3',
+            borderRadius: 12,
+            paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 16,
+            alignSelf: 'flex-start',
+            cursor: 'pointer',
+            transition: 'background 0.2s ease',
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#101010', lineHeight: 1, whiteSpace: 'nowrap' }}>
             Partager cette bonne pratique
           </span>
-          <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 32, height: 32, background: '#A122E2', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <ShareNetwork size={16} weight="regular" color="#EEE9F3" />
           </div>
         </div>
