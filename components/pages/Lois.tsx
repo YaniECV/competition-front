@@ -160,7 +160,7 @@ export function LesLois() {
           <h1 style={{ fontFamily: 'var(--font-title)', fontSize: 80, fontWeight: 400, color: '#EEE9F3', textTransform: 'uppercase', lineHeight: 1, letterSpacing: 0, textAlign: 'center', margin: 0, width: '100%' }}>
             Les lois
           </h1>
-          <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.1, color: '#EEE9F3', textAlign: 'center', maxWidth: 466, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.1, color: '#9491a1', textAlign: 'center', maxWidth: 466, margin: 0 }}>
             Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
           </p>
           <a

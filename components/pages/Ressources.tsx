@@ -65,7 +65,7 @@ function PackCard({ pack, index }: { pack: typeof packs[0]; index: number }) {
         }}>
           {pack.titre}
         </h2>
-        <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#9491a1', margin: 0 }}>
           {pack.description}
         </p>
       </div>

@@ -591,7 +591,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
               fontSize: 18,
               fontWeight: 500,
               lineHeight: 1.6,
-              color: '#EEE9F3',
+              color: '#9491a1',
               margin: 0,
               maxWidth: 346,
             }}>
