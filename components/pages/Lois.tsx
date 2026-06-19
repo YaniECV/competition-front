@@ -57,49 +57,43 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
         </p>
       </div>
 
-      <style>{`
-        @keyframes loi-btn-bounce {
-          0%   { transform: scale(1); }
-          30%  { transform: scale(1.08); }
-          60%  { transform: scale(0.95); }
-          80%  { transform: scale(1.03); }
-          100% { transform: scale(1); }
-        }
-        .loi-btn:hover { animation: loi-btn-bounce 0.4s ease; }
-      `}</style>
-      <div
-        className="loi-btn"
-        onMouseEnter={() => setBtnHovered(true)}
-        onMouseLeave={() => setBtnHovered(false)}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 16,
-          background: btnHovered ? '#A122E2' : 'transparent',
-          border: '1.5px solid',
-          borderColor: btnHovered ? '#A122E2' : '#F1EDF5',
-          borderRadius: 12,
-          paddingLeft: 24,
-          paddingRight: 4,
-          paddingTop: 4,
-          paddingBottom: 4,
-          flexShrink: 0,
-          cursor: 'pointer',
-          transition: 'background 0.2s ease, border-color 0.2s ease',
-        }}
-      >
-        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
-          En savoir plus
-        </span>
-        <span style={{
-          width: 32, height: 32, borderRadius: 8,
-          background: btnHovered ? '#EEE9F3' : '#A122E2',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, transition: 'background 0.2s ease',
-        }}>
-          <ArrowRight size={16} weight="regular" color={btnHovered ? '#A122E2' : '#EEE9F3'} />
-        </span>
-      </div>
+      {loi.url && (
+        <a
+          href={loi.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onMouseEnter={() => setBtnHovered(true)}
+          onMouseLeave={() => setBtnHovered(false)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 16,
+            background: btnHovered ? '#A122E2' : 'transparent',
+            border: '1.5px solid',
+            borderColor: btnHovered ? '#A122E2' : '#F1EDF5',
+            borderRadius: 12,
+            paddingLeft: 24,
+            paddingRight: 4,
+            paddingTop: 4,
+            paddingBottom: 4,
+            flexShrink: 0,
+            textDecoration: 'none',
+            transition: 'background 0.2s ease, border-color 0.2s ease',
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+            Voir le texte officiel
+          </span>
+          <span style={{
+            width: 32, height: 32, borderRadius: 8,
+            background: btnHovered ? '#EEE9F3' : '#A122E2',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0, transition: 'background 0.2s ease',
+          }}>
+            <ArrowSquareOut size={16} weight="regular" color={btnHovered ? '#A122E2' : '#EEE9F3'} />
+          </span>
+        </a>
+      )}
     </div>
   )
 }
