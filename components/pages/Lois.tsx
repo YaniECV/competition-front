@@ -157,34 +157,6 @@ export function LesLois() {
           <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.1, color: '#9491a1', textAlign: 'center', maxWidth: 466, margin: 0 }}>
             Les textes qui s'appliquent aux festivals. Savoir ce qu'on doit faire est le premier pas pour le faire.
           </p>
-          <a
-            href="https://www.legifrance.gouv.fr"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => setHeroBtn(true)}
-            onMouseLeave={() => setHeroBtn(false)}
-            style={{
-              marginTop: 8,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 12,
-              padding: '12px 20px',
-              background: heroBtn ? '#A122E2' : 'transparent',
-              border: '1.5px solid',
-              borderColor: heroBtn ? '#A122E2' : '#F1EDF5',
-              borderRadius: 12,
-              fontFamily: 'var(--font)',
-              fontSize: 16,
-              fontWeight: 500,
-              color: '#F1EDF5',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              transition: 'background 0.2s ease',
-            }}
-          >
-            Consulter les textes officiels
-            <ArrowSquareOut size={18} weight="regular" color="#F1EDF5" />
-          </a>
         </div>
       </section>
 
