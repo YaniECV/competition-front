@@ -175,7 +175,7 @@ export function HandicapsIndex() {
                     fontSize: 18,
                     fontWeight: 400,
                     lineHeight: 1.2,
-                    color: '#9491a1',
+                    color: '#F1EDF5',
                     margin: 0,
                   }}>
                     {h.realite}
@@ -209,7 +209,7 @@ function BpRow({ bp }: { bp: NonNullable<ReturnType<typeof bonnesPratiques.find>
         <p style={{ fontFamily: 'var(--font)', fontSize: 24, fontWeight: 500, lineHeight: 1.1, color: '#F1EDF5', margin: 0 }}>
           {bp.titre}
         </p>
-        <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#9491a1', margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font)', fontSize: 18, fontWeight: 400, lineHeight: 1.2, color: '#F1EDF5', margin: 0 }}>
           {bp.resume}
         </p>
       </div>
@@ -330,7 +330,7 @@ const bps = handicap.bonnesPratiquesIds
             fontSize: 18,
             fontWeight: 400,
             lineHeight: 1.1,
-            color: '#9491a1',
+            color: '#F1EDF5',
             textAlign: 'center',
             maxWidth: 466,
             margin: 0,
@@ -372,7 +372,7 @@ const bps = handicap.bonnesPratiquesIds
               fontSize: 18,
               fontWeight: 400,
               lineHeight: 1.1,
-              color: '#9491a1',
+              color: '#F1EDF5',
               margin: 0,
               width: 466,
               flexShrink: 0,
