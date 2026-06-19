@@ -57,7 +57,18 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
         </p>
       </div>
 
+      <style>{`
+        @keyframes loi-btn-bounce {
+          0%   { transform: scale(1); }
+          30%  { transform: scale(1.08); }
+          60%  { transform: scale(0.95); }
+          80%  { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+        .loi-btn:hover { animation: loi-btn-bounce 0.4s ease; }
+      `}</style>
       <div
+        className="loi-btn"
         onMouseEnter={() => setBtnHovered(true)}
         onMouseLeave={() => setBtnHovered(false)}
         style={{
@@ -74,7 +85,7 @@ function LoiCard({ loi }: { loi: typeof lois[0] }) {
           paddingBottom: 4,
           flexShrink: 0,
           cursor: 'pointer',
-          transition: 'background 0.2s ease',
+          transition: 'background 0.2s ease, border-color 0.2s ease',
         }}
       >
         <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
