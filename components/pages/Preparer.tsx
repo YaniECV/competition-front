@@ -217,8 +217,8 @@ function ResultPage({ answers, onReset }: { answers: Answers; onReset: () => voi
             onMouseLeave={() => setBtnHovered(false)}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 16,
-              background: '#EEE9F3', border: 'none', borderRadius: 12,
-              paddingLeft: 16, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+              background: btnHovered ? '#d4cfdb' : '#EEE9F3', border: 'none', borderRadius: 12,
+              paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
               textDecoration: 'none', transition: 'background 0.2s ease',
               fontFamily: 'var(--font)',
             }}

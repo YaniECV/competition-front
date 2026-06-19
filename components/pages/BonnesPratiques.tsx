@@ -689,7 +689,7 @@ export function BonnePratiqueDetail({ slug }: { slug: string }) {
         <div style={{
           background: '#EEE9F3',
           borderRadius: 12,
-          padding: '4px 4px 4px 8px',
+          padding: '4px 4px 4px 24px',
           display: 'inline-flex',
           alignItems: 'center',
           gap: 8,
