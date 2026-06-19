@@ -125,26 +125,28 @@ function ResultRow({ h, level }: { h: typeof handicaps[number]; level: string })
         </span>
       </div>
 
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 16, alignSelf: 'flex-start',
-        background: hovered ? '#A122E2' : 'transparent',
-        border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#F1EDF5',
-        borderRadius: 12,
-        paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
-        transition: 'background 0.2s ease, border-color 0.2s ease',
-      }}>
-        <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
-          Accéder aux {count} recommandations
-        </span>
+      {level !== 'bien' && (
         <span style={{
-          width: 32, height: 32, borderRadius: 8,
-          background: hovered ? '#EEE9F3' : '#A122E2',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, transition: 'background 0.2s ease',
+          display: 'inline-flex', alignItems: 'center', gap: 16, alignSelf: 'flex-start',
+          background: hovered ? '#A122E2' : 'transparent',
+          border: '1.5px solid', borderColor: hovered ? '#A122E2' : '#F1EDF5',
+          borderRadius: 12,
+          paddingLeft: 24, paddingRight: 4, paddingTop: 4, paddingBottom: 4,
+          transition: 'background 0.2s ease, border-color 0.2s ease',
         }}>
-          <ArrowRight size={16} weight="regular" color={hovered ? '#A122E2' : '#EEE9F3'} />
+          <span style={{ fontFamily: 'var(--font)', fontSize: 16, fontWeight: 500, color: '#F1EDF5', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+            Accéder aux {count} recommandations
+          </span>
+          <span style={{
+            width: 32, height: 32, borderRadius: 8,
+            background: hovered ? '#EEE9F3' : '#A122E2',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0, transition: 'background 0.2s ease',
+          }}>
+            <ArrowRight size={16} weight="regular" color={hovered ? '#A122E2' : '#EEE9F3'} />
+          </span>
         </span>
-      </span>
+      )}
     </Link>
   )
 }
