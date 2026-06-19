@@ -11,7 +11,7 @@ const HANDICAP_ICONS: Record<string, string> = {
   auditif:       '/auditif.png',
   moteur:        '/moteur.png',
   visuel:        '/visuel.png',
-  autisme:       '/deficience-intellectuelle.png',
+  autisme:       '/troubles-autistiques.png',
   psychologique: '/troubles-psychiques.png',
   invisibles:    '/deficience-intellectuelle.png',
 }
