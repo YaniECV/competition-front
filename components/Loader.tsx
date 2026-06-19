@@ -33,33 +33,33 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       onComplete: () => { onDone() },
     })
 
-    // ── Phase 1 (0 → 2.2s): cadenas rétrécit, barrières glissent en rotation ──
-    tl.to(cadRef.current, { scale: 1.0, duration: 2.2, ease: 'power2.inOut' })
-    tl.to(bLRef.current,  { x: '0%', scale: 1.0, rotation: -8, duration: 2.2, ease: 'power3.out' }, '<')
-    tl.to(bRRef.current,  { x: '0%', scale: 1.0, rotation:  5, duration: 2.2, ease: 'power3.out' }, '<')
+    // ── Phase 1 (0 → 0.2s): cadenas rétrécit, barrières glissent en rotation ──
+    tl.to(cadRef.current, { scale: 1.0, duration: 0.2, ease: 'power2.inOut' })
+    tl.to(bLRef.current,  { x: '0%', scale: 1.0, rotation: -8, duration: 0.2, ease: 'power3.out' }, '<')
+    tl.to(bRRef.current,  { x: '0%', scale: 1.0, rotation:  5, duration: 0.2, ease: 'power3.out' }, '<')
 
-    // ── Phase 2 (2.2 → 2.9s): cadenas → corps + locket qui s'ouvre ────────────
-    tl.to(cadRef.current, { opacity: 0, duration: 0.08 })
+    // ── Phase 2: cadenas → corps + locket qui s'ouvre ────────────────────────
+    tl.to(cadRef.current, { opacity: 0, duration: 0.05 })
     tl.set(bodyRef.current, { opacity: 1 }, '<')
     tl.set(lkRef.current,   { opacity: 1, rotation: 0, y: 0 }, '<')
-    tl.to(lkRef.current, { y: -22, rotation: -18, duration: 0.5, ease: 'power2.out' })
-    tl.to(lkRef.current, { y: -38, rotation: 10, scale: 1.05, duration: 0.22, ease: 'power2.in' }, '+=0.04')
+    tl.to(lkRef.current, { y: -22, rotation: -18, duration: 0.2, ease: 'power2.out' })
+    tl.to(lkRef.current, { y: -38, rotation: 10, scale: 1.05, duration: 0.2, ease: 'power2.in' }, '+=0.02')
 
-    // ── Phase 3 (2.9 → 3.1s): explosion + fumée ──────────────────────────────
-    tl.to([bodyRef.current, lkRef.current], { scale: 0.05, opacity: 0, duration: 0.12, ease: 'power4.in' })
-    tl.to(smokeRef.current, { opacity: 1, duration: 0.04 }, '<')
-    tl.to(smokeRef.current, { scale: 10, opacity: 0, duration: 1.0, ease: 'expo.out' }, '<+=0.04')
-    tl.to(frags, { opacity: 1, duration: 0.06, stagger: 0.01 }, '<')
+    // ── Phase 3: explosion + fumée ────────────────────────────────────────────
+    tl.to([bodyRef.current, lkRef.current], { scale: 0.05, opacity: 0, duration: 0.08, ease: 'power4.in' })
+    tl.to(smokeRef.current, { opacity: 1, duration: 0.03 }, '<')
+    tl.to(smokeRef.current, { scale: 10, opacity: 0, duration: 0.2, ease: 'expo.out' }, '<+=0.03')
+    tl.to(frags, { opacity: 1, duration: 0.04, stagger: 0.005 }, '<')
 
-    // ── Phase 4 (3.1 → 4.0s): fragments s'éparpillent ───────────────────────
-    tl.to(f1gRef.current, { x: '-52vw', y: '-36vh', opacity: 0, rotation: -55, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '+=0.02')
-    tl.to(f2dRef.current, { x:  '62vw', y: '-22vh', opacity: 0, rotation:  42, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
-    tl.to(f3dRef.current, { x:  '44vw', y:  '62vh', opacity: 0, rotation:  28, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
-    tl.to(f2gRef.current, { x: '-32vw', y:  '70vh', opacity: 0, rotation: -38, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
-    tl.to(f1dRef.current, { x:  '30vw', y: '-55vh', opacity: 0, rotation:  62, filter: 'blur(5px)', duration: 0.88, ease: 'power2.in' }, '<')
+    // ── Phase 4: fragments s'éparpillent ─────────────────────────────────────
+    tl.to(f1gRef.current, { x: '-52vw', y: '-36vh', opacity: 0, rotation: -55, filter: 'blur(5px)', duration: 0.2, ease: 'power2.in' }, '+=0.01')
+    tl.to(f2dRef.current, { x:  '62vw', y: '-22vh', opacity: 0, rotation:  42, filter: 'blur(5px)', duration: 0.2, ease: 'power2.in' }, '<')
+    tl.to(f3dRef.current, { x:  '44vw', y:  '62vh', opacity: 0, rotation:  28, filter: 'blur(5px)', duration: 0.2, ease: 'power2.in' }, '<')
+    tl.to(f2gRef.current, { x: '-32vw', y:  '70vh', opacity: 0, rotation: -38, filter: 'blur(5px)', duration: 0.2, ease: 'power2.in' }, '<')
+    tl.to(f1dRef.current, { x:  '30vw', y: '-55vh', opacity: 0, rotation:  62, filter: 'blur(5px)', duration: 0.2, ease: 'power2.in' }, '<')
 
-    // ── Phase 5 (4.0 → 4.7s): overlay s'efface, hero apparaît ───────────────
-    tl.to(wrapRef.current, { opacity: 0, duration: 0.7, ease: 'power2.inOut' }, '+=0.1')
+    // ── Phase 5: overlay s'efface, hero apparaît ─────────────────────────────
+    tl.to(wrapRef.current, { opacity: 0, duration: 0.2, ease: 'power2.inOut' }, '+=0.05')
 
     return () => { tl.kill() }
   }, [onDone])
