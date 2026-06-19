@@ -250,7 +250,7 @@ export default function Nav() {
 
   const navBg = '#101010';
   const navText = '#EEE9F3';
-  const navMuted = 'rgba(238,233,243,0.55)';
+  const navMuted = 'rgba(238,233,243,0.78)';
 
   useEffect(() => { setSearchOpen(false); setMobileOpen(false) }, [pathname])
 
