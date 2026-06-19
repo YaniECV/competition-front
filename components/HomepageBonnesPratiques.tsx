@@ -1,6 +1,6 @@
 import BtnPrimary from './BtnPrimary';
 
-const TITLE = 'Bonnes pratique & cadre légal';
+const TITLE = 'Bonnes pratiques & cadre légal';
 
 export default function HomepageBonnesPratiques() {
   return (
