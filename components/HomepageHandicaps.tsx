@@ -48,6 +48,13 @@ export default function HomepageHandicaps() {
           opacity: 1;
           transform: translateY(0);
         }
+        @media (max-width: 900px) {
+          .hc-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 560px) {
+          .hc-grid { grid-template-columns: 1fr !important; padding: 0 16px !important; }
+          .hc-section { padding: 48px 0 !important; }
+        }
       `}</style>
 
       {/* Titre */}
@@ -67,7 +74,7 @@ export default function HomepageHandicaps() {
       </div>
 
       {/* Grille */}
-      <div style={{
+      <div className="hc-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         width: '100%',

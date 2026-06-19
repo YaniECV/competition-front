@@ -8,8 +8,14 @@ import BtnPrimary from "@/components/BtnPrimary";
 export default function Home() {
   return (
     <>
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-section { padding-top: 100px !important; padding-bottom: 80px !important; min-height: auto !important; }
+        }
+      `}</style>
+
       {/* Hero */}
-      <section style={{ position: 'relative', background: '#101010', minHeight: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, marginTop: -72, paddingTop: 140, paddingBottom: 120 }}>
+      <section className="hero-section" style={{ position: 'relative', background: '#101010', minHeight: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, marginTop: -72, paddingTop: 140, paddingBottom: 120 }}>
 
         <HeroParallaxBarriers />
 
@@ -51,13 +57,13 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ marginTop: 200 }}><HomepageTagline /></div>
+      <div style={{ marginTop: 200 }} className="home-gap-xl"><HomepageTagline /></div>
 
-      <div style={{ marginTop: 120 }}><HomepageHandicaps /></div>
+      <div style={{ marginTop: 120 }} className="home-gap-lg"><HomepageHandicaps /></div>
 
-      <div style={{ marginTop: 120 }}><HomepageBonnesPratiques /></div>
+      <div style={{ marginTop: 120 }} className="home-gap-lg"><HomepageBonnesPratiques /></div>
 
-      <div style={{ marginTop: 120 }}><HomepageFederation /></div>
+      <div style={{ marginTop: 120 }} className="home-gap-lg"><HomepageFederation /></div>
     </>
   );
 }

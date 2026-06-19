@@ -160,6 +160,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .container { padding: 0 20px; }
   h1 { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+  .home-gap-xl { margin-top: 80px !important; }
+  .home-gap-lg { margin-top: 60px !important; }
 }
 
 /* ── Accent / decorative ────────────────────────────────────────────────── */

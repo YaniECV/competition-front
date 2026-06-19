@@ -44,10 +44,13 @@ export default function Footer() {
       <style>{`
         .footer-link { opacity: 0.6; transition: opacity 0.15s ease; }
         .footer-link:hover { opacity: 1; }
+        @media (max-width: 640px) {
+          .footer-links-row { flex-direction: column !important; gap: 32px !important; padding: 40px 20px 0 !important; }
+        }
       `}</style>
 
       {/* ── Links ── */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '80px 40px 0', position: 'relative', zIndex: 1 }}>
+      <div className="footer-links-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '80px 40px 0', position: 'relative', zIndex: 1 }}>
         {/* Colonne nav */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[
