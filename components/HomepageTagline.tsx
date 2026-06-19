@@ -83,7 +83,7 @@ export default function HomepageTagline() {
           fontSize: 18,
           fontWeight: 500,
           lineHeight: 1.5,
-          color: '#9491a1',
+          color: '#EEE9F3',
           maxWidth: 466,
         }}>
           12 millions de Français vivent avec un handicap. Beaucoup sont fans de metal et ne peuvent pas accéder à vos événements. Ce site vous donne les outils pour changer, gratuitement, étape par étape.

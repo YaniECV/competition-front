@@ -67,7 +67,7 @@ export default function HomepageFederation() {
             fontSize: 18,
             fontWeight: 500,
             lineHeight: 1.1,
-            color: '#9491a1',
+            color: '#EEE9F3',
             textAlign: 'center',
             margin: 0,
           }}>
